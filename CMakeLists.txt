@@ -39,6 +39,8 @@ set(ASTROSIMCPP_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}//src/accelerations/Gravity.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}//src/bodies/Body.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}//src/engine/AstroEngine.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}//src/engine/Orbit.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}//src/engine/StateVector.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/math/Legendre.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/math/Matrix.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/math/Rotation.hpp
@@ -63,12 +65,12 @@ install(
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
-    INCLUDES DESTINATION include/astrosimcpp
+    INCLUDES DESTINATION include
 )
 
 install(
     DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/
-    DESTINATION include/astrosimcpp
+    DESTINATION include
     FILES_MATCHING PATTERN "*.hpp"
 )
 
