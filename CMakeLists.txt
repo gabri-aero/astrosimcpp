@@ -17,7 +17,12 @@ add_compile_options(-Wno-return-type)
 
 set(CMAKE_BUILD_TYPE Debug)
 
-set(BUILD_TESTING ON)
+# Check if the current project is the master project
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
+    set(BUILD_TESTING ON)
+else()
+    set(BUILD_TESTING OFF)
+endif()
 
 # Google Test
 if(BUILD_TESTING)
