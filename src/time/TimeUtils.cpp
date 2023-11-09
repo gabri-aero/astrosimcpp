@@ -1,6 +1,9 @@
 #include "TimeUtils.hpp"
 #include "Epoch.hpp"
 #include <math.h>
+#include <string>
+#include <iostream>
+#include <fstream>
 
 
 double HMS_to_fraction(int h, int m, double s) {
@@ -116,4 +119,28 @@ DateTime jd_to_datetime(double jd) {
 
 DateTime mjd_to_datetime(double mjd) {
     return jd_to_datetime(mjd_to_jd(mjd));
+}
+
+
+int get_leapsec(double mjd) {
+    std::string data_dir{DATA_DIR};
+    // open Leap_Second.dat file
+    std::ifstream file(data_dir + "/Leap_Second.dat");
+    // define variables to be used
+    std::string line;
+    double mjd_;
+    int day, month, year, leapsec;
+
+    // Read the file line by line using a while loop
+    while (std::getline(file, line)) {
+        if(line[0] != '#') {
+            std::istringstream iss(line);
+            iss >> mjd_;
+            if(mjd_ > mjd) {
+                return leapsec;
+            }
+            iss >> day >> month >> year >> leapsec;
+        }
+    }
+    return leapsec;
 }

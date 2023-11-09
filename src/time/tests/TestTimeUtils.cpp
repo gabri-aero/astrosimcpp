@@ -31,7 +31,7 @@ TEST(TestTimeUtils, yearday_to_YMD) {
 }
 
 
-TEST(EpochTest, Datetime) { // example case taken from NASA JD datetime converter
+TEST(TestTimeUtils, Datetime) { // example case taken from NASA JD datetime converter
     auto dt = jd_to_datetime(2452555.17);
     ASSERT_EQ(dt.year, 2002);
     ASSERT_EQ(dt.month, 10);
@@ -47,4 +47,10 @@ TEST(EpochTest, Datetime) { // example case taken from NASA JD datetime converte
     ASSERT_EQ(dt2.h, 20);
     ASSERT_EQ(dt2.m, 18);
     ASSERT_NEAR(dt2.s, 3.70368, 1e-4);
+}
+
+TEST(TestTimeUtils, LeapSeconds) {
+    ASSERT_EQ(get_leapsec(50000), 29);
+    ASSERT_EQ(get_leapsec(44000), 18);
+    ASSERT_EQ(get_leapsec(60000), 37);
 }

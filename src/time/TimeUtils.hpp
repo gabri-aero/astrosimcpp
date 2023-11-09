@@ -54,4 +54,6 @@ DateTime mjd_to_datetime(double);
 double datetime_to_jd(int year, int month, int day, int h, int m, int s);
 double datetime_to_mjd(int year, int month, int day, int h, int m, int s);
 
+int get_leapsec(double mjd);
+
 #endif //_TIME_UTILS_HPP
