@@ -35,7 +35,42 @@ Epoch::Epoch(double days, TimeScale ts, Epoch epoch, Format format)
     ref_mjd = epoch.set_timescale(ts).days;
 }
 
+// Copy constructor
+Epoch::Epoch(const Epoch& other) {
+    days = other.days;
+    timescale = other.timescale;
+    format = other.format;
+    ref_epoch = other.ref_epoch;
+    ref_mjd = other.ref_mjd;
+}
+
 // Define setters
+Epoch Epoch::with_timescale(TimeScale ts) const {
+    Epoch epoch = Epoch(*this); // copy current Epoch
+    epoch.set_timescale(ts); // apply in-place operator
+    return epoch;
+}
+
+
+Epoch Epoch::with_format(Format fmt) const {
+    Epoch epoch = Epoch(*this); // copy current Epoch
+    epoch.set_format(fmt); // apply in-place operator
+    return epoch;
+}
+
+Epoch Epoch::with_reference_epoch(RefEpoch ref_epoch) const {
+    Epoch epoch = Epoch(*this); // copy current Epoch
+    epoch.set_reference_epoch(ref_epoch); // apply in-place operator
+    return epoch;
+}
+
+Epoch Epoch::with_reference_epoch(const Epoch& reference) const {
+    Epoch epoch = Epoch(*this); // copy current Epoch
+    epoch.set_reference_epoch(reference); // apply in-place operator
+    return epoch;
+}
+
+// Define in place setters
 Epoch& Epoch::set_timescale(TimeScale new_timescale) {
     if (timescale == new_timescale) {
         return *this;
@@ -73,6 +108,7 @@ Epoch& Epoch::set_timescale(TimeScale new_timescale) {
                 break;
         }
     }
+    timescale = new_timescale;
     return *this;
 }
 

@@ -49,6 +49,21 @@ TEST(TestTimeUtils, Datetime) { // example case taken from NASA JD datetime conv
     ASSERT_NEAR(dt2.s, 3.70368, 1e-4);
 }
 
+TEST(TestTimeUtils, MJDtoDatetime) {
+    auto dt = mjd_to_datetime(60271.25);
+    ASSERT_EQ(dt.year, 2023);
+    ASSERT_EQ(dt.month, 11);
+    ASSERT_EQ(dt.day, 23);
+    ASSERT_EQ(dt.h, 6);
+    ASSERT_EQ(dt.m, 0);
+    ASSERT_NEAR(dt.s, 0, 0);
+}
+
+TEST(TestTimeUtils, DatetimeToJD) {
+    auto jd = datetime_to_jd(1996, 10, 26, 14, 20, 0);
+    ASSERT_NEAR(jd, 2450383.0972222222, 1e-8);
+}
+
 TEST(TestTimeUtils, LeapSeconds) {
     ASSERT_EQ(get_leapsec(50000), 29);
     ASSERT_EQ(get_leapsec(44000), 18);

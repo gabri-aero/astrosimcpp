@@ -40,7 +40,16 @@ public:
     Epoch(double days, TimeScale ts=TAI, RefEpoch ref=MJD, Format format=DAY_COUNT);
     Epoch(double days, TimeScale ts, Epoch ref_epoch, Format format=DAY_COUNT);
 
-    // Setters
+    // Copy constructor
+    Epoch(const Epoch& other);
+
+    // Setters  (not in place)
+    Epoch with_timescale(TimeScale ts) const;
+    Epoch with_reference_epoch(RefEpoch ref_epoch) const;
+    Epoch with_reference_epoch(const Epoch& epoch) const;
+    Epoch with_format(Format format) const;
+
+    // Setters (in place version)
     Epoch& set_timescale(TimeScale ts);
     Epoch& set_reference_epoch(RefEpoch ref_epoch);
     Epoch& set_reference_epoch(Epoch epoch);
