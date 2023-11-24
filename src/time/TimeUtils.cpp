@@ -7,7 +7,7 @@
 
 
 double HMS_to_fraction(int h, int m, double s) {
-    return (h+(m+s/60)/60)/24;
+    return (h+(m+s/60.)/60.)/24.;
 }
 
 double HMS_to_fraction(HMS hms) {
@@ -80,18 +80,17 @@ double mjd_to_j2000(double mjd) {
     return mjd - 51544;
 }
 
-double datetime_to_mjd(int year, int month, int day, int h, int m, int s) {
+double datetime_to_mjd(int year, int month, int day, int h, int m, double s) {
     int f, g, A;
     f = m>=3 ? year : year-1;
     g = m>=3 ? month : month+12;
     A = 2-f/100+f/400;
-    double mjd = static_cast<int>(365.25*f)+int(30.6001*(g+1))-679006+A+day;
-    std::cout << mjd;
+    double mjd = static_cast<int>(365.25*f)+static_cast<int>(30.6001*(g+1))-679006+A+day;
     mjd += HMS_to_fraction(h, m, s);    
     return mjd;
 }
 
-double datetime_to_jd(int year, int month, int day, int h, int m, int s) { 
+double datetime_to_jd(int year, int month, int day, int h, int m, double s) { 
     return mjd_to_jd(datetime_to_mjd(year, month, day, h, m, s));
 }
 

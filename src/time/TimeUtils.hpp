@@ -18,7 +18,7 @@ struct DateTime {
                   << std::setw(2) << dt.day << ' '
                   << std::setw(2) << dt.h << ':'
                   << std::setw(2) << dt.m << ':'
-                  << std::setw(2) << dt.s << std::endl;
+                  << std::setw(2) << dt.s;
         return os;
     }
 };
@@ -35,8 +35,6 @@ struct HMS {
     double s;
 };
 
-class Epoch;
-
 double HMS_to_fraction(int h, int m, double s);
 double HMS_to_fraction(HMS);
 HMS fraction_to_HMS(double f);
@@ -51,8 +49,8 @@ double j2000_to_mjd(double);
 double mjd_to_j2000(double);
 DateTime jd_to_datetime(double);
 DateTime mjd_to_datetime(double);
-double datetime_to_jd(int year, int month, int day, int h, int m, int s);
-double datetime_to_mjd(int year, int month, int day, int h, int m, int s);
+double datetime_to_jd(int year, int month, int day, int h, int m, double s);
+double datetime_to_mjd(int year, int month, int day, int h, int m, double s);
 
 int get_leapsec(double mjd);
 
