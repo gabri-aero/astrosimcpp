@@ -24,6 +24,9 @@ else()
     set(BUILD_TESTING OFF)
 endif()
 
+set(DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/data)
+add_definitions(-DDATA_DIR="${DATA_DIR}")
+
 # Google Test
 if(BUILD_TESTING)
     include(FetchContent)
