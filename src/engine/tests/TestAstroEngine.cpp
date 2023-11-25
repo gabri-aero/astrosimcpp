@@ -16,5 +16,7 @@ TEST(AstroEngine, Test) {
     ae.run();
 
     auto moon_trajectory = moon.get_trajectory();
-    std::cout << "Hola" << std::endl;
+
+    std::cout << moon_trajectory.at(100).get_epoch() <<  std::endl;
+    std::cout << moon_trajectory.at(100).get_rv() <<  std::endl;
 }

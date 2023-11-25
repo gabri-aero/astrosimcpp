@@ -16,7 +16,7 @@ void AstroEngine::set_end(Epoch end) {
 math::vector AstroEngine::get_X() {
     math::vector X;
     for(auto body: bodies) {
-        X.push_back(body.get_sv());
+        X.push_back(body->get_sv());
     }
     return X;
 }
@@ -37,7 +37,7 @@ math::vector AstroEngine::compute_derivatives(Epoch epoch, math::vector X) {
 
     // Update body state to input X
     for(int i=0; i<n; i++) {
-        bodies.at(i).set_sv(X.subvec(6*i, 6*(i+1)));
+        bodies.at(i)->set_sv(X.subvec(6*i, 6*(i+1)));
     }
 
     for(int i=0; i<n; i++) {
@@ -46,11 +46,11 @@ math::vector AstroEngine::compute_derivatives(Epoch epoch, math::vector X) {
         // Arrange accelerations
         for(int j=0; j<n; j++) {
             if(i != j) {
-                dvi += gravity(bodies.at(i), bodies.at(j)) ; 
+                dvi += gravity(*(bodies.at(i)), *(bodies.at(j))) ; 
             }
         }
         // Arrange velocities
-        dri = bodies.at(i).get_vel();
+        dri = bodies.at(i)->get_vel();
         // Arrange final vector
         for(int k=0; k<3; k++) { 
             dX.at(6*i+k) = dri.at(k); // dr/dt
@@ -84,6 +84,6 @@ void AstroEngine::run()  {
     }
     // Assign trajectory data to each body
     for(int i=0; i<N; i++) {
-        bodies.at(i).set_trajectory(trajectories.at(i));
+        bodies.at(i)->set_trajectory(trajectories.at(i));
     }
 } 

@@ -9,7 +9,7 @@
 
 class AstroEngine {
 private:
-    std::vector<Body> bodies;
+    std::vector<Body*> bodies;
     std::shared_ptr<BaseIntegrator> integrator;
     Epoch start;
     Epoch end;
@@ -26,8 +26,8 @@ public:
     void set_end(Epoch end);
 
     template<typename... Args> // I would like to define this in my .cpp file but it seems not to be possilbe
-    void add_bodies(Args&&... args) {
-        (bodies.push_back(std::forward<Args>(args)), ...);
+    void add_bodies(Args&... args) {
+        (bodies.push_back(&args), ...);
     }
 
     void set_integrator(std::shared_ptr<BaseIntegrator> integrator);
