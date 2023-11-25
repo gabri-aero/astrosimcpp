@@ -1,10 +1,12 @@
 set(CPP_SOURCES 
     Orbit.cpp 
-    StateVector.cpp)
+    StateVector.cpp
+    OrbitUtils.cpp)
 
 set(HPP_HEADERS 
     Orbit.hpp 
-    StateVector.hpp)
+    StateVector.hpp
+    OrbitUtils.hpp)
 
 target_sources(${CPP_TARGET} PRIVATE  ${CPP_SOURCES} ${HPP_HEADERS})
 
