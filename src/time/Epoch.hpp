@@ -57,6 +57,7 @@ public:
     Epoch& set_format(Format format);
 
     // Getters
+    double get_secs() const;
     double get_days() const;
     double get_weeks() const;
     double get_years() const;

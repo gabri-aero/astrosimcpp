@@ -162,6 +162,10 @@ DateTime Epoch::get_calendar() const {
     return mjd_to_datetime(mjd);
 };
 
+double Epoch::get_secs() const {
+    return days * 86400;
+}
+
 double Epoch::get_days() const {
     return days;
 }
