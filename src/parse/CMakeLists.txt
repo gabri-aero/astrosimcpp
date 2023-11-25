@@ -1,6 +1,9 @@
-set(CPP_SOURCES )
+set(CPP_SOURCES 
+    TLE.cpp
+    TLEParser.cpp)
 
 set(HPP_HEADERS 
+    TLE.hpp
     TLEParser.hpp)
 
 target_sources(${CPP_TARGET} PRIVATE  ${CPP_SOURCES} ${HPP_HEADERS})

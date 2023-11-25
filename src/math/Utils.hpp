@@ -8,5 +8,6 @@ unsigned long long factorial(int n);
 int C(int n, int k);
 double rad2deg(double rad);
 double deg2rad(double deg);
+double wrapTo2Pi(double angle);
 
 #endif //_UTILS_HPP_

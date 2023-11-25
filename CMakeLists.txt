@@ -39,6 +39,16 @@ if(BUILD_TESTING)
     FetchContent_MakeAvailable(googletest)
 endif()
 
+# Find cURL
+find_package(CURL REQUIRED)
+
+if (CURL_FOUND)
+    message(STATUS "cURL found")
+else()
+    message(FATAL_ERROR "cURL not found. Please install libcurl4-openssl-dev")
+endif()
+target_link_libraries(${CPP_TARGET} curl)
+
 include_directories(external)
 
 add_subdirectory(src)

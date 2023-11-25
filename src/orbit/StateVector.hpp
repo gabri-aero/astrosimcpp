@@ -12,7 +12,7 @@ public:
     StateVector(double rx, double ry, double rz, double vx, double vy, double vz);
     StateVector(math::vector rv);
     math::vector get_rv() const;
-    Orbit to_orbit(Body central);
+    Orbit to_orbit(const Body& central);
     friend std::ostream& operator<<(std::ostream& os, const StateVector& obj);
 };
 
