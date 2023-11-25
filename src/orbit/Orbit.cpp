@@ -29,7 +29,7 @@ OrbitType Orbit::get_type() const {
     }
 }
 
-StateVector Orbit::to_sv(Body body) {
+StateVector Orbit::to_sv(const Body& body) {
     double a = oe.at(0);
     double e = oe.at(1);
     double raan = oe.at(2);

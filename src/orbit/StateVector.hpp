@@ -17,7 +17,7 @@ public:
     StateVector(math::vector rv, Epoch epoch);
     math::vector get_rv() const;
     Epoch get_epoch() const;
-    Orbit to_orbit(Body);
+    Orbit to_orbit(const Body& central);
     friend std::ostream& operator<<(std::ostream& os, const StateVector& obj);
 };
 

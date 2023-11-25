@@ -23,7 +23,7 @@ public:
     Body(double mass, math::vector sv);
     Body(std::string name, double mass, math::vector sv);
     // Allow list initialization as well
-    Body(double mass, std::initializer_list<double> sv);
+    Body(double mass, std::initializer_list<double> sv={0, 0, 0, 0, 0, 0});
     Body(std::string name, double mass, std::initializer_list<double> sv);
     // Setters
     void set_name(std::string);

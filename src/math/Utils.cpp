@@ -18,3 +18,8 @@ double rad2deg(double rad) {
 double deg2rad(double deg) {
     return deg * M_PI / 180;
 }
+
+double wrapTo2Pi(double angle) {
+    angle = fmod(angle, 2 * M_PI);
+    return (angle < 0) ? angle + 2 * M_PI : angle;
+}

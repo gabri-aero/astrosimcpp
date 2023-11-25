@@ -27,7 +27,7 @@ HMS fraction_to_HMS(double f) {
 
 YMD yearday_to_YMD(int yearday, int year) {
     std::array<int, 12> month_days{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    int y, m, d;
+    int m, d;
     d = yearday;
     if(year%4==0) {
         month_days[2] = 29;
@@ -36,7 +36,7 @@ YMD yearday_to_YMD(int yearday, int year) {
         d -= month_days[m];
     }
     m+=1; // adjust indexing
-    return YMD{y, m, d};
+    return YMD{year, m, d};
 }
 
 int YMD_to_yearday(int y, int m, int d) {
