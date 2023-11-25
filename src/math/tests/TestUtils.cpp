@@ -20,3 +20,14 @@ TEST(TestUtils, WrapTo2Pi) {
     ASSERT_EQ(wrapTo2Pi(-1), -1 + (2*M_PI));
     ASSERT_EQ(wrapTo2Pi(5), 5);
 }
+
+TEST(TestUtils, CartToSph) {
+    math::vector sph{3, -M_PI/2, -2*M_PI/6};
+    math::vector cart{0, -3/2., -3*sqrt(3)/2};
+    ASSERT_NEAR(sph.at(0), cart_to_sph(cart).at(0), 1e-3);
+    ASSERT_NEAR(sph.at(1), cart_to_sph(cart).at(1), 1e-3);
+    ASSERT_NEAR(sph.at(2), cart_to_sph(cart).at(2), 1e-3);
+    ASSERT_NEAR(cart.at(0), sph_to_cart(sph).at(0), 1e-3);
+    ASSERT_NEAR(cart.at(1), sph_to_cart(sph).at(1), 1e-3);
+    ASSERT_NEAR(cart.at(2), sph_to_cart(sph).at(2), 1e-3);
+}
