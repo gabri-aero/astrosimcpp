@@ -1,5 +1,6 @@
 #include <string>
 #include <time/Epoch.hpp>
+#include <orbit/Orbit.hpp>
 
 #ifndef _TLE_HPP_
 #define _TLE_HPP_
@@ -25,6 +26,9 @@ private:
 
 public:
     TLE(int norad_id);
+
+    // Member functions
+    Orbit get_orbit(Body body=Body(5.972e24));
 
     // Overload operator<<
     friend std::ostream& operator<<(std::ostream& os, TLE& tle) {

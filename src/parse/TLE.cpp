@@ -2,6 +2,9 @@
 #include "TLEParser.hpp"
 #include <sstream>
 #include <cmath>
+#include<bodies/Body.hpp>
+#include<math/Utils.hpp>
+#include<orbit/OrbitUtils.hpp>
 
 TLE::TLE(int norad_id) {
     TLEParser parser;
@@ -41,7 +44,20 @@ TLE::TLE(int norad_id) {
     this->raan = std::stod(lines[2].substr(17, 8));
     this->e = std::stod("." + lines[2].substr(26, 7));
     this->aop = std::stod(lines[2].substr(34, 8));
-    this->M = = std::stod(lines[2].substr(43, 8));
+    this->M = std::stod(lines[2].substr(43, 8));
     this->n = std::stod(lines[2].substr(52, 11));
     this->n_rev = std::stoi(lines[2].substr(63, 5));
+}
+
+Orbit TLE::get_orbit(Body body) {
+    // Retrieve orbital elements
+    double n = this->n * 2*M_PI / 86400;
+    double a = pow(body.get_mu() / pow(n, 2), 1/3.);
+    double e = this->e;
+    double i = deg2rad(this->i);
+    double raan = deg2rad(this->raan);
+    double aop = deg2rad(this->aop);
+    double ta = M_to_ta(M, e);
+
+    return Orbit(a, e, raan, i, aop, ta);
 }
