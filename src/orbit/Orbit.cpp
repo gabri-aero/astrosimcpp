@@ -5,16 +5,20 @@
 #include <math/Utils.hpp>
 #include <math/Rotation.hpp>
 
-Orbit::Orbit(double a, double e, double raan, double i, double aop, double ta) 
-    : oe{math::vector{a, e, raan, i, aop, ta}}{
+Orbit::Orbit(double a, double e, double raan, double i, double aop, double ta, Epoch epoch) 
+    : oe{math::vector{a, e, raan, i, aop, ta}}, epoch{epoch}{
 
 }
 
-math::vector Orbit::get_oe() {
+math::vector Orbit::get_oe() const {
     return oe;
 }
 
-OrbitType Orbit::get_type() {
+Epoch Orbit::get_epoch() const {
+    return epoch;
+}
+
+OrbitType Orbit::get_type() const {
     double a = oe.at(0);
     if(a < 0) {
         return OrbitType::HYPERBOLIC;

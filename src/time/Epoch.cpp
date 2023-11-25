@@ -5,6 +5,10 @@
 const double TT_TAI = 32.184;  // TAI_TT = TAI - TT
 const double GPST_TAI = -19;  // GPST_TT = GPST - TAI
 const double MJD_EPOCH = 2400000.5;  // MJD epoch expressed as JD
+
+Epoch::Epoch() 
+    : Epoch(0) { // default constructor
+    }
     
 Epoch::Epoch(int year, int month, int day, int h, int m, double s, TimeScale ts, RefEpoch ref, Format fmt) 
     : Epoch(datetime_to_mjd(year, month, day, h, m, s), ts, ref, fmt) {
@@ -157,6 +161,10 @@ DateTime Epoch::get_calendar() const {
     double mjd = ref_mjd + days;
     return mjd_to_datetime(mjd);
 };
+
+double Epoch::get_secs() const {
+    return days * 86400;
+}
 
 double Epoch::get_days() const {
     return days;
