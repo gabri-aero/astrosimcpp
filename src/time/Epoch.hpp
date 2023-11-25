@@ -36,6 +36,7 @@ private:
     double ref_mjd; // ref epoch defined in MJD
 public:
     // Constructors
+    Epoch() = default;
     Epoch(int year, int month, int day, int h, int m, double s, TimeScale ts=TAI, RefEpoch ref=MJD, Format format=CALENDAR);
     Epoch(double days, TimeScale ts=TAI, RefEpoch ref=MJD, Format format=DAY_COUNT);
     Epoch(double days, TimeScale ts, Epoch ref_epoch, Format format=DAY_COUNT);
