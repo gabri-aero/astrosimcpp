@@ -14,7 +14,7 @@ math::vector StateVector::get_rv() const {
     return rv;
 }
 
-Orbit StateVector::to_orbit(Body central) {
+Orbit StateVector::to_orbit(const Body& central) {
     math::vector r_vec = rv.subvec(0,3);
     math::vector v_vec = rv.subvec(3,6);
     double r = norm(r_vec);
