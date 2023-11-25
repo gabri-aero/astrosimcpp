@@ -28,6 +28,14 @@ void Body::set_sv(math::vector sv) {
     this->sv = std::make_shared<math::vector>(sv);
 }
 
+void Body::set_trajectory(std::vector<StateVector> new_trajectory) {
+    if (this->trajectory.empty()) { // Check if trajectory is empty
+        this->trajectory = new_trajectory;
+    } else {
+        this->trajectory.insert(this->trajectory.end(), new_trajectory.begin(), new_trajectory.end());
+    }
+}
+
 
 // Body getters
 
@@ -50,6 +58,10 @@ double Body::get_mass() const {
 double Body::get_mu() const {
     return G*mass;
 };
+
+std::vector<StateVector> Body::get_trajectory() const {
+    return trajectory;
+}
 
 std::string Body::get_name() const {
     return name;

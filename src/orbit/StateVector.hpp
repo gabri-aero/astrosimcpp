@@ -5,7 +5,9 @@
 #ifndef _STATE_VECTOR_HPP_
 #define _STATE_VECTOR_HPP_
 
-class Orbit; // forward class
+// forward classes
+class Orbit; 
+class Body;
 
 class StateVector {
     Epoch epoch;
@@ -15,7 +17,7 @@ public:
     StateVector(math::vector rv, Epoch epoch);
     math::vector get_rv() const;
     Epoch get_epoch() const;
-    Orbit to_orbit(Body central);
+    Orbit to_orbit(Body);
     friend std::ostream& operator<<(std::ostream& os, const StateVector& obj);
 };
 

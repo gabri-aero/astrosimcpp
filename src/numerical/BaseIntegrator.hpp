@@ -27,11 +27,9 @@ public:
             if(next.first > tf) {
                 h = tf-data.back().first;
                 next = integrate();
-                std::cout << "T: " << next.first << " X: " << next.second.at(0)  << " h: " << next.first - data.back().first << std::endl;
                 data.emplace_back(next.first, next.second);
                 break;
             }
-            std::cout << "T: " << next.first << " X: " << next.second.at(0)  << " h: " << next.first - data.back().first << " t: " << t << std::endl;
             data.emplace_back(next.first, next.second);
         }
     }
