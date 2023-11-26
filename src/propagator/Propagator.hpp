@@ -4,10 +4,10 @@
 #include <numerical/BaseIntegrator.hpp>
 #include <time/Epoch.hpp>
 
-#ifndef _ASTRO_ENGINE_HPP_
-#define _ASTRO_ENGINE_HPP_
+#ifndef _PROPAGATOR_HPP_
+#define _PROPAGATOR_HPP_
 
-class AstroEngine {
+class Propagator {
 private:
     std::vector<Body*> bodies;
     std::shared_ptr<BaseIntegrator> integrator;
@@ -19,8 +19,8 @@ private:
 
     math::vector get_X();
 public:
-    AstroEngine() = default;
-    AstroEngine(Epoch start, Epoch end);
+    Propagator() = default;
+    Propagator(Epoch start, Epoch end);
 
     void set_start(Epoch start);
     void set_end(Epoch end);
@@ -36,4 +36,4 @@ public:
 };
 
 
-#endif // _ASTRO_ENGINE_HPP_
+#endif // _PROPAGATOR_HPP_
