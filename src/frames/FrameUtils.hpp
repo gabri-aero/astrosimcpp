@@ -4,7 +4,7 @@
 #define _FRAME_UTILS_HPP_
 
 /**
- * Compute Earth Rotation Angle according to Vallado (2013)
+ * \brief Compute Earth Rotation Angle according to Vallado (2013)
  * 
  * @param epoch Epoch object
 */
