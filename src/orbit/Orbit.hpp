@@ -22,7 +22,7 @@ public:
     math::vector get_oe() const;
     Epoch get_epoch() const;
     OrbitType get_type() const;
-    StateVector to_sv(Body);
+    StateVector to_sv(const Body&);
     bool operator==(const Orbit& obj);
     friend std::ostream& operator<<(std::ostream& os, const Orbit& obj);
 };
