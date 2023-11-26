@@ -53,8 +53,8 @@ public:
      * @param body_list vector of bodies to be included for propagation
     */
     void add_body_list(const std::vector<Body>& body_list) {
-        for (const auto& body : body_list) {
-            bodies.push_back(body);
+        for (auto& body : body_list) {
+            bodies.push_back(&body);
         }
     }
 

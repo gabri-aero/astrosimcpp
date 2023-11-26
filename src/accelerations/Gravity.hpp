@@ -16,6 +16,6 @@ class Body;  // forward declaration
  * 
  * @return 3D acceleration vector 
 */
-math::vector gravity(Body i, Body j);
+math::vector gravity(const Body& i, const Body& j);
 
 #endif // _GRAVITY_HPP_

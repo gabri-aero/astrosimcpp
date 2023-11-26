@@ -1,7 +1,7 @@
 #include "Gravity.hpp"
 #include <bodies/Body.hpp>
 
-math::vector gravity(Body i, Body j) {
+math::vector gravity(const Body& i, const Body& j) {
     // Compute relative position vector
     math::vector rij = j.get_pos() - i.get_pos();
     // Retrieve body mass
