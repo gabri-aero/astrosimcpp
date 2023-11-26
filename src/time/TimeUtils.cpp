@@ -73,11 +73,11 @@ double j2000_to_jd(double j2000) {
 }
 
 double j2000_to_mjd(double j2000) {
-    return j2000 + 51544;
+    return j2000 + 51544.5;
 }
 
 double mjd_to_j2000(double mjd) {
-    return mjd - 51544;
+    return mjd - 51544.5;
 }
 
 double datetime_to_mjd(int year, int month, int day, int h, int m, double s) {
