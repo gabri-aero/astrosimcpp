@@ -13,6 +13,8 @@ class Body;  // forward declaration
  * 
  * @param i Body that experiences the acceleration
  * @param j Body thah creates the acceleration
+ * 
+ * @return 3D acceleration vector 
 */
 math::vector gravity(Body i, Body j);
 
