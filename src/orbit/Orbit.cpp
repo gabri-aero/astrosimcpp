@@ -30,6 +30,7 @@ OrbitType Orbit::get_type() const {
 }
 
 StateVector Orbit::to_sv(const Body& body) {
+    // Retrieve orbital elements
     double a = oe.at(0);
     double e = oe.at(1);
     double raan = oe.at(2);
@@ -52,6 +53,7 @@ StateVector Orbit::to_sv(const Body& body) {
     auto r_vec = L*r_orb;
     auto v_vec = L*v_orb;
 
+    // Arrange cartesian state vector
     return StateVector{
         r_vec.at(0),
         r_vec.at(1),

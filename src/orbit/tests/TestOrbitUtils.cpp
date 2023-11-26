@@ -23,3 +23,5 @@ TEST(TestOrbitUtils, MeanAnomaly) {
     double M = ta_to_M(ta, e);
     ASSERT_NEAR(M, 3.6029, 1e-3);
 }
+
+// TO DO: add tests for hyperbolic orbits
