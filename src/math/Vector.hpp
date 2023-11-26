@@ -8,13 +8,25 @@
 #define _MATH_HPP_
 
 namespace math {
-
+/**
+ * @class vector
+ * 
+ * @brief It handles common vector operations
+*/
 class vector : public std::vector<double> {
 public:
-    using std::vector<double>::vector;
+    using std::vector<double>::vector; // get std::vector<double> constructors
     
+    /**
+     * @brief Vector constructor from initializer list
+     * @param ilist vector components. Ex: {1, 2, 3, 4}.
+    */
     vector(std::initializer_list<double> ilist) : std::vector<double>(ilist) {}
 
+    /**
+     * @brief Create empty vector with zeros
+     * @param N vector length
+    */
     static vector zeros(int N) {
         math::vector vec;
         for(int i=0; i<N; i++) {
@@ -22,6 +34,8 @@ public:
         }
         return vec;
     }
+
+    // Operator overloading
 
     bool operator==(const vector& v2) {
         if(this->size() != v2.size()) {
@@ -73,6 +87,9 @@ public:
         return result;
     }
 
+    /**
+     * @brief Scalar product
+    */
     friend vector operator*(double scalar, const vector& v) {
         math::vector result;
         for(int i=0; i<v.size(); i++) {
@@ -81,6 +98,9 @@ public:
         return result;
     }
 
+    /**
+     * @brief Scalar product
+    */
     friend vector operator*(const vector& v, double scalar) {
         return scalar*v;
     }
@@ -94,7 +114,8 @@ public:
         return os;
     }
 
-    // Overload methods
+    // Overload std::vector methods
+
     void push_back(double value) {
         std::vector<double>::push_back(value); // Call the base class method
     }
@@ -105,6 +126,9 @@ public:
         } // Call the base class method
     }
 
+    /**
+     * @brief Get only a part of the vector
+    */
     math::vector subvec(int start, int end) const {
         math::vector v;
         for(int i=start; i<end; i++) {
@@ -116,10 +140,19 @@ public:
 
 };
 
+/**
+ * @brief Euclidean/L2 norm
+*/
 double norm(math::vector vec);
 
+/**
+ * @brief Vector dot product
+*/
 double dot(math::vector v1, math::vector v2);
 
+/**
+ * @brief Vector cross product
+*/
 math::vector cross(math::vector v1, math::vector v2);
 
 #endif //_MATH_HPP_

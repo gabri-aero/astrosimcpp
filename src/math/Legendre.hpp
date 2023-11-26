@@ -5,7 +5,13 @@
 #ifndef _LEGENDRE_HPP_
 #define _LEGENDRE_HPP_
 
-double  legendre(int n, double x) {
+/**
+ * @brief Evaulate Legendre polynomial. Source: Wikipedia.
+ * 
+ * @param n degree
+ * @param x
+*/
+double legendre(int n, double x) {
     switch(n) {
         case 0:
             return 1;
@@ -34,6 +40,13 @@ double  legendre(int n, double x) {
     }
 }
 
+/**
+ * @brief Evaluation of associated Legendre polynomial. Source: Wikipedia.
+ * 
+ * @param l degree
+ * @param m order
+ * @param x
+*/
 double  legendre(int l, int m, double x) {
     if (m < 0) {
         m = abs(m);
