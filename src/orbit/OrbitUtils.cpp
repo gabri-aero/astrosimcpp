@@ -40,11 +40,11 @@ double ta_to_M(double ta, double e) {
 }
 
 double M_to_ta(double M, double e) {
-    if(e<1) {
+    if(e<1) { // Compute eccentric anomaly
         double E = kepSolver(M, e);
         double ta = 2*atan(sqrt((1+e)/(1-e))*tan(E/2));
         return wrapTo2Pi(ta);
-    } else if(e>1) {
+    } else if(e>1) { // Compute hyperbolic anomaly
         double F = kepSolver(M, e);
         double ta = 2*atanh(sqrt((e+1)/(e-1))*tanh(F/2));
         return wrapTo2Pi(ta);

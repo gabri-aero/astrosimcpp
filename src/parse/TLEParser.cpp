@@ -13,15 +13,16 @@ TLEParser::~TLEParser() {
 }
 
 std::string TLEParser::from_id(int norad_id) {
+    // Check for correct initialisation
     if (!curl) {
         throw std::runtime_error("CURL not initialised");
     }
 
-    // Set the URL to retrieve data from
+    // Set the URL to retrieve data
     std::string url = "https://celestrak.org/NORAD/elements/gp.php?CATNR=" + std::to_string(norad_id);
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 
-    // Set the callback function to write data into a string
+    // Set where to write the data
     std::string tle_lines;
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &tle_lines);

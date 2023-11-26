@@ -5,6 +5,10 @@
 #ifndef _TLE_HPP_
 #define _TLE_HPP_
 
+/**
+ * @class TLE
+ * @brief Class to handle TLE information. For now, it only enables TLE retrieval from www.celestrak.org and Orbit construction at TLE epoch.
+*/
 class TLE {
 private:
     std::array<std::string, 3> lines;
@@ -25,9 +29,18 @@ private:
     int n_rev;
 
 public:
+    /**
+     * @brief TLE constructor
+     * @param norad_id
+    */
     TLE(int norad_id);
 
     // Member functions
+
+    /**
+     * @brief Transform the TLE data into orbital elements and construct an orbit
+     * @param body Earth
+    */
     Orbit get_orbit(Body body=Body(5.972e24));
 
     // Overload operator<<

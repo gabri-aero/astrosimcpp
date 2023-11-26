@@ -19,8 +19,10 @@ Epoch StateVector::get_epoch() const {
 }
 
 Orbit StateVector::to_orbit(const Body& central) {
+    // Retrieve position and velocity
     math::vector r_vec = rv.subvec(0,3);
     math::vector v_vec = rv.subvec(3,6);
+    // Compute L2 norm
     double r = norm(r_vec);
     double v = norm(v_vec);
     // Compute angular momentum 

@@ -7,7 +7,9 @@
 #include<orbit/OrbitUtils.hpp>
 
 TLE::TLE(int norad_id) {
+    // Create parser
     TLEParser parser;
+    // Retrieve TLE data
     std::string tle_lines = parser.from_id(norad_id);
     std::string delimiter = "\r\n";
     // Split tle lines
