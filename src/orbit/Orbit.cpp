@@ -60,7 +60,8 @@ StateVector Orbit::to_sv(const Body& body) {
         r_vec.at(2),
         v_vec.at(0),
         v_vec.at(1),
-        v_vec.at(2)
+        v_vec.at(2),
+        this->epoch
     };
 }
 

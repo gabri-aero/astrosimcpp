@@ -77,7 +77,7 @@ Orbit StateVector::to_orbit(const Body& central) {
         ta += 2 * M_PI;
     }
 
-    return Orbit{a, e, raan, i, aop, ta};
+    return Orbit{a, e, raan, i, aop, ta, this->epoch};
 }
 
 std::ostream& operator<<(std::ostream& os, const StateVector& obj) {
