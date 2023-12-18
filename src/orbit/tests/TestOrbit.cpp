@@ -25,7 +25,7 @@ TEST(TestOrbit, GeneralTest) {
         -3.457e3, 6.618e3, 2.533e3
     };
 
-    assert_near_sv(sv1_expected, oe1.to_sv(earth).get_rv());
+    assert_near_sv(sv1_expected, oe1.to_sv(earth));
 
     // Second case
     Orbit oe2{
@@ -41,7 +41,7 @@ TEST(TestOrbit, GeneralTest) {
         -10.386e3, -4.77192e3, 1.74388e3
     };
 
-    assert_near_sv(sv2_expected, oe2.to_sv(earth).get_rv());
+    assert_near_sv(sv2_expected, oe2.to_sv(earth));
 
 }
 
