@@ -214,6 +214,11 @@ std::ostream& operator<<(std::ostream& os, const Epoch& epoch) {
     return os;
 }
 
+// Equality operator
+bool Epoch::operator==(const Epoch& other) const {
+    return this->with_timescale(TAI).with_reference_epoch(MJD).days == other.with_timescale(TAI).with_reference_epoch(MJD).days;
+}
+
 // Define member functions
 Epoch Epoch::add_secs(double s) {
     this->days += (s/86400);

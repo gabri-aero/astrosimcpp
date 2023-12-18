@@ -164,7 +164,7 @@ public:
 
     // Operator overloading
     friend std::ostream& operator<<(std::ostream& os, const Epoch& epoch);
-
+    bool operator==(const Epoch& other) const;
     // Member functions
 
     /**
@@ -178,7 +178,6 @@ public:
      * @param d number of days
     */
     Epoch add_days(double d);
-
 };
 
 
