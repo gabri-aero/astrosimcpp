@@ -4,7 +4,8 @@ set(CPP_SOURCES
 
 set(HPP_HEADERS 
     Epoch.hpp
-    TimeUtils.hpp)
+    TimeUtils.hpp
+    TimeSeries.hpp)
 
 target_sources(${CPP_TARGET} PRIVATE  ${CPP_SOURCES} ${HPP_HEADERS})
 
