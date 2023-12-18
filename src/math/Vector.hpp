@@ -50,7 +50,7 @@ public:
         return true;
     }
 
-    vector operator+(const vector& v2) {
+    vector operator+(const vector& v2) const {
         if(this->size() != v2.size()) {
             throw std::runtime_error("Vectors to be added have different dimensions");
         }
@@ -61,7 +61,7 @@ public:
         return sum;
     }
     
-    vector operator-(const vector& v2) {
+    vector operator-(const vector& v2) const {
         if(this->size() != v2.size()) {
             throw std::runtime_error("Vectors to be added have different dimensions");
         }

@@ -12,8 +12,7 @@ class Body;
  * @class StateVector
  * @brief It handles position and velocity
 */
-class StateVector {
-    math::vector rv; // [x, y, z, vx, vy, vz]
+class StateVector : public math::vector {
 public:
     /**
      * @brief Default constructor
@@ -28,12 +27,6 @@ public:
      * @param rv [x, y, z, vx, vy, vz]
     */
     StateVector(math::vector rv);
-
-    /**
-     * @brief Position velocity getter
-     * @return [x, y, z, vx, vy, vz]
-    */
-    math::vector get_rv() const;
 
     /**
      * @brief Conversion to orbital elements
