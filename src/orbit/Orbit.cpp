@@ -60,7 +60,7 @@ StateVector Orbit::to_sv(const Body& body) {
     };
 }
 
-bool Orbit::operator==(const Orbit& obj) {
+bool Orbit::operator==(const Orbit& obj) const {
     return this->oe == obj.oe;
 }
 

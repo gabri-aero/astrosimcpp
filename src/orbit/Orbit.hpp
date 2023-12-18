@@ -51,7 +51,7 @@ public:
 
     // Overload operators
     
-    bool operator==(const Orbit& obj);
+    bool operator==(const Orbit& obj) const;
     friend std::ostream& operator<<(std::ostream& os, const Orbit& obj);
 };
 

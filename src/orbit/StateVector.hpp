@@ -16,6 +16,10 @@ class StateVector {
     math::vector rv; // [x, y, z, vx, vy, vz]
 public:
     /**
+     * @brief Default constructor
+    */
+   StateVector() = default;
+    /**
      * @brief State vector constructor
     */
     StateVector(double rx, double ry, double rz, double vx, double vy, double vz);
