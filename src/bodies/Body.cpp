@@ -28,7 +28,7 @@ void Body::set_sv(math::vector sv) {
     this->sv = std::make_shared<math::vector>(sv);
 }
 
-void Body::set_trajectory(std::vector<StateVector> new_trajectory) {
+void Body::set_trajectory(Trajectory new_trajectory) {
     if (this->trajectory.empty()) { // Check if trajectory is empty
         this->trajectory = new_trajectory;
     } else {
@@ -59,7 +59,7 @@ double Body::get_mu() const {
     return G*mass;
 };
 
-std::vector<StateVector> Body::get_trajectory() const {
+Trajectory Body::get_trajectory() const {
     return trajectory;
 }
 

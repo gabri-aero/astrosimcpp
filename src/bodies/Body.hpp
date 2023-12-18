@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <memory>
 #include <initializer_list>
-#include <orbit/StateVector.hpp>
+#include <orbit/Trajectory.hpp>
 
 #include <math/Vector.hpp>
 
@@ -22,7 +22,7 @@ protected:
     std::string name;
     double mass;
     std::shared_ptr<math::vector> sv;
-    std::vector<StateVector> trajectory;
+    Trajectory trajectory;
 public:
     /**
      * @brief Constructor from mass and statevector
@@ -64,10 +64,10 @@ public:
     void set_sv(math::vector sv);
     /**
      * Trajectory setter. Note: it does not overwrite any previous trajectory stored.
-     * @param trajectory - vector of StateVector objects - it provides time-stampped position and velocity
+     * @param trajectory - TimeSeries<StateVector> object
      * 
     */
-    void set_trajectory(std::vector<StateVector> trajectory);
+    void set_trajectory(Trajectory trajectory);
 
     // Getters
     /**
@@ -107,7 +107,7 @@ public:
      * Trajectory getter
      * @return Trajectory data computed during a simulation.
     */
-    std::vector<StateVector> get_trajectory() const;
+    Trajectory get_trajectory() const;
     /**
      * Name getter
     */

@@ -52,9 +52,9 @@ public:
      * @brief Add list of bodies to the propagator (mainly implemented for Python wrapper purposes)
      * @param body_list vector of bodies to be included for propagation
     */
-    void add_body_list(std::vector<Body>& body_list) {
-        for (auto& body : body_list) {
-            bodies.push_back(&body);
+    void add_body_list(std::vector<Body*>& body_list) {
+        for (auto body : body_list) {
+            bodies.push_back(body);
         }
     }
 
