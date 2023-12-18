@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <propagator/Propagator.hpp>
 #include <numerical/Euler.hpp>
+#include <orbit/Trajectory.hpp>
 
 TEST(Propagator, Test) {
     // Define bodies
@@ -25,4 +26,8 @@ TEST(Propagator, Test) {
     // Assert
     ASSERT_EQ(earth_trajectory.at(100).first, start.add_secs(100*3600));
     std::cout << earth_trajectory.at(100).second <<  std::endl;
+    // Ensure fixed step interpolation behaves correctly for Trajectory
+    Trajectory interpolated_trajectory;
+    interpolated_trajectory = earth_trajectory.interpolate(1800); // interpolated trajectory for every half an hour
+    std::cout << "Hi";
 }
