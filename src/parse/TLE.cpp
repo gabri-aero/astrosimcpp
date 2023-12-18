@@ -61,5 +61,5 @@ Orbit TLE::get_orbit(Body body) {
     double aop = deg2rad(this->aop);
     double ta = M_to_ta(M, e);
 
-    return Orbit(a, e, raan, i, aop, ta, this->epoch);
+    return Orbit(a, e, raan, i, aop, ta);
 }

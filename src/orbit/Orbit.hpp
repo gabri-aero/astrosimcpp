@@ -1,6 +1,5 @@
 #include <math/Vector.hpp>
 #include <bodies/Body.hpp>
-#include <time/Epoch.hpp>
 #include <iostream>
 
 #ifndef _ORBITAL_ELEMENTS_HPP
@@ -19,7 +18,6 @@ enum OrbitType {
  * @brief State representation as keplerian orbital elements: a, e, i, raan, aop, ta.
 */
 class Orbit {
-    Epoch epoch;
     math::vector oe; // [a, e, i, raan, aop, ta]
 public:
     /**
@@ -30,20 +28,14 @@ public:
      * @param raan right ascension of ascending node [rad]
      * @param aop argument of periapsis [rad]
      * @param ta true anomaly [rad]
-     * @param epoch Epoch object asssociated to the orbital state
     */
-    Orbit(double a, double e, double raan, double i, double aop, double ta, Epoch epoch=Epoch());
+    Orbit(double a, double e, double raan, double i, double aop, double ta);
 
     /**
      * @brief orbital elements vector getter
      * @return [a, e, i, raan, aop, ta]
     */
     math::vector get_oe() const;
-
-    /**
-     * @brief Epoch getter
-    */
-    Epoch get_epoch() const;
 
     /**
      * @brief Gives type of orbit
@@ -59,7 +51,7 @@ public:
 
     // Overload operators
     
-    bool operator==(const Orbit& obj);
+    bool operator==(const Orbit& obj) const;
     friend std::ostream& operator<<(std::ostream& os, const Orbit& obj);
 };
 

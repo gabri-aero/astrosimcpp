@@ -164,21 +164,25 @@ public:
 
     // Operator overloading
     friend std::ostream& operator<<(std::ostream& os, const Epoch& epoch);
-
+    bool operator==(const Epoch& other) const;
+    bool operator<=(const Epoch& other) const;
+    bool operator<(const Epoch& other) const;
+    bool operator>(const Epoch& other) const;
+    bool operator>=(const Epoch& other) const;
+    double operator-(const Epoch& other) const;
     // Member functions
 
     /**
      * @brief Modifies current epoch by a given number of seconds
      * @param s number of seconds
     */
-    Epoch& add_secs(double s);
+    Epoch add_secs(double s);
     
     /**
      * @brief Modifies current epoch by a given number of days
      * @param d number of days
     */
-    Epoch& add_days(double d);
-
+    Epoch add_days(double d);
 };
 
 

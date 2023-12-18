@@ -2,26 +2,18 @@
 #include "Orbit.hpp"
 #include <bodies/Body.hpp>
 
-StateVector::StateVector(double rx, double ry, double rz, double vx, double vy, double vz, Epoch epoch) 
-    : epoch{epoch}, rv{math::vector{rx, ry, rz, vx, vy, vz}} {
+StateVector::StateVector(double rx, double ry, double rz, double vx, double vy, double vz) {
+    this->assign({rx, ry, rz, vx, vy, vz});
 }
 
-StateVector::StateVector(math::vector rv, Epoch epoch) 
-    : epoch{epoch}, rv{rv} {
-}
-
-math::vector StateVector::get_rv() const {
-    return rv;
-}
-
-Epoch StateVector::get_epoch() const {
-    return epoch;
+StateVector::StateVector(math::vector rv) {
+    this->assign({rv.at(0), rv.at(1), rv.at(2), rv.at(3), rv.at(4), rv.at(5)});
 }
 
 Orbit StateVector::to_orbit(const Body& central) {
     // Retrieve position and velocity
-    math::vector r_vec = rv.subvec(0,3);
-    math::vector v_vec = rv.subvec(3,6);
+    math::vector r_vec = this->subvec(0,3);
+    math::vector v_vec = this->subvec(3,6);
     // Compute L2 norm
     double r = norm(r_vec);
     double v = norm(v_vec);
@@ -77,10 +69,10 @@ Orbit StateVector::to_orbit(const Body& central) {
         ta += 2 * M_PI;
     }
 
-    return Orbit{a, e, raan, i, aop, ta, this->epoch};
+    return Orbit{a, e, raan, i, aop, ta};
 }
 
 std::ostream& operator<<(std::ostream& os, const StateVector& obj) {
-    os << "r: " << obj.rv.subvec(0, 3) << std::endl << "v: " << obj.rv.subvec(3, 6) << std::endl;
+    os << "r: " << obj.subvec(0, 3) << std::endl << "v: " << obj.subvec(3, 6) << std::endl;
     return os;
 }

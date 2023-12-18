@@ -26,3 +26,10 @@ TEST(StateVectorTest, to_orbit) {
     ASSERT_NEAR(20.0683 * M_PI/180, oe2.at(4), 1e-4);
     ASSERT_NEAR(28.4456 * M_PI/180, oe2.at(5), 1e-4);
 }
+
+TEST(TestStateVector, Operators) {
+    StateVector sv = {1, 0, 0, -1, 0, 0};
+    StateVector sv2 = {2, 1, 0 , 0, -1, 0};
+    StateVector sv3 = sv + sv2;
+    ASSERT_EQ(sv3.at(0), 3);
+}

@@ -214,15 +214,66 @@ std::ostream& operator<<(std::ostream& os, const Epoch& epoch) {
     return os;
 }
 
+// Equality operator
+bool Epoch::operator==(const Epoch& other) const {
+    if(this->ref_epoch == other.ref_epoch) {
+        return this->days == other.days;
+    } else {
+        return this->with_timescale(TAI).with_reference_epoch(MJD).days == other.with_timescale(TAI).with_reference_epoch(MJD).days;
+    }
+}
+
+bool Epoch::operator<=(const Epoch& other) const {
+    if(this->ref_epoch == other.ref_epoch) {
+        return this->days <= other.days;
+    } else {
+        return this->with_timescale(TAI).with_reference_epoch(MJD).days <= other.with_timescale(TAI).with_reference_epoch(MJD).days;
+    }
+}
+
+bool Epoch::operator<(const Epoch& other) const {
+    if(this->ref_epoch == other.ref_epoch) {
+        return this->days < other.days;
+    } else {
+        return this->with_timescale(TAI).with_reference_epoch(MJD).days < other.with_timescale(TAI).with_reference_epoch(MJD).days;
+    }
+}
+
+bool Epoch::operator>(const Epoch& other) const {
+    if(this->ref_epoch == other.ref_epoch) {
+        return this->days > other.days;
+    } else {
+        return this->with_timescale(TAI).with_reference_epoch(MJD).days > other.with_timescale(TAI).with_reference_epoch(MJD).days;
+    }
+}
+
+bool Epoch::operator>=(const Epoch& other) const {
+    if(this->ref_epoch == other.ref_epoch) {
+        return this->days >= other.days;
+    } else {
+        return this->with_timescale(TAI).with_reference_epoch(MJD).days >= other.with_timescale(TAI).with_reference_epoch(MJD).days;
+    }
+}
+
+double Epoch::operator-(const Epoch& other) const {
+    if(this->ref_epoch == other.ref_epoch) {
+        return this->days - other.days;
+    } else {
+        return this->with_timescale(TAI).with_reference_epoch(MJD).days - other.with_timescale(TAI).with_reference_epoch(MJD).days;
+    }
+}
+
 // Define member functions
-Epoch& Epoch::add_secs(double s) {
-    this->days += (s/86400);
-    return *this;
+Epoch Epoch::add_secs(double s) {
+    Epoch epoch(*this); // copy current epoch
+    epoch.days += (s/86400);
+    return epoch;
 }
     
-Epoch& Epoch::add_days(double d) {
-    this->days += d;
-    return *this;
+Epoch Epoch::add_days(double d) {
+    Epoch epoch(*this); // copy current epoch
+    epoch.days += d;
+    return epoch;
 }
 
 

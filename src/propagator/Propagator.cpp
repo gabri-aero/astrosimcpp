@@ -1,5 +1,6 @@
 #include "Propagator.hpp"
 #include <accelerations/Gravity.hpp>
+#include <orbit/Trajectory.hpp>
 
 Propagator::Propagator(Epoch start, Epoch end) 
     : start{start}, end{end} {
@@ -72,14 +73,14 @@ void Propagator::run()  {
     Epoch epoch; 
     math::vector states;
     const int N = bodies.size();
-    std::vector<std::vector<StateVector>> trajectories(N);
+    std::vector<Trajectory> trajectories(N);
     // Retrieve trajectory data
     for(int i=0; i < data.size(); i++) {
         t = data[i].first; // delta seconds from start
         epoch = start.add_secs(t);
-        states = get_X();
+        states = data[i].second;
         for(int j=0; j<N; j++) {
-            trajectories.at(j).push_back(StateVector(states.subvec(6*j, 6*(j+1)), epoch));
+            trajectories.at(j).emplace_back(epoch, StateVector(states.subvec(6*j, 6*(j+1))));
         }
     }
     // Assign trajectory data to each body
