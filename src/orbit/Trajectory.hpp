@@ -6,7 +6,6 @@
 #define _TRAJECTORY_HPP_
 
 class Trajectory : public TimeSeries<StateVector> {
-
 public:
     /**
      * This function converts a StateVector TimeSeries (Trajectory) to the associated Orbit TimeSeries given the central body
@@ -23,6 +22,13 @@ public:
         }
         return orbit_series;
     }
+
+    Trajectory& operator=(const TimeSeries<StateVector>& trajectory) { // TO DO: in principle, this should not be required but an error comes up
+        this->clear();
+        this->insert(this->begin(), trajectory.begin(), trajectory.end());
+        return *this;
+    }
+
 };
 
 #endif //_TRAJECTORY_HPP_
