@@ -221,13 +221,15 @@ bool Epoch::operator==(const Epoch& other) const {
 
 // Define member functions
 Epoch Epoch::add_secs(double s) {
-    this->days += (s/86400);
-    return *this;
+    Epoch epoch(*this); // copy current epoch
+    epoch.days += (s/86400);
+    return epoch;
 }
     
 Epoch Epoch::add_days(double d) {
-    this->days += d;
-    return *this;
+    Epoch epoch(*this); // copy current epoch
+    epoch.days += d;
+    return epoch;
 }
 
 
