@@ -83,14 +83,14 @@ Epoch& Epoch::set_timescale(TimeScale new_timescale) {
         switch(timescale) {
             double mjd;
             case GPST:
-                add_secs(-GPST_TAI);
+                *this = add_secs(-GPST_TAI);
                 break;
             case TT:
-                add_secs(-TT_TAI);
+                *this = add_secs(-TT_TAI);
                 break;
             case UTC:
                 mjd = ref_mjd + days;
-                add_secs(get_leapsec(mjd));
+                *this = add_secs(get_leapsec(mjd));
                 break;
             case TAI: // nothing to do
                 break;
@@ -99,14 +99,14 @@ Epoch& Epoch::set_timescale(TimeScale new_timescale) {
         switch (new_timescale) {
             double mjd;
             case GPST:
-                add_secs(GPST_TAI);
+                *this = add_secs(GPST_TAI);
                 break;
             case TT:
-                add_secs(TT_TAI);
+                *this = add_secs(TT_TAI);
                 break;
             case UTC:
                 mjd = ref_mjd + days;
-                add_secs(-get_leapsec(mjd));
+                *this = add_secs(-get_leapsec(mjd));
                 break;
             case TAI: // nothing to do
                 break;
