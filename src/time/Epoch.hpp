@@ -165,6 +165,11 @@ public:
     // Operator overloading
     friend std::ostream& operator<<(std::ostream& os, const Epoch& epoch);
     bool operator==(const Epoch& other) const;
+    bool operator<=(const Epoch& other) const;
+    bool operator<(const Epoch& other) const;
+    bool operator>(const Epoch& other) const;
+    bool operator>=(const Epoch& other) const;
+    double operator-(const Epoch& other) const;
     // Member functions
 
     /**

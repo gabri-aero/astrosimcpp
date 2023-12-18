@@ -216,7 +216,51 @@ std::ostream& operator<<(std::ostream& os, const Epoch& epoch) {
 
 // Equality operator
 bool Epoch::operator==(const Epoch& other) const {
-    return this->with_timescale(TAI).with_reference_epoch(MJD).days == other.with_timescale(TAI).with_reference_epoch(MJD).days;
+    if(this->ref_epoch == other.ref_epoch) {
+        return this->days == other.days;
+    } else {
+        return this->with_timescale(TAI).with_reference_epoch(MJD).days == other.with_timescale(TAI).with_reference_epoch(MJD).days;
+    }
+}
+
+bool Epoch::operator<=(const Epoch& other) const {
+    if(this->ref_epoch == other.ref_epoch) {
+        return this->days <= other.days;
+    } else {
+        return this->with_timescale(TAI).with_reference_epoch(MJD).days <= other.with_timescale(TAI).with_reference_epoch(MJD).days;
+    }
+}
+
+bool Epoch::operator<(const Epoch& other) const {
+    if(this->ref_epoch == other.ref_epoch) {
+        return this->days < other.days;
+    } else {
+        return this->with_timescale(TAI).with_reference_epoch(MJD).days < other.with_timescale(TAI).with_reference_epoch(MJD).days;
+    }
+}
+
+bool Epoch::operator>(const Epoch& other) const {
+    if(this->ref_epoch == other.ref_epoch) {
+        return this->days > other.days;
+    } else {
+        return this->with_timescale(TAI).with_reference_epoch(MJD).days > other.with_timescale(TAI).with_reference_epoch(MJD).days;
+    }
+}
+
+bool Epoch::operator>=(const Epoch& other) const {
+    if(this->ref_epoch == other.ref_epoch) {
+        return this->days >= other.days;
+    } else {
+        return this->with_timescale(TAI).with_reference_epoch(MJD).days >= other.with_timescale(TAI).with_reference_epoch(MJD).days;
+    }
+}
+
+double Epoch::operator-(const Epoch& other) const {
+    if(this->ref_epoch == other.ref_epoch) {
+        return this->days - other.days;
+    } else {
+        return this->with_timescale(TAI).with_reference_epoch(MJD).days - other.with_timescale(TAI).with_reference_epoch(MJD).days;
+    }
 }
 
 // Define member functions
