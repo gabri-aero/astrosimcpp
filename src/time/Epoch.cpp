@@ -264,13 +264,13 @@ double Epoch::operator-(const Epoch& other) const {
 }
 
 // Define member functions
-Epoch Epoch::add_secs(double s) {
+Epoch Epoch::add_secs(double s) const {
     Epoch epoch(*this); // copy current epoch
     epoch.days += (s/86400);
     return epoch;
 }
     
-Epoch Epoch::add_days(double d) {
+Epoch Epoch::add_days(double d) const {
     Epoch epoch(*this); // copy current epoch
     epoch.days += d;
     return epoch;

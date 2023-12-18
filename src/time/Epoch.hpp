@@ -173,16 +173,16 @@ public:
     // Member functions
 
     /**
-     * @brief Modifies current epoch by a given number of seconds
+     * @brief Creates new epoch shifting current one by a given number of seconds
      * @param s number of seconds
     */
-    Epoch add_secs(double s);
+    Epoch add_secs(double s) const;
     
     /**
-     * @brief Modifies current epoch by a given number of days
+     * @brief Creates new epoch shifting current one by a given number of days
      * @param d number of days
     */
-    Epoch add_days(double d);
+    Epoch add_days(double d) const;
 };
 
 
