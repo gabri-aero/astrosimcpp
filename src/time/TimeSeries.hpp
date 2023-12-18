@@ -19,7 +19,7 @@ public:
     */
     T get(Epoch epoch) { // TO DO: check that Epoch lies within TimeSeries range
         int i = 0;
-        while(this->at(i).first < epoch) {
+        while(this->at(i).first <= epoch) {
             i++;
         }
         i--; // move one step back
@@ -32,6 +32,20 @@ public:
             T obj = this->at(i).second + dvalue * dt/step;
             return obj;
         }
+    }
+    /**
+     * @brief This function converts not equally spaced TimeSeries vector to a evenly distributed TimeSeries by means of interpolation
+     * @param dt time step
+    */
+    TimeSeries<T> interpolate(double dt) {
+        Epoch epoch = this->at(0).first; // set epoch to start
+        Epoch end = this->back().first; // get end epoch
+        TimeSeries<T> time_series; // fixed step time series
+        while(epoch <= end) {
+            time_series.add(epoch, get(epoch));
+            epoch = epoch.add_secs(dt);
+        }
+        return time_series;
     }
 };
 
