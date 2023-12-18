@@ -171,13 +171,13 @@ public:
      * @brief Modifies current epoch by a given number of seconds
      * @param s number of seconds
     */
-    Epoch& add_secs(double s);
+    Epoch add_secs(double s);
     
     /**
      * @brief Modifies current epoch by a given number of days
      * @param d number of days
     */
-    Epoch& add_days(double d);
+    Epoch add_days(double d);
 
 };
 

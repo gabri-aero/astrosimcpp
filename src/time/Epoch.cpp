@@ -215,12 +215,12 @@ std::ostream& operator<<(std::ostream& os, const Epoch& epoch) {
 }
 
 // Define member functions
-Epoch& Epoch::add_secs(double s) {
+Epoch Epoch::add_secs(double s) {
     this->days += (s/86400);
     return *this;
 }
     
-Epoch& Epoch::add_days(double d) {
+Epoch Epoch::add_days(double d) {
     this->days += d;
     return *this;
 }
