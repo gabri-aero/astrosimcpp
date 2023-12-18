@@ -2,20 +2,16 @@
 #include "Orbit.hpp"
 #include <bodies/Body.hpp>
 
-StateVector::StateVector(double rx, double ry, double rz, double vx, double vy, double vz, Epoch epoch) 
-    : epoch{epoch}, rv{math::vector{rx, ry, rz, vx, vy, vz}} {
+StateVector::StateVector(double rx, double ry, double rz, double vx, double vy, double vz) 
+    : rv{math::vector{rx, ry, rz, vx, vy, vz}} {
 }
 
-StateVector::StateVector(math::vector rv, Epoch epoch) 
-    : epoch{epoch}, rv{rv} {
+StateVector::StateVector(math::vector rv) 
+    : rv{rv} {
 }
 
 math::vector StateVector::get_rv() const {
     return rv;
-}
-
-Epoch StateVector::get_epoch() const {
-    return epoch;
 }
 
 Orbit StateVector::to_orbit(const Body& central) {
@@ -77,7 +73,7 @@ Orbit StateVector::to_orbit(const Body& central) {
         ta += 2 * M_PI;
     }
 
-    return Orbit{a, e, raan, i, aop, ta, this->epoch};
+    return Orbit{a, e, raan, i, aop, ta};
 }
 
 std::ostream& operator<<(std::ostream& os, const StateVector& obj) {

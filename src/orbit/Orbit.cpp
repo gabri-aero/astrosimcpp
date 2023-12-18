@@ -5,17 +5,13 @@
 #include <math/Utils.hpp>
 #include <math/Rotation.hpp>
 
-Orbit::Orbit(double a, double e, double raan, double i, double aop, double ta, Epoch epoch) 
-    : oe{math::vector{a, e, raan, i, aop, ta}}, epoch{epoch}{
+Orbit::Orbit(double a, double e, double raan, double i, double aop, double ta) 
+    : oe{math::vector{a, e, raan, i, aop, ta}} {
 
 }
 
 math::vector Orbit::get_oe() const {
     return oe;
-}
-
-Epoch Orbit::get_epoch() const {
-    return epoch;
 }
 
 OrbitType Orbit::get_type() const {
@@ -60,8 +56,7 @@ StateVector Orbit::to_sv(const Body& body) {
         r_vec.at(2),
         v_vec.at(0),
         v_vec.at(1),
-        v_vec.at(2),
-        this->epoch
+        v_vec.at(2)
     };
 }
 
