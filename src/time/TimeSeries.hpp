@@ -7,6 +7,7 @@
 template <typename T>
 class TimeSeries : public std::vector<std::pair<Epoch, T>> {
 public:
+    using std::vector<std::pair<Epoch, T>>::vector;
     /**
      * @brief Function that pushes back Epoch, T pair element
     */
@@ -17,7 +18,7 @@ public:
      * @brief Retrieves T object given an input Epoch. It applies interpolation.
      * @param epoch
     */
-    T get(Epoch epoch) { // TO DO: check that Epoch lies within TimeSeries range
+    T get(Epoch epoch) const { // TO DO: check that Epoch lies within TimeSeries range
         int i = 0;
         while(this->at(i).first <= epoch) {
             i++;
@@ -37,12 +38,12 @@ public:
      * @brief This function converts not equally spaced TimeSeries vector to a evenly distributed TimeSeries by means of interpolation
      * @param dt time step
     */
-    TimeSeries<T> interpolate(double dt) {
+    TimeSeries<T> interpolate(double dt) const {
         Epoch epoch = this->at(0).first; // set epoch to start
         Epoch end = this->back().first; // get end epoch
         TimeSeries<T> time_series; // fixed step time series
         while(epoch <= end) {
-            time_series.add(epoch, get(epoch));
+            time_series.add(epoch, this->get(epoch));
             epoch = epoch.add_secs(dt);
         }
         return time_series;
