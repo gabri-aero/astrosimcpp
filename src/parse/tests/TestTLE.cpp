@@ -6,4 +6,5 @@ TEST(TestTLE, GetData) {
     TLE tle(25544);
     StateVector sv = tle.get_orbit().to_sv(Body(5.972e24));
     std::cout << sv << std::endl;
+    std::cout << tle.get_epoch() << std::endl;
 }

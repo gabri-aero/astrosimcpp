@@ -41,7 +41,11 @@ public:
      * @brief Transform the TLE data into orbital elements and construct an orbit
      * @param body Earth
     */
-    Orbit get_orbit(Body body=Body(5.972e24));
+    Orbit get_orbit(Body body=Body(5.972e24)) const;
+    /**
+     * @brief Getter for Epoch associated to TLE
+    */
+    Epoch get_epoch() const;
 
     // Overload operator<<
     friend std::ostream& operator<<(std::ostream& os, TLE& tle) {
