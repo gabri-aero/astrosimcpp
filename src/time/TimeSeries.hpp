@@ -48,7 +48,9 @@ public:
         }
         return time_series;
     }
-
+    /**
+     * @brief Getter for Epoch vector associated to the TimeSeries object
+    */
     std::vector<Epoch> get_epochs() const {
         std::vector<Epoch> epochs;
         for(const std::pair<Epoch, T>& pair: *this) {
@@ -56,7 +58,9 @@ public:
         }
         return epochs;
     }
-
+    /**
+     * @brief Getter for the data associated to the TimeSeries object (without Epoch time stamps)
+    */
     std::vector<T> get_data() const {
         std::vector<T> data;
         for(const std::pair<Epoch, T>& pair: *this) {
