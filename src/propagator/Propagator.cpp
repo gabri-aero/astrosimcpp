@@ -17,7 +17,7 @@ void Propagator::set_end(Epoch end) {
 math::vector Propagator::get_X() {
     math::vector X;
     for(auto body: bodies) {
-        X.push_back(body->get_sv());
+        X.push_back(body.get_sv());
     }
     return X;
 }
@@ -38,7 +38,7 @@ math::vector Propagator::compute_derivatives(Epoch epoch, math::vector X) {
 
     // Update body state to input X
     for(int i=0; i<n; i++) {
-        bodies.at(i)->set_sv(X.subvec(6*i, 6*(i+1)));
+        bodies.at(i).set_sv(X.subvec(6*i, 6*(i+1)));
     }
 
     for(int i=0; i<n; i++) {
@@ -47,11 +47,11 @@ math::vector Propagator::compute_derivatives(Epoch epoch, math::vector X) {
         // Arrange accelerations
         for(int j=0; j<n; j++) {
             if(i != j) {
-                dvi += gravity(*(bodies.at(i)), *(bodies.at(j))) ; 
+                dvi += gravity(bodies.at(i), bodies.at(j)) ; 
             }
         }
         // Arrange velocities
-        dri = bodies.at(i)->get_vel();
+        dri = bodies.at(i).get_vel();
         // Arrange final vector
         for(int k=0; k<3; k++) { 
             dX.at(6*i+k) = dri.at(k); // dr/dt
@@ -70,21 +70,32 @@ void Propagator::run()  {
     auto data = this->integrator->get_data();
     // Create necessary variables
     double t; 
-    Epoch epoch; 
+    std::vector<Epoch> epochs; 
     math::vector states;
     const int N = bodies.size();
-    std::vector<Trajectory> trajectories(N);
-    // Retrieve trajectory data
-    for(int i=0; i < data.size(); i++) {
+
+    // Build time vector
+    for(int i=0; i<data.size(); i++) {
         t = data[i].first; // delta seconds from start
-        epoch = start.add_secs(t);
-        states = data[i].second;
-        for(int j=0; j<N; j++) {
-            trajectories.at(j).emplace_back(epoch, StateVector(states.subvec(6*j, 6*(j+1))));
-        }
+        epochs.push_back(start.add_secs(t));
     }
-    // Assign trajectory data to each body
-    for(int i=0; i<N; i++) {
-        bodies.at(i)->set_trajectory(trajectories.at(i));
+    
+    // Retrieve trajectory data and add to map
+    for(int j=0; j<N; j++) {
+        Trajectory trajectory;
+        for(int i=0; i<data.size(); i++) {
+            states = data[i].second;
+            trajectory.emplace_back(epochs.at(i), StateVector(states.subvec(6*j, 6*(j+1))));
+        }
+        trajectory_map[bodies.at(j)] = trajectory;
     }
 } 
+
+Trajectory Propagator::get_trajectory(const Body& body) {
+    return trajectory_map[body];
+    // TO DO: add exception when no body
+}
+
+
+
+
