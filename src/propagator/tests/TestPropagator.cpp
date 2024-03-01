@@ -13,7 +13,7 @@ TEST(Propagator, Test) {
     // Create propagator
     Propagator ae(start, end);
     // Add bodies
-    std::vector<Body*> bodies{&sun, &earth};
+    std::vector<Body> bodies{sun, earth};
     ae.add_body_list(bodies); // (python-like)
     // Define integrator
     auto integrator = std::make_shared<Euler>(3600);
@@ -21,7 +21,7 @@ TEST(Propagator, Test) {
     // Run propagator
     ae.run();
     // Retrieve Earth trajectory
-    auto earth_trajectory = earth.get_trajectory();
+    auto earth_trajectory = ae.get_trajectory(earth);
 
     // Assert
     ASSERT_EQ(earth_trajectory.at(100).first, start.add_secs(100*3600));

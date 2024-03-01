@@ -3,17 +3,20 @@
 #include <bodies/Body.hpp>
 #include <numerical/BaseIntegrator.hpp>
 #include <time/Epoch.hpp>
+#include <map>
 
 #ifndef _PROPAGATOR_HPP_
 #define _PROPAGATOR_HPP_
 
 class Propagator {
 private:
-    std::vector<Body*> bodies;
+    std::vector<Body> bodies;
     std::shared_ptr<BaseIntegrator> integrator;
     Epoch start;
     Epoch end;
 
+    // std::vector<std::pair<Body, Trajectory>> trajectory_map; // TO DO: make use of std::map (unable do to unknown error)
+    std::map<Body, Trajectory> trajectory_map;
     // private member functions - only for internal use
     math::vector compute_derivatives(Epoch, math::vector);
 
@@ -46,13 +49,13 @@ public:
     */
     template<typename... Args> // I would like to define this in my .cpp file but it seems not to be possilbe
     void add_bodies(Args&... args) {
-        (bodies.push_back(&args), ...);
+        (bodies.push_back(args), ...);
     }
     /**
      * @brief Add list of bodies to the propagator (mainly implemented for Python wrapper purposes)
      * @param body_list vector of bodies to be included for propagation
     */
-    void add_body_list(std::vector<Body*>& body_list) {
+    void add_body_list(std::vector<Body> body_list) {
         for (auto body : body_list) {
             bodies.push_back(body);
         }
@@ -67,6 +70,12 @@ public:
      * @brief Run propagation
     */
     void run();
+
+    /**
+     * @brief Retrieve propagated trajectory from input body (if run executed before)
+     * @param body
+    */
+    Trajectory get_trajectory(const Body& body);
 };
 
 

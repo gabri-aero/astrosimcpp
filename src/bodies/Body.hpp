@@ -21,8 +21,7 @@ class Body {
 protected:
     std::string name;
     double mass;
-    std::shared_ptr<math::vector> sv;
-    Trajectory trajectory;
+    math::vector sv;
 public:
     /**
      * @brief Constructor from mass and statevector
@@ -62,12 +61,6 @@ public:
      * @param sv - {x, y, z, vx, vy, vz} (in SI units, i.e. m and m/s)
     */
     void set_sv(math::vector sv);
-    /**
-     * Trajectory setter. Note: it does not overwrite any previous trajectory stored.
-     * @param trajectory - TimeSeries<StateVector> object
-     * 
-    */
-    void set_trajectory(Trajectory trajectory);
 
     // Getters
     /**
@@ -104,14 +97,19 @@ public:
     */
     double get_mu() const;
     /**
-     * Trajectory getter
-     * @return Trajectory data computed during a simulation.
-    */
-    Trajectory get_trajectory() const;
-    /**
      * Name getter
     */
     std::string get_name() const;
+
+    // Operators
+    /**
+     * Equality operator
+    */
+    bool operator==(const Body& other) const;
+    /**
+     * Comparison operator
+    */
+    bool operator<(const Body& other) const;
 };
 
 

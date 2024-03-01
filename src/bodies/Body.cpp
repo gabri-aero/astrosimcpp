@@ -4,7 +4,7 @@
 // Body constructor
 
 Body::Body(std::string name, double mass, math::vector sv)
-: name{name}, mass{mass}, sv{std::make_shared<math::vector>(sv)} {
+: name{name}, mass{mass}, sv{sv} {
 };
 
 Body::Body(double mass, math::vector sv)
@@ -25,30 +25,22 @@ void Body::set_name(std::string name) {
 };
 
 void Body::set_sv(math::vector sv) {
-    this->sv = std::make_shared<math::vector>(sv);
-}
-
-void Body::set_trajectory(Trajectory new_trajectory) {
-    if (this->trajectory.empty()) { // Check if trajectory is empty
-        this->trajectory = new_trajectory;
-    } else {
-        this->trajectory.insert(this->trajectory.end(), new_trajectory.begin(), new_trajectory.end());
-    }
+    this->sv = sv;
 }
 
 
 // Body getters
 
 math::vector Body::get_pos() const {
-    return {sv->at(0), sv->at(1), sv->at(2)};
+    return {sv.at(0), sv.at(1), sv.at(2)};
 }
 
 math::vector Body::get_vel() const {
-    return {sv->at(3), sv->at(4), sv->at(5)};
+    return {sv.at(3), sv.at(4), sv.at(5)};
 };
 
 math::vector Body::get_sv() const{
-    return *sv;
+    return sv;
 };
 
 double Body::get_mass() const {
@@ -59,10 +51,14 @@ double Body::get_mu() const {
     return G*mass;
 };
 
-Trajectory Body::get_trajectory() const {
-    return trajectory;
-}
-
 std::string Body::get_name() const {
     return name;
 };
+
+bool Body::operator==(const Body& other) const {
+    return this->name == other.name && this->mass == other.mass;
+}
+
+bool Body::operator<(const Body& other) const {
+    return this->name < other.name;
+}
