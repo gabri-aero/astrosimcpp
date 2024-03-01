@@ -92,9 +92,9 @@ propagator.set_integrator(integrator);
 propagator.run();
 
 // Retrieve bodies trajectories
-auto sun_trajectory = sun.get_trajectory();
-auto mars_trajectory = mars.get_trajectory();
-auto earth_trajectory = earth.get_trajectory();
+auto sun_trajectory = propagator.get_trajectory(sun);
+auto mars_trajectory = propagator.get_trajectory(mars);
+auto earth_trajectory = propagator.get_trajectory(earth);
 ```
 
 ## TO DO
