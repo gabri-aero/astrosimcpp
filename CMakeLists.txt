@@ -49,7 +49,19 @@ else()
 endif()
 target_link_libraries(${CPP_TARGET} curl)
 
-include_directories(external)
+# Include external libraries 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/cspice/include)
+
+# Link CSpice
+find_library(CSPICE_LIBRARY
+             NAMES cspice.a
+             PATHS /usr/lib /usr/local/lib)
+if (CSPICE_LIBRARY)
+    message(STATUS "Found the library: ${CSPICE_LIBRARY}")
+    target_link_libraries(${CPP_TARGET} ${CSPICE_LIBRARY})
+else()
+    message(FATAL_ERROR "Could not find the library cspice.a")
+endif()
 
 add_subdirectory(src)
 

@@ -56,6 +56,20 @@ cmake ..
 > [!NOTE]
 > Direct installation is not yet supported.
 
+## SPICE setup
+
+You should have CSPICE `cspice.a` static library in your system, in the proper path.
+
+```bash
+wget https://naif.jpl.nasa.gov/pub/naif/toolkit//C/PC_Linux_GCC_32bit/packages/cspice.tar.Z 
+wget https://naif.jpl.nasa.gov/pub/naif/toolkit//C/PC_Linux_GCC_32bit/packages/importCSpice.csh
+/bin/csh -f importCSpice.csh
+sudo mv cspice/lib/cspice.a /usr/lib # or any other path (but then modify where to look for it in CMakeLists.txt)
+rm -rf cspice.tar importCSpice.csh cspice
+```
+
+More information on SPICE kernels can be found in the NAIF JPL webesite: [https://naif.jpl.nasa.gov/naif/toolkit.html](https://naif.jpl.nasa.gov/naif/toolkit.html).
+
 ## Example
 
 An example to conduct a three body simulation is provided.
@@ -118,3 +132,9 @@ The following features are intended to be added in upcoming versions:
 4. IAU SOFA - Standards of Fundamental Astronomy: https://iausofa.org/
 
 5. International Earth Rotation and Reference Systems Service: https://www.iers.org/
+
+6. Acton, C.H.; "Ancillary Data Services of NASA's Navigation and Ancillary Information Facility;" Planetary and Space Science, Vol. 44, No. 1, pp. 65-70, 1996.
+DOI 10.1016/0032-0633(95)00107-7
+
+7. Charles Acton, Nathaniel Bachman, Boris Semenov, Edward Wright; A look toward the future in the handling of space science mission geometry; Planetary and Space Science (2017);
+DOI 10.1016/j.pss.2017.02.013
