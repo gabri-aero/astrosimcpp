@@ -58,14 +58,12 @@ cmake ..
 
 ## SPICE setup
 
-You should have CSPICE `cspice.a` static library in your system, in the proper path.
+CSpice is automatically downloaded into the `external` folder. Moreover, default kernels are also retrieved from NASA's NAIF website and stored into `data/kernels` directory. In case you want to use your custom kernels you can add them into this folder and then load them as follows:
 
-```bash
-wget https://naif.jpl.nasa.gov/pub/naif/toolkit//C/PC_Linux_GCC_32bit/packages/cspice.tar.Z 
-wget https://naif.jpl.nasa.gov/pub/naif/toolkit//C/PC_Linux_GCC_32bit/packages/importCSpice.csh
-/bin/csh -f importCSpice.csh
-sudo mv cspice/lib/cspice.a /usr/lib # or any other path (but then modify where to look for it in CMakeLists.txt)
-rm -rf cspice.tar importCSpice.csh cspice
+```cpp
+#include <spice/Spice.hpp>
+
+spice::load_kernel('tnosat_v001_53092511_jpl005_20220908.bsp')
 ```
 
 More information on SPICE kernels can be found in the NAIF JPL webesite: [https://naif.jpl.nasa.gov/naif/toolkit.html](https://naif.jpl.nasa.gov/naif/toolkit.html).
