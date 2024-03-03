@@ -1,6 +1,7 @@
 #include <SpiceUsr.h>
 #include <bodies/Body.hpp>
 #include <math/Matrix.hpp>
+#include <time/Epoch.hpp>
 
 namespace spice {
 
@@ -28,6 +29,10 @@ double get_mu(std::string body) {
     SpiceDouble spice_gm;
     bodvrd_c(body.c_str(), "GM", 1, &n, &spice_gm);
     return spice_gm * 1e9;
+}
+
+double epoch_to_et(Epoch epoch) {
+    return epoch.set_reference_epoch(RefEpoch::J2000).get_secs();
 }
 
 }

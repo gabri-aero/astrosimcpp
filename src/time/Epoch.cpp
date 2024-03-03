@@ -10,8 +10,26 @@ Epoch::Epoch()
     : Epoch(0) { // default constructor
     }
     
-Epoch::Epoch(int year, int month, int day, int h, int m, double s, TimeScale ts, RefEpoch ref, Format fmt) 
-    : Epoch(datetime_to_mjd(year, month, day, h, m, s), ts, ref, fmt) {
+Epoch::Epoch(int year, int month, int day, int h, int m, double s, TimeScale ts, RefEpoch ref, Format fmt)
+    : timescale{ts}, ref_epoch{ref}, format{fmt} {
+    if(ref_epoch == CUSTOM) {
+        throw std::invalid_argument("To set custom reference epoch, provide reference epoch");
+    }
+    // Save reference epoch as mjd
+    switch(ref_epoch) { // definition of reference dates from Vallado
+        case MJD:
+            ref_mjd = 0;
+            break;
+        case JD:
+            ref_mjd = -MJD_EPOCH;
+            break;
+        case J2000:
+            ref_mjd = Epoch(1980, 1, 6, 0, 0, 0, UTC, MJD).set_timescale(ts).days;
+        case GPS:
+            ref_mjd = Epoch(2000, 1, 1, 12, 0, 0, TT, MJD).set_timescale(ts).days;
+    }
+    // Set days
+    days = datetime_to_mjd(year, month, day, h, m, s) - ref_mjd;    
 }
 
 Epoch::Epoch(double daycount, TimeScale ts, RefEpoch ref, Format fmt) 
@@ -76,6 +94,8 @@ Epoch Epoch::with_reference_epoch(const Epoch& reference) const {
 
 // Define in place setters
 Epoch& Epoch::set_timescale(TimeScale new_timescale) {
+    // Compute ΔT between timescales
+    double dt = 0;
     if (timescale == new_timescale) {
         return *this;
     } else {
@@ -83,14 +103,14 @@ Epoch& Epoch::set_timescale(TimeScale new_timescale) {
         switch(timescale) {
             double mjd;
             case GPST:
-                *this = add_secs(-GPST_TAI);
+                dt += -GPST_TAI;
                 break;
             case TT:
-                *this = add_secs(-TT_TAI);
+                dt += -TT_TAI;
                 break;
             case UTC:
                 mjd = ref_mjd + days;
-                *this = add_secs(get_leapsec(mjd));
+                dt += get_leapsec(mjd);
                 break;
             case TAI: // nothing to do
                 break;
@@ -99,19 +119,31 @@ Epoch& Epoch::set_timescale(TimeScale new_timescale) {
         switch (new_timescale) {
             double mjd;
             case GPST:
-                *this = add_secs(GPST_TAI);
+                dt += GPST_TAI;
                 break;
             case TT:
-                *this = add_secs(TT_TAI);
+                dt += TT_TAI;
                 break;
             case UTC:
                 mjd = ref_mjd + days;
-                *this = add_secs(-get_leapsec(mjd));
+                dt += -get_leapsec(mjd);
                 break;
             case TAI: // nothing to do
                 break;
         }
     }
+    // Apply ΔT based on wether reference epoch is absolute (J2000, GPS, CUSTOM) or relative (e.g. MJD/JD)
+    switch(ref_epoch) {
+        case GPS:
+        case J2000:
+        case CUSTOM:
+            ref_mjd += dt/86400; // only reference MJD varies
+            break;
+        case MJD:
+        case JD:
+            days += dt/86400; // only daycount varies
+    }
+    // Assign new timescale
     timescale = new_timescale;
     return *this;
 }
