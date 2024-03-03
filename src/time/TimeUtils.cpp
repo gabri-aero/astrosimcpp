@@ -130,6 +130,9 @@ int get_leapsec(double mjd) {
     double mjd_;
     int day, month, year, leapsec;
 
+    // Initialize to zero
+    leapsec = 0;
+
     // Read the file line by line using a while loop
     while (std::getline(file, line)) {
         if(line[0] != '#') {
