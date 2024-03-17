@@ -35,4 +35,35 @@ double epoch_to_et(Epoch epoch) {
     return epoch.set_reference_epoch(RefEpoch::J2000).get_secs();
 }
 
+math::vector get_state(std::string body, std::string ref_body, Epoch epoch, std::string frame = "ECLIPJ2000") {
+
+    SpiceDouble et = epoch_to_et(epoch);
+    SpiceDouble state[6];
+    SpiceDouble lt; // One-way light time
+
+    spkezr_c(body.c_str(), et, frame.c_str(), "NONE", ref_body.c_str(), state, &lt);
+
+    return math::vector{
+        state[0] * 1e3,
+        state[1] * 1e3,
+        state[2] * 1e3,
+        state[3] * 1e3,
+        state[4] * 1e3,
+        state[5] * 1e3,
+    };
+}
+
+math::matrix get_orientation(std::string body, Epoch epoch, std::string frame = "ECLIPJ2000") {
+    SpiceDouble et = epoch_to_et(epoch);
+    SpiceDouble mat[3][3];
+
+    pxform_c(frame.c_str(), ("IAU_" + body).c_str(), et, mat);
+
+    return math::matrix{
+        {mat[0][0], mat[0][1], mat[0][2]},
+        {mat[1][0], mat[1][1], mat[1][2]},
+        {mat[2][0], mat[2][1], mat[2][2]}
+    };
+}
+
 }

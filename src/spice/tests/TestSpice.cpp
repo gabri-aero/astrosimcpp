@@ -27,3 +27,27 @@ TEST(Spice, UTC_TO_ET) {
     ASSERT_NEAR(0, dt, 1e-3);
     ASSERT_NEAR(0, dt2, 1e-3);
 }
+
+TEST(Spice, GetState) {
+    spice::load_default();
+
+    Epoch today{2024, 3, 17, 17, 26, 0};
+
+    auto moon_state = spice::get_state("MOON", "EARTH", today);
+
+    std::cout << moon_state.subvec(0, 3) << std::endl;
+    std::cout << moon_state.subvec(3, 6) << std::endl;
+}
+
+TEST(Spice, GetOrientation) {
+    spice::load_default();
+
+    Epoch j2000{0, TAI, J2000};
+    Epoch today{2024, 3, 17, 17, 26, 0};
+
+    auto earth_orientation_j2000 = spice::get_orientation("EARTH", j2000, "J2000");
+    auto earth_orientation = spice::get_orientation("EARTH", today);
+
+    std::cout << earth_orientation_j2000 << std::endl;
+    std::cout << earth_orientation << std::endl;
+}
