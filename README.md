@@ -56,6 +56,18 @@ cmake ..
 > [!NOTE]
 > Direct installation is not yet supported.
 
+## SPICE setup
+
+CSpice is automatically downloaded into the `external` folder. Moreover, default kernels are also retrieved from NASA's NAIF website and stored into `data/kernels` directory. In case you want to use your custom kernels you can add them into this folder and then load them as follows:
+
+```cpp
+#include <spice/Spice.hpp>
+
+spice::load_kernel('tnosat_v001_53092511_jpl005_20220908.bsp')
+```
+
+More information on SPICE kernels can be found in the NAIF JPL webesite: [https://naif.jpl.nasa.gov/naif/toolkit.html](https://naif.jpl.nasa.gov/naif/toolkit.html).
+
 ## Example
 
 An example to conduct a three body simulation is provided.
@@ -118,3 +130,9 @@ The following features are intended to be added in upcoming versions:
 4. IAU SOFA - Standards of Fundamental Astronomy: https://iausofa.org/
 
 5. International Earth Rotation and Reference Systems Service: https://www.iers.org/
+
+6. Acton, C.H.; "Ancillary Data Services of NASA's Navigation and Ancillary Information Facility;" Planetary and Space Science, Vol. 44, No. 1, pp. 65-70, 1996.
+DOI 10.1016/0032-0633(95)00107-7
+
+7. Charles Acton, Nathaniel Bachman, Boris Semenov, Edward Wright; A look toward the future in the handling of space science mission geometry; Planetary and Space Science (2017);
+DOI 10.1016/j.pss.2017.02.013

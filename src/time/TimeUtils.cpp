@@ -82,8 +82,8 @@ double mjd_to_j2000(double mjd) {
 
 double datetime_to_mjd(int year, int month, int day, int h, int m, double s) {
     int f, g, A;
-    f = m>=3 ? year : year-1;
-    g = m>=3 ? month : month+12;
+    f = month>=3 ? year : year-1;
+    g = month>=3 ? month : month+12;
     A = 2-f/100+f/400;
     double mjd = static_cast<int>(365.25*f)+static_cast<int>(30.6001*(g+1))-679006+A+day;
     mjd += HMS_to_fraction(h, m, s);    
@@ -129,6 +129,9 @@ int get_leapsec(double mjd) {
     std::string line;
     double mjd_;
     int day, month, year, leapsec;
+
+    // Initialize to zero
+    leapsec = 0;
 
     // Read the file line by line using a while loop
     while (std::getline(file, line)) {
