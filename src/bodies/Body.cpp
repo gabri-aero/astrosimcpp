@@ -3,20 +3,20 @@
 
 // Body constructor
 
-Body::Body(std::string name, double mass, math::vector sv)
-: name{name}, mass{mass}, sv{sv} {
+Body::Body(std::string name, double mu, math::vector sv)
+: name{name}, mu{mu}, sv{sv} {
 };
 
-Body::Body(double mass, math::vector sv)
-: Body{"UNKNOWN", mass, sv} {
+Body::Body(double mu, math::vector sv)
+: Body{"UNKNOWN", mu, sv} {
 };
 
-Body::Body(double mass, std::initializer_list<double> init_sv)
-: Body(mass, math::vector(init_sv)) {
+Body::Body(double mu, std::initializer_list<double> init_sv)
+: Body(mu, math::vector(init_sv)) {
 };
 
-Body::Body(std::string name, double mass, std::initializer_list<double> init_sv)
-: Body(name, mass, math::vector(init_sv)) {
+Body::Body(std::string name, double mu, std::initializer_list<double> init_sv)
+: Body(name, mu, math::vector(init_sv)) {
 };
 
 // Body setters
@@ -44,11 +44,11 @@ math::vector Body::get_sv() const{
 };
 
 double Body::get_mass() const {
-    return mass;
+    return mu/G;
 }
 
 double Body::get_mu() const {
-    return G*mass;
+    return mu;
 };
 
 std::string Body::get_name() const {
@@ -56,7 +56,7 @@ std::string Body::get_name() const {
 };
 
 bool Body::operator==(const Body& other) const {
-    return this->name == other.name && this->mass == other.mass;
+    return this->name == other.name && this->mu == other.mu;
 }
 
 bool Body::operator<(const Body& other) const {

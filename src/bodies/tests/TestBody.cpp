@@ -6,9 +6,9 @@ TEST(TestBody, Utils) {
     Body moon{"MOON", 0.1, {0, 1, 2, 3, 4, 5}};
     
     ASSERT_EQ(sun.get_name(), "SUN");
-    ASSERT_EQ(sun.get_mass(), 1);
+    ASSERT_EQ(sun.get_mu(), 1);
     ASSERT_EQ(moon.get_name(), "MOON");
-    ASSERT_EQ(moon.get_mass(), 0.1);
+    ASSERT_EQ(moon.get_mu(), 0.1);
     ASSERT_EQ(moon.get_sv().at(3), 3);
     ASSERT_EQ(sun.get_sv().at(5), 6);
 }

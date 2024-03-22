@@ -20,32 +20,32 @@ class StateVector;
 class Body {
 protected:
     std::string name;
-    double mass;
+    double mu;
     math::vector sv;
 public:
     /**
      * @brief Constructor from mass and statevector
-     * @param mass - body mass in kg
+     * @param mu - body gravitational parameter in m^3/s^2
      * @param sv - [x, y, z, vx, vy, vz] (in SI units, i.e. m and m/s)
     */
     Body(double mass, math::vector sv);
     /**
      * @brief Constructor that allows setting the body name
      * @param name
-     * @param mass - body mass in kg
+     * @param mu - body gravitational parameter in m^3/s^2
      * @param sv - [x, y, z, vx, vy, vz] (in SI units, i.e. m and m/s)
     */
     Body(std::string name, double mass, math::vector sv);
     /**
      * @brief Constructor that allows list initialization
-     * @param mass - body mass in kg
+     * @param mu - body gravitational parameter in m^3/s^2
      * @param sv - {x, y, z, vx, vy, vz} (in SI units, i.e. m and m/s)
     */
     Body(double mass, std::initializer_list<double> sv={0, 0, 0, 0, 0, 0});
     /**
      * @brief Constructor that allows list initialization and setting the body name
      * @param name  
-     * @param mass - body mass in kg
+     * @param mu - body gravitational parameter in m^3/s^2
      * @param sv - {x, y, z, vx, vy, vz} (in SI units, i.e. m and m/s)
     */
     Body(std::string name, double mass, std::initializer_list<double> sv);
