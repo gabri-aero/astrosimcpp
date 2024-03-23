@@ -35,7 +35,7 @@ double epoch_to_et(Epoch epoch) {
     return epoch.set_reference_epoch(RefEpoch::J2000).get_secs();
 }
 
-math::vector get_state(std::string body, std::string ref_body, Epoch epoch, std::string frame = "ECLIPJ2000") {
+StateVector get_state(std::string body, std::string ref_body, Epoch epoch, std::string frame = "ECLIPJ2000") {
 
     SpiceDouble et = epoch_to_et(epoch);
     SpiceDouble state[6];

@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 #include <propagator/Propagator.hpp>
 #include <numerical/Euler.hpp>
+#include <numerical/RK4.hpp>
 #include <orbit/Trajectory.hpp>
+#include <spice/Spice.hpp>
 
 TEST(Propagator, Test) {
     // Define bodies
@@ -29,4 +31,51 @@ TEST(Propagator, Test) {
     // Ensure fixed step interpolation behaves correctly for Trajectory
     Trajectory interpolated_trajectory;
     interpolated_trajectory = earth_trajectory.interpolate(1800); // interpolated trajectory for every half an hour
+}
+
+
+TEST(Propagator, Ephemeris) {
+    // Load SPICE kernels
+    spice::load_default();
+    // Define epochs
+    Epoch start(2024, 1, 1, 0, 0, 0);
+    Epoch end(2024, 7, 1, 0, 0, 0);
+    // Define bodies
+    EphemerisBody sun{"SUN"};
+    EphemerisBody mercury{"MERCURY BARYCENTER"};
+    EphemerisBody venus{"VENUS BARYCENTER"};
+    EphemerisBody mars{"MARS BARYCENTER"};
+    EphemerisBody jupiter{"JUPITER BARYCENTER"};
+    EphemerisBody saturn{"SATURN BARYCENTER"};
+    EphemerisBody uranus{"URANUS BARYCENTER"};
+    EphemerisBody neptune{"NEPTUNE BARYCENTER"};
+    NaturalBody earth{"EARTH", spice::get_mu("EMB"), spice::get_state("EMB", "SSB", start)};
+    // Create propagator
+    Propagator ae(start, end, "SSB", "ECLIPJ2000");
+    // Add bodies
+    ae.add_bodies(earth, sun, mercury, venus, mars, jupiter, saturn, uranus, neptune); // (python-like)
+    // Define integrator
+    auto integrator = std::make_shared<RK4>(3600);
+    ae.set_integrator(integrator); // set to propagator
+    // Run propagator
+    ae.run();
+    // Retrieve Earth trajectory
+    auto earth_trajectory = ae.get_trajectory(earth);
+    auto sun_trajectory = ae.get_trajectory(sun);
+    // Compare earth trajectory with the one from SPICE
+    auto end_sv = earth_trajectory.get(end);
+    auto end_spice = spice::get_state("EMB", "SSB", end);
+
+    std::cout << "Propagation final epoch analysis" << std::endl;
+    std::cout << end_spice << std::endl;
+    std::cout << end_sv << std::endl;
+    
+    auto d_sv = end_spice - end_sv;
+    math::vector rel_error = d_sv.subvec(0,3) / norm(end_sv.subvec(0, 3));
+    std::cout << rel_error * 100 << std::endl;
+    /* 
+    Half year Earth barycenter propagation accounting for planetary perturbations 
+    with less than 0.0001 % position error 
+    */
+    ASSERT_TRUE(norm(rel_error) * 100 < 0.0001);
 }
