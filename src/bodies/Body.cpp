@@ -1,10 +1,9 @@
 #include "Body.hpp"
-#include <accelerations/Gravity.hpp>
 
 // Body constructor
 
 Body::Body(std::string name, double mu, math::vector sv)
-: name{name}, mu{mu}, sv{sv} {
+: name{name}, mu{mu}, sv{sv}, gravity_model(new PointMass()) {
 };
 
 Body::Body(double mu, math::vector sv)
@@ -18,6 +17,13 @@ Body::Body(double mu, std::initializer_list<double> init_sv)
 Body::Body(std::string name, double mu, std::initializer_list<double> init_sv)
 : Body(name, mu, math::vector(init_sv)) {
 };
+
+// Body functions
+
+math::vector Body::acceleration_from(const Body &other) {
+    return gravity_model->gravity(*this, other);
+}
+
 
 // Body setters
 void Body::set_name(std::string name) {

@@ -6,6 +6,7 @@
 #include <memory>
 #include <initializer_list>
 #include <orbit/Trajectory.hpp>
+#include <accelerations/Gravity.hpp>
 
 #include <math/Vector.hpp>
 
@@ -22,6 +23,7 @@ protected:
     std::string name;
     double mu;
     math::vector sv;
+    GravityModel* gravity_model;
 public:
     /**
      * @brief Constructor from mass and statevector
@@ -49,6 +51,13 @@ public:
      * @param sv - {x, y, z, vx, vy, vz} (in SI units, i.e. m and m/s)
     */
     Body(std::string name, double mass, std::initializer_list<double> sv);
+
+    // Body functions
+    /**
+     * @brief Compute acceleration from other body
+     * @param other - body that is exerting an acceleration to the current body
+    */
+    math::vector acceleration_from(const Body& other);
 
     // Setters
     /**

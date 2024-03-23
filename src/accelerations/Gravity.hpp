@@ -3,19 +3,28 @@
 #ifndef _GRAVITY_HPP_
 #define _GRAVITY_HPP_
 
-const float G = 6.673e-11; // Gravitational constant
+const double G = 6.673e-11; // Gravitational constant
 
 class Body;  // forward declaration
 
-/**
- * @brief Function to compute the gravitational acceleration caused
- * by body j in body i. Point-mass assumption taken.
- * 
- * @param i Body that experiences the acceleration
- * @param j Body thah creates the acceleration
- * 
- * @return 3D acceleration vector 
-*/
-math::vector gravity(const Body& i, const Body& j);
+
+class GravityModel {
+public:
+    /**
+     * @brief Function to compute the gravitational acceleration caused
+     * by body j in body i.
+     * 
+     * @param i Body that experiences the acceleration
+     * @param j Body thah creates the acceleration
+     * 
+     * @return 3D acceleration vector 
+    */
+    virtual math::vector gravity(const Body& i, const Body& j) = 0;
+};
+
+class PointMass : public GravityModel {
+public:
+    math::vector gravity(const Body& i, const Body& j) override final;
+};
 
 #endif // _GRAVITY_HPP_

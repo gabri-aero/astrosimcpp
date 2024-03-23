@@ -47,7 +47,7 @@ math::vector Propagator::compute_derivatives(Epoch epoch, math::vector X) {
         // Arrange accelerations
         for(int j=0; j<n; j++) {
             if(i != j) {
-                dvi += gravity(bodies.at(i), bodies.at(j)) ; 
+                dvi += bodies.at(i).acceleration_from(bodies.at(j)); 
             }
         }
         // Arrange velocities

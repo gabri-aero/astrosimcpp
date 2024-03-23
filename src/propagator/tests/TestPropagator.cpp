@@ -29,5 +29,4 @@ TEST(Propagator, Test) {
     // Ensure fixed step interpolation behaves correctly for Trajectory
     Trajectory interpolated_trajectory;
     interpolated_trajectory = earth_trajectory.interpolate(1800); // interpolated trajectory for every half an hour
-    std::cout << "Hi";
 }
