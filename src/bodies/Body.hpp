@@ -26,31 +26,31 @@ protected:
     Gravity* gravity_model;
 public:
     /**
-     * @brief Constructor from mass and statevector
+     * @brief Constructor from mu and statevector
      * @param mu - body gravitational parameter in m^3/s^2
      * @param sv - [x, y, z, vx, vy, vz] (in SI units, i.e. m and m/s)
     */
-    Body(double mass, math::vector sv);
+    Body(double mu, math::vector sv);
     /**
      * @brief Constructor that allows setting the body name
      * @param name
      * @param mu - body gravitational parameter in m^3/s^2
      * @param sv - [x, y, z, vx, vy, vz] (in SI units, i.e. m and m/s)
     */
-    Body(std::string name, double mass, math::vector sv);
+    Body(std::string name, double mu, math::vector sv);
     /**
      * @brief Constructor that allows list initialization
      * @param mu - body gravitational parameter in m^3/s^2
      * @param sv - {x, y, z, vx, vy, vz} (in SI units, i.e. m and m/s)
     */
-    Body(double mass, std::initializer_list<double> sv={0, 0, 0, 0, 0, 0});
+    Body(double mu, std::initializer_list<double> sv={0, 0, 0, 0, 0, 0});
     /**
      * @brief Constructor that allows list initialization and setting the body name
      * @param name  
      * @param mu - body gravitational parameter in m^3/s^2
      * @param sv - {x, y, z, vx, vy, vz} (in SI units, i.e. m and m/s)
     */
-    Body(std::string name, double mass, std::initializer_list<double> sv);
+    Body(std::string name, double mu, std::initializer_list<double> sv);
 
     // Body functions
     /**
