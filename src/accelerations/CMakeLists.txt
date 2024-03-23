@@ -1,7 +1,8 @@
 set(HPP_HEADERS
-    ${CMAKE_CURRENT_SOURCE_DIR}/Gravity.hpp)
+    Gravity.hpp
+    Atmosphere.hpp)
 set(CPP_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/Gravity.cpp)
+    Gravity.cpp)
 target_sources(${CPP_TARGET} PRIVATE ${HPP_HEADERS} ${CPP_SOURCES})
 
 message(STATUS "Accelerations included")
