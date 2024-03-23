@@ -1,10 +1,12 @@
 set(CPP_SOURCES 
     Body.cpp
     NaturalBody.cpp
+    EphemerisBody.cpp
     )
 set(HPP_HEADERS
     Body.hpp
-    NaturalBody.hpp)
+    NaturalBody.hpp
+    EphemerisBody.hpp)
 target_sources(${CPP_TARGET} PRIVATE ${CPP_SOURCES} ${HPP_HEADERS})
 
 message(STATUS "Bodies included")
