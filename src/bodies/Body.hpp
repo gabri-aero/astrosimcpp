@@ -23,7 +23,7 @@ protected:
     std::string name;
     double mu;
     math::vector sv;
-    GravityModel* gravity_model;
+    Gravity* gravity_model;
 public:
     /**
      * @brief Constructor from mass and statevector

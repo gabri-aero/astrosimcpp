@@ -8,7 +8,7 @@ const double G = 6.673e-11; // Gravitational constant
 class Body;  // forward declaration
 
 
-class GravityModel {
+class Gravity {
 public:
     /**
      * @brief Function to compute the gravitational acceleration caused
@@ -22,7 +22,7 @@ public:
     virtual math::vector gravity(const Body& i, const Body& j) = 0;
 };
 
-class PointMass : public GravityModel {
+class PointMass : public Gravity {
 public:
     math::vector gravity(const Body& i, const Body& j) override final;
 };
