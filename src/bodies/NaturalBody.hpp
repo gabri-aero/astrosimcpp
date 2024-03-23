@@ -7,7 +7,7 @@
 class NaturalBody : public Body {
 protected:
     double luminosity = 0;
-    Atmosphere* atmosphere;
+    Atmosphere* atmosphere = nullptr;
 
 public:
     // Retrieve Body constructors
