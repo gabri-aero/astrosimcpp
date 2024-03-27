@@ -25,6 +25,7 @@ protected:
     math::vector sv;
     Gravity* gravity_model;
 public:
+    Body() = default;
     /**
      * @brief Constructor from mu and statevector
      * @param mu - body gravitational parameter in m^3/s^2
