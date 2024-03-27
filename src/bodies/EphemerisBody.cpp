@@ -1,5 +1,4 @@
 #include "EphemerisBody.hpp"
-#include <spice/Spice.hpp>
 
 EphemerisBody::EphemerisBody(std::string name, std::string ref_body, std::string frame) :
     ref_body(ref_body), frame(frame), NaturalBody(0) {

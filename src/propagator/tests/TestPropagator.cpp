@@ -42,14 +42,14 @@ TEST(Propagator, Ephemeris) {
     Epoch end(2024, 7, 1, 0, 0, 0);
     // Define bodies
     EphemerisBody sun{"SUN"};
-    EphemerisBody mercury{"MERCURY BARYCENTER"};
-    EphemerisBody venus{"VENUS BARYCENTER"};
-    EphemerisBody mars{"MARS BARYCENTER"};
-    EphemerisBody jupiter{"JUPITER BARYCENTER"};
-    EphemerisBody saturn{"SATURN BARYCENTER"};
-    EphemerisBody uranus{"URANUS BARYCENTER"};
-    EphemerisBody neptune{"NEPTUNE BARYCENTER"};
-    NaturalBody earth{"EARTH", spice::get_mu("EMB"), spice::get_state("EMB", "SSB", start)};
+    NaturalBody mercury{"MERCURY BARYCENTER", start};
+    NaturalBody venus{"VENUS BARYCENTER", start};
+    NaturalBody earth{"EARTH BARYCENTER", start};
+    NaturalBody mars{"MARS BARYCENTER", start};
+    NaturalBody jupiter{"JUPITER BARYCENTER", start};
+    NaturalBody saturn{"SATURN BARYCENTER", start};
+    NaturalBody uranus{"URANUS BARYCENTER", start};
+    NaturalBody neptune{"NEPTUNE BARYCENTER", start};
     // Create propagator
     Propagator ae(start, end, "SSB", "ECLIPJ2000");
     // Add bodies
