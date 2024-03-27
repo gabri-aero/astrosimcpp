@@ -10,6 +10,11 @@ Orbit::Orbit(double a, double e, double raan, double i, double aop, double ta)
 
 }
 
+Orbit::Orbit(math::vector oe) 
+    : oe{oe} {
+
+}
+
 math::vector Orbit::get_oe() const {
     return oe;
 }

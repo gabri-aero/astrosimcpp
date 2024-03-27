@@ -31,6 +31,8 @@ public:
     */
     Orbit(double a, double e, double raan, double i, double aop, double ta);
 
+    Orbit(math::vector oe);
+
     /**
      * @brief orbital elements vector getter
      * @return [a, e, i, raan, aop, ta]
