@@ -107,10 +107,23 @@ else()
 endif()
 
 # Download basic planetary ephemeris kernels
+function(download_kernel FILE WEB_PATH)
+    set(KERNEL_PATH ${KERNELS_DIR}/${FILE})
+    
+    if (EXISTS ${KERNEL_PATH})
+        message(STATUS "SPICE kernel file ${FILE} already available")
+    else()
+        message(STATUS "Downloading ${FILE}")
+        execute_process(
+            COMMAND wget -q ${WEB_PATH}
+            WORKING_DIRECTORY ${KERNELS_DIR}
+            RESULT_VARIABLE result
+        )
+        message(STATUS "${FILE} downloaded successfully")
+    endif()
+endfunction()
+
 set(KERNELS_DIR ${DATA_DIR}/kernels)
-set(DE440_FILE ${KERNELS_DIR}/de440.bsp)
-set(PCK_FILE ${KERNELS_DIR}/pck00011.tpc)
-set(GM_DE440_FILE ${KERNELS_DIR}/gm_de440.tpc)
 
 if (IS_DIRECTORY ${KERNELS_DIR})
     message(STATUS "Directory ${KERNELS_DIR} exists")
@@ -119,44 +132,9 @@ else()
     file(MAKE_DIRECTORY ${KERNELS_DIR})
 endif()
 
-if (EXISTS ${DE440_FILE})
-    message(STATUS "DE440 ephemeris file already available")
-else()
-    message(STATUS "DE440 ephemeris not available")
-    message(STATUS "Downloading DE440 file")
-    execute_process(
-        COMMAND wget --progress=dot:mega "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440.bsp"
-        WORKING_DIRECTORY ${KERNELS_DIR}
-        RESULT_VARIABLE result
-    )
-    message(STATUS "de440.bsp file downloaded successfully")
-endif()
-
-if (EXISTS ${GM_DE440_FILE})
-    message(STATUS "DE440 GM file already available")
-else()
-    message(STATUS "DE440 GM file not available")
-    message(STATUS "Downloading DE440 GM file")
-    execute_process(
-        COMMAND wget -q "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/gm_de440.tpc"
-        WORKING_DIRECTORY ${KERNELS_DIR}
-        RESULT_VARIABLE result
-    )
-    message(STATUS "gm_de440.tpc file downloaded successfully")
-endif()
-
-if (EXISTS ${PCK_FILE})
-    message(STATUS "PCK00011 file already available")
-else()
-    message(STATUS "PCK00011 file not available")
-    message(STATUS "Downloading PCK00111 file")
-    execute_process(
-        COMMAND wget -q "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
-        WORKING_DIRECTORY ${KERNELS_DIR}
-        RESULT_VARIABLE result
-    )
-    message(STATUS "pck00011.tpc file downloaded successfully")
-endif()
+download_kernel(de440.bsp "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440.bsp")
+download_kernel(gm_de440.tpc "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/gm_de440.tpc")
+download_kernel(pck00011.tpc "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc")
 
 add_definitions(-DSPICE_KERNELS_DIR="${KERNELS_DIR}")
 
