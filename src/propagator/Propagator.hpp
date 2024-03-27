@@ -14,7 +14,7 @@ class Propagator {
 private:
     std::vector<Body> propagation_bodies;
     std::vector<EphemerisBody> ephemeris_bodies;
-    std::shared_ptr<BaseIntegrator> integrator;
+    BaseIntegrator* integrator;
     
     // TO DO: define origin as type Body - central body
     std::string origin;
@@ -81,7 +81,7 @@ public:
     /**
      * @brief Integrator setter
     */
-    void set_integrator(std::shared_ptr<BaseIntegrator> integrator);
+    void set_integrator(BaseIntegrator& integrator);
 
     /**
      * @brief Run propagation

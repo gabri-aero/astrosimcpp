@@ -23,8 +23,8 @@ math::vector Propagator::get_X() {
     return X;
 }
 
-void Propagator::set_integrator(std::shared_ptr<BaseIntegrator> integrator) {
-    this->integrator = integrator;
+void Propagator::set_integrator(BaseIntegrator& integrator) {
+    this->integrator = &integrator;
     this->integrator->set_ic(0, get_X()); // start epoch taken as t=0
     this->integrator->set_dX([this](double t, math::vector X) -> math::vector {
         return this->compute_derivatives(t, X);
