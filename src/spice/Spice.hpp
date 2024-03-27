@@ -1,3 +1,6 @@
+#ifndef _SPICE_HPP_
+#define _SPICE_HPP_
+
 #include <SpiceUsr.h>
 #include <bodies/Body.hpp>
 #include <math/Matrix.hpp>
@@ -67,3 +70,5 @@ math::matrix get_orientation(std::string body, Epoch epoch, std::string frame = 
 }
 
 }
+
+#endif // _SPICE_HPP_
