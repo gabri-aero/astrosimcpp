@@ -1,10 +1,10 @@
+#ifndef _LEGENDRE_HPP_
+#define _LEGENDRE_HPP_
+
 #include <math.h>
 #include <stdexcept>
 #include <math/Utils.hpp>
 #include <math/Matrix.hpp>
-
-#ifndef _LEGENDRE_HPP_
-#define _LEGENDRE_HPP_
 
 /**
  * @brief Evaulate Legendre polynomial. Source: Wikipedia.
@@ -119,6 +119,7 @@ private:
     math::matrix b;
     int n_max;
 public:
+    ALP() = default;
     ALP(int n_max) : n_max(n_max) {
         a = math::matrix::zeros(n_max+1, n_max+1);
         b = math::matrix::zeros(n_max+1, n_max+1);
