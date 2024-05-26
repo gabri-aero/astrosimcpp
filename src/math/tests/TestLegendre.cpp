@@ -184,3 +184,10 @@ TEST(LegendreTest, P44) {
 
     test(x_values, expected, 4, 4);
 }
+
+TEST(LegendreTest, ClassALP) {
+    ALP alp(10);
+
+    double theta = 1;
+    auto P = alp.compute(theta);
+}

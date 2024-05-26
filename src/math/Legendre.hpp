@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdexcept>
 #include <math/Utils.hpp>
+#include <math/Matrix.hpp>
 
 #ifndef _LEGENDRE_HPP_
 #define _LEGENDRE_HPP_
@@ -111,6 +112,72 @@ double  legendre(int l, int m, double x) {
             }
     };
 }
+
+class ALP {
+private:
+    math::matrix a;
+    math::matrix b;
+    int n_max;
+public:
+    ALP(int n_max) : n_max(n_max) {
+        a = math::matrix::zeros(n_max+1, n_max+1);
+        b = math::matrix::zeros(n_max+1, n_max+1);
+        for(int n=0; n<=n_max; n++) {
+            for(int m=0; m<=n_max; m++) {
+                a[n][m] = sqrt((2*n-1)*(2*n+1)/static_cast<double>((n-m)*(n+m)));
+                b[n][m] = sqrt((2*n+1)*(n+m-1)*(n-m-1)/static_cast<double>((n-m)*(n+m)*(2*n-3))) ? n-m != 1 : 0;
+            }
+        }
+
+    }
+
+    /**
+     * This function computes the normalised Legendre Polynomials using recurrent
+     * functions and store them in a lower triangular matrix.
+     * 
+     * Normalisation is the so-called geodetic normalisation (Heiskanen and Moritz, 1967)
+     * 
+     * This formula uses the FOID (Fixed-Order-Increasing-Degree) algorithm from Holmes and Featherstone (2002)
+     * 
+     * @param x evaluation point - typically co-latitude (theta)
+     * @return Lower triangular matrix with degrees (n) as rows and columns as orders (m)
+     */
+    math::matrix compute(double theta) {
+        int n, m;
+
+        // Define cosine, sine
+        double t = cos(theta);
+        double u = sin(theta);
+
+        // Pre-allocate nALPs matrix
+        auto P = math::matrix::zeros(n_max+1, n_max+1);
+
+        // Define P00 = 1
+        P[0][0] = 1;
+
+        // Define P11
+        if(n_max > 0) {
+            P[1][1] = sqrt(3) * u;
+        }
+        // Recursion for sectorial polynomials
+        for(n=2; n<=n_max; n++){
+            P[n][n] = sqrt((2*n+1)/(2*n)) * u * P[n-1][n-1];
+        }
+        
+        // Recursion for terms below diagonal
+        for(m=0; m<=n_max-1; m++) { // Fixed order
+            // Now increase degree
+            n=m+1;
+            P[n][m] = a[n][m] * t * P[n-1][m];
+            for(n=m+2; n<=n_max; n++) {
+                P[n][m] = a[n][m] * t * P[n-1][m] - b[n][m] * P[n-2][m];
+            }
+        }
+        
+        return P;
+    }
+};
+
 
 
 #endif //_LEGENDRE_HPP_
