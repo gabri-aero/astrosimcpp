@@ -126,7 +126,7 @@ public:
         for(int n=0; n<=n_max; n++) {
             for(int m=0; m<=n_max; m++) {
                 a[n][m] = sqrt((2*n-1)*(2*n+1)/static_cast<double>((n-m)*(n+m)));
-                b[n][m] = sqrt((2*n+1)*(n+m-1)*(n-m-1)/static_cast<double>((n-m)*(n+m)*(2*n-3))) ? n-m != 1 : 0;
+                b[n][m] = n-m != 1 ? sqrt((2*n+1)*(n+m-1)*(n-m-1)/static_cast<double>((n-m)*(n+m)*(2*n-3))) : 0;
             }
         }
 
@@ -162,7 +162,7 @@ public:
         }
         // Recursion for sectorial polynomials
         for(n=2; n<=n_max; n++){
-            P[n][n] = sqrt((2*n+1)/(2*n)) * u * P[n-1][n-1];
+            P[n][n] = sqrt(static_cast<double>(2*n+1)/(2*n)) * u * P[n-1][n-1];
         }
         
         // Recursion for terms below diagonal
