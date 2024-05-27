@@ -138,6 +138,35 @@ download_kernel(pck00011.tpc "https://naif.jpl.nasa.gov/pub/naif/generic_kernels
 
 add_definitions(-DSPICE_KERNELS_DIR="${KERNELS_DIR}")
 
+# Add gravity potential default data
+function(download_gravity_file FILE WEB_PATH)
+set(FILE_PATH ${GRAVITY_DIR}/${FILE})
+
+if (EXISTS ${FILE_PATH})
+    message(STATUS "Gravity data file ${FILE} already available")
+else()
+    message(STATUS "Downloading ${FILE}")
+    execute_process(
+        COMMAND wget -q ${WEB_PATH}
+        WORKING_DIRECTORY ${GRAVITY_DIR}
+        RESULT_VARIABLE result
+    )
+    message(STATUS "${FILE} downloaded successfully")
+endif()
+endfunction()
+
+set(GRAVITY_DIR ${DATA_DIR}/gravity)
+
+# Download planetary gravity data from NASA PDS
+download_gravity_file(jgmess_160a_sha.tab "https://pds-geosciences.wustl.edu/messenger/mess-h-rss_mla-5-sdp-v1/messrs_1001/data/shadr/jgmess_160a_sha.tab")
+download_gravity_file(jggrx_0420a_sha.tab "https://pds-geosciences.wustl.edu/grail/grail-l-lgrs-5-rdr-v1/grail_1001/shadr/jggrx_0420a_sha.tab")
+download_gravity_file(jgmro_120f_sha.tab "https://pds-geosciences.wustl.edu/mro/mro-m-rss-5-sdp-v1/mrors_1xxx/data/shadr/jgmro_120f_sha.tab")
+download_gravity_file(shgj180u.a01 "https://pds-geosciences.wustl.edu/mgn/mgn-v-rss-5-gravity-l2-v1/mg_5201/gravity/shgj180u.a01")
+
+add_definitions(-DGRAVITY_DIR="${GRAVITY_DIR}")
+
+set (CMAKE_CXX_FLAGS "-fopenmp")
+
 
 add_subdirectory(src)
 
