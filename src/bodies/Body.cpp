@@ -21,7 +21,7 @@ Body::Body(std::string name, double mu, std::initializer_list<double> init_sv)
 // Body functions
 
 math::vector Body::acceleration_from(const Body &other) {
-    return gravity_model->gravity(*this, other);
+    return other.gravity_model->gravity(*this, other);
 }
 
 

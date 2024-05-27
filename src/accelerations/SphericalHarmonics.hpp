@@ -18,13 +18,14 @@ class SphericalHarmonics : public Gravity {
     double mu;
 public:
     SphericalHarmonics(int n_max);
-    SphericalHarmonics(std::string filename);
+    SphericalHarmonics(std::string filename, int n_max = 0, std::string root = std::string{GRAVITY_DIR});
     math::vector gravity(const Body& i, const Body& j);
     void set_coefficients(math::matrix C, math::matrix S);
     math::matrix get_C() const;
     double get_C(int n, int m) const;
     math::matrix get_S() const;
     double get_S(int n, int m) const;
+    double get_mu() const;
 };
 
 
