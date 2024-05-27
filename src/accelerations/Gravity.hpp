@@ -1,7 +1,7 @@
-#include <math/Vector.hpp>
-
 #ifndef _GRAVITY_HPP_
 #define _GRAVITY_HPP_
+
+#include <math/Vector.hpp>
 
 const double G = 6.673e-11; // Gravitational constant
 

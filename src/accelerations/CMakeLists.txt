@@ -1,8 +1,12 @@
 set(HPP_HEADERS
     Gravity.hpp
-    Atmosphere.hpp)
+    Atmosphere.hpp
+    SphericalHarmonics.hpp
+    )
 set(CPP_SOURCES
-    Gravity.cpp)
+    Gravity.cpp
+    SphericalHarmonics.cpp
+    )
 target_sources(${CPP_TARGET} PRIVATE ${HPP_HEADERS} ${CPP_SOURCES})
 
 message(STATUS "Accelerations included")
