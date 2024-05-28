@@ -9,6 +9,7 @@
 #include <accelerations/Gravity.hpp>
 
 #include <math/Vector.hpp>
+#include <math/Matrix.hpp>
 
 // Forward class
 class StateVector;
@@ -23,6 +24,7 @@ protected:
     std::string name;
     double mu;
     math::vector sv;
+    math::matrix dcm;
     Gravity* gravity_model;
 public:
     Body() = default;
@@ -110,6 +112,15 @@ public:
      * Name getter
     */
     std::string get_name() const;
+    /**
+     * Orientation getter for 'advanced' bodies
+     * 
+     * It provides a Direction Cosine Matrix (DCM)
+    */
+    math::matrix get_orientation() const {
+        return dcm;
+    };
+
 
     // Operators
     /**

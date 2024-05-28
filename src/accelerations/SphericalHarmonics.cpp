@@ -43,10 +43,12 @@ math::vector SphericalHarmonics::gravity(const Body& i, const Body& j) {
     math::vector rji = i.get_pos() - j.get_pos();
 
     // NEED TO CONVERT rji TO BODY j-FIXED FRAME
-    auto r_vec = rji;
+    auto r_vec_I = rji;
+    auto R_BI = j.get_orientation(); // Rotation matrix (R_BI: "Inertial" (Ref.) -> Body-fixed)
+    auto r_vec_B = R_BI * r_vec_I;
 
     // Compute spherical coordinates
-    auto sph = cart2sph(rji);
+    auto sph = cart2sph(r_vec_B);
     double r = sph[0];
     double lam = sph[1]; // longitude
     double phi = sph[2]; // latitude
@@ -103,18 +105,19 @@ math::vector SphericalHarmonics::gravity(const Body& i, const Body& j) {
     math::vector uy{0, 1, 0};
     math::vector uz{0, 0, 1};
 
-    double x2_y2 = pow(r_vec[0],2)+pow(r_vec[1],2);
+    double x2_y2 = pow(r_vec_B[0],2)+pow(r_vec_B[1],2);
 
-    auto dr_dr_vec = r_vec / r;
-    auto dphi_dr_vec = (uz - r_vec * r_vec[2] / pow(r, 2)) / sqrt(x2_y2);
-    auto dlam_dr_vec = (r_vec[0] * uy - r_vec[1] * ux) / x2_y2;
+    auto dr_dr_vec = r_vec_B / r;
+    auto dphi_dr_vec = (uz - r_vec_B * r_vec_B[2] / pow(r, 2)) / sqrt(x2_y2);
+    auto dlam_dr_vec = (r_vec_B[0] * uy - r_vec_B[1] * ux) / x2_y2;
     
-    auto acc_body = mu_j/r * (dU_dr * dr_dr_vec + dU_dphi * dphi_dr_vec + dU_dlam * dlam_dr_vec) - mu_j * r_vec/pow(r,3);
+    auto acc_B = mu_j/r * (dU_dr * dr_dr_vec + dU_dphi * dphi_dr_vec + dU_dlam * dlam_dr_vec) - mu_j * r_vec_B/pow(r,3);
 
-    // NEED TO CONVERT acc TO REF FRAME
-    auto acc = acc_body;
+    // Convert acceleration to reference frame
+    auto R_IB = R_BI.T();
+    auto acc_I = R_IB * acc_B;
     
-    return acc;
+    return acc_I;
 }
 
 void SphericalHarmonics::set_coefficients(math::matrix C, math::matrix S) {
