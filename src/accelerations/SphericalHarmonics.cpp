@@ -9,7 +9,18 @@ SphericalHarmonics::SphericalHarmonics(int n_max) {
     associated_legendre = ALP(n_max+1); // an extra order is required for the derivatives
     this->C = math::matrix::zeros(n_max+1, n_max+1);
     this->S = math::matrix::zeros(n_max+1, n_max+1);
+    this->K = math::matrix::zeros(n_max+1, n_max+1);
     this->C[0][0] = 1; // by definition
+
+    // Definition of K factor.
+    // This arises when taking derivatives of the normalised Legendre polynomials
+    // NOTE that typically formulations due not show this.
+    for(int n=0; n<=n_max; n++) {
+        for(int m=0; m<=n; m++) {
+            K[n][m] = sqrt((2-d(0,m))/2.0*(n+m+1)*(n-m));   
+        }
+    }
+              
 }
 
 SphericalHarmonics::SphericalHarmonics(std::string filename, int n_max, std::string root) {
@@ -70,7 +81,7 @@ math::vector SphericalHarmonics::gravity(const Body& i, const Body& j) {
     // Pre-compute some values
     auto cos_mlam = math::vector::zeros(n_max+1);
     auto sin_mlam = math::vector::zeros(n_max+1);
-    for(int m=1; m<=n_max+1; m++) {
+    for(int m=0; m<=n_max; m++) {
         cos_mlam[m] = cos(m*lam);
         sin_mlam[m] = sin(m*lam);
     }
@@ -91,8 +102,8 @@ math::vector SphericalHarmonics::gravity(const Body& i, const Body& j) {
         // Derivative formula (without common terms)
         for(m=0; m<=n; m++) {
             dU_dr_n += P[n][m] * (C[n][m] * cos_mlam[m] + S[n][m] * sin_mlam[m]);
-            dU_dphi_n += (P[n][m+1] - m * tan_phi * P[n][m]) * (C[n][m] * cos_mlam[m] + S[n][m] * sin_mlam[m]);
-            dU_dlam_n += P[n][m] * (S[n][m] * cos_mlam[m] - C[n][m] * sin_mlam[m]);
+            dU_dphi_n += (K[n][m] * P[n][m+1] - m * tan_phi * P[n][m]) * (C[n][m] * cos_mlam[m] + S[n][m] * sin_mlam[m]);
+            dU_dlam_n += m * P[n][m] * (S[n][m] * cos_mlam[m] - C[n][m] * sin_mlam[m]);
         }
 
         dU_dr -= (n+1) * f * dU_dr_n / r;

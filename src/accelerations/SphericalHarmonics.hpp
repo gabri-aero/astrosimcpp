@@ -7,6 +7,7 @@
 class NaturalBody;
 
 class SphericalHarmonics : public Gravity {
+private:
     ALP associated_legendre;
     int n_max;
     // Stokes coefficients
@@ -16,6 +17,11 @@ class SphericalHarmonics : public Gravity {
     double R; 
     // Gravitational parameter
     double mu;
+    // Auxiliar variables
+    math::matrix K;
+    int d(int i, int j) {
+        return i==j ? 1 : 0;
+    }
 public:
     SphericalHarmonics(int n_max);
     SphericalHarmonics(std::string filename, int n_max = 0, std::string root = std::string{GRAVITY_DIR});
