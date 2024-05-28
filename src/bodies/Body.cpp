@@ -3,7 +3,7 @@
 // Body constructor
 
 Body::Body(std::string name, double mu, math::vector sv)
-: name{name}, mu{mu}, sv{sv}, gravity_model(new PointMass()) {
+: name{name}, mu{mu}, sv{sv}, gravity_model(new PointMass()), dcm(math::matrix::eye(3)) {
 };
 
 Body::Body(double mu, math::vector sv)
@@ -21,7 +21,7 @@ Body::Body(std::string name, double mu, std::initializer_list<double> init_sv)
 // Body functions
 
 math::vector Body::acceleration_from(const Body &other) {
-    return gravity_model->gravity(*this, other);
+    return other.gravity_model->gravity(*this, other);
 }
 
 

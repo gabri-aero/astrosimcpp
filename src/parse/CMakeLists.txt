@@ -4,7 +4,8 @@ set(CPP_SOURCES
 
 set(HPP_HEADERS 
     TLE.hpp
-    TLEParser.hpp)
+    TLEParser.hpp
+    FileReader.hpp)
 
 target_sources(${CPP_TARGET} PRIVATE  ${CPP_SOURCES} ${HPP_HEADERS})
 

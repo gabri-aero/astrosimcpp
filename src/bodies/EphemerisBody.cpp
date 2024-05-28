@@ -10,6 +10,10 @@ void EphemerisBody::set_sv(Epoch epoch) {
     sv = spice::get_state(name, ref_body, epoch, frame);
 }
 
+void EphemerisBody::set_orientation(Epoch epoch) {
+    dcm = spice::get_orientation(name, epoch, frame);
+}
+
 void EphemerisBody::set_ref_body(std::string ref_body) {
     this->ref_body = ref_body;
 }
