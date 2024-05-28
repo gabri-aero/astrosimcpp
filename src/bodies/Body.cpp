@@ -3,7 +3,7 @@
 // Body constructor
 
 Body::Body(std::string name, double mu, math::vector sv)
-: name{name}, mu{mu}, sv{sv}, gravity_model(new PointMass()) {
+: name{name}, mu{mu}, sv{sv}, gravity_model(new PointMass()), dcm(math::matrix::eye(3)) {
 };
 
 Body::Body(double mu, math::vector sv)
