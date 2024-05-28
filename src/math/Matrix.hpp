@@ -60,6 +60,12 @@ public:
      * @param cols - columns
     */
     static matrix zeros(math::vector);
+    
+    /**
+     * @brief Create identity matrix object of size NxN
+     * @param N
+    */
+    static matrix eye(int N);
 
     /**
      * @brief New matrix object is created as the transposed matrix.
