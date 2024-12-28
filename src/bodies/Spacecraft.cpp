@@ -1,4 +1,5 @@
 #include "Spacecraft.hpp"
+#include "Body.hpp"
 
 Spacecraft::Spacecraft(std::string name, math::vector sv) 
 : Body{name, 0, sv} {
@@ -27,4 +28,8 @@ void Spacecraft::set_mass(double mass) {
 // Getters
 double Spacecraft::get_mass() const {
     return mass;
+}
+
+math::vector Body::acceleration_from(const Spacecraft& other) {
+    return math::vector{0.0, 0.0, 0.0};
 }

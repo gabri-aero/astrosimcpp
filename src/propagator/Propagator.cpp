@@ -18,7 +18,7 @@ void Propagator::set_end(Epoch end) {
 math::vector Propagator::get_X() {
     math::vector X;
     for(auto body: propagation_bodies) {
-        X.push_back(body.get_sv());
+        X.push_back(body->get_sv());
     }
     return X;
 }
@@ -40,11 +40,11 @@ math::vector Propagator::compute_derivatives(double t, math::vector X) {
 
     // Update body state to input X
     for(int i=0; i<n; i++) {
-        propagation_bodies.at(i).set_sv(X.subvec(6*i, 6*(i+1)));
+        propagation_bodies.at(i)->set_sv(X.subvec(6*i, 6*(i+1)));
     }
 
     for(int i=0; i<ephemeris_bodies.size(); i++) {
-        ephemeris_bodies.at(i).set_sv(epoch);
+        ephemeris_bodies.at(i)->set_sv(epoch);
     }
 
     for(int i=0; i<n; i++) {
@@ -53,14 +53,14 @@ math::vector Propagator::compute_derivatives(double t, math::vector X) {
         // Arrange accelerations
         for(int j=0; j<n; j++) {
             if(i != j) {
-                dvi += propagation_bodies.at(i).acceleration_from(propagation_bodies.at(j)); 
+                dvi += propagation_bodies.at(i)->acceleration_from(propagation_bodies.at(j)); 
             }
         }
         for(int j=0; j<ephemeris_bodies.size(); j++) {
-            dvi += propagation_bodies.at(i).acceleration_from(ephemeris_bodies.at(j));
+            dvi += propagation_bodies.at(i)->acceleration_from(*ephemeris_bodies.at(j));
         }
         // Arrange velocities
-        dri = propagation_bodies.at(i).get_vel();
+        dri = propagation_bodies.at(i)->get_vel();
         // Arrange final vector
         for(int k=0; k<3; k++) { 
             dX.at(6*i+k) = dri.at(k); // dr/dt
@@ -96,17 +96,17 @@ void Propagator::run()  {
             states = data[i].second;
             trajectory.emplace_back(epochs.at(i), StateVector(states.subvec(6*j, 6*(j+1))));
         }
-        trajectory_map[propagation_bodies.at(j)] = trajectory;
+        trajectory_map[*propagation_bodies.at(j)] = trajectory;
     }
 
     // Create trajectory data for Ephemeris bodies
     for(int j=0; j<ephemeris_bodies.size(); j++) {
         Trajectory trajectory;
         for(int i=0; i<epochs.size(); i++) {
-            ephemeris_bodies.at(j).set_sv(epochs.at(i));
-            trajectory.emplace_back(epochs.at(i), StateVector(ephemeris_bodies.at(j).get_sv()));
+            ephemeris_bodies.at(j)->set_sv(epochs.at(i));
+            trajectory.emplace_back(epochs.at(i), StateVector(ephemeris_bodies.at(j)->get_sv()));
         }
-        trajectory_map[ephemeris_bodies.at(j)] = trajectory;
+        trajectory_map[*ephemeris_bodies.at(j)] = trajectory;
     }
 }
 

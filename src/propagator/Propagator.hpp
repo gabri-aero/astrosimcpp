@@ -12,8 +12,8 @@
 
 class Propagator {
 private:
-    std::vector<Body> propagation_bodies;
-    std::vector<EphemerisBody> ephemeris_bodies;
+    std::vector<std::shared_ptr<Body>> propagation_bodies;
+    std::vector<std::shared_ptr<EphemerisBody>> ephemeris_bodies;
     BaseIntegrator* integrator;
     
     // TO DO: define origin as type Body - central body
@@ -31,12 +31,12 @@ private:
     void add_body(EphemerisBody body) {
         body.set_frame(this->frame);
         body.set_ref_body(this->origin);
-        ephemeris_bodies.push_back(body);
+        ephemeris_bodies.push_back(std::make_shared<EphemerisBody>(body));
     }
     
     template<class T>
     void add_body(const T& body) {
-        propagation_bodies.push_back(body);
+        propagation_bodies.push_back(std::make_shared<T>(body));
     }
 public:
     /**
@@ -73,7 +73,7 @@ public:
      * @param body_list vector of bodies to be included for propagation
     */
     void add_body_list(std::vector<Body> body_list) {
-        for (const auto& body : body_list) {
+        for (auto& body : body_list) {
             add_body(body);
         }
     }

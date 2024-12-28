@@ -1,4 +1,7 @@
 #include "Body.hpp"
+#include "Spacecraft.hpp"
+#include "NaturalBody.hpp"
+
 
 // Body constructor
 
@@ -22,6 +25,16 @@ Body::Body(std::string name, double mu, std::initializer_list<double> init_sv)
 
 math::vector Body::acceleration_from(const Body &other) {
     return other.gravity_model->gravity(*this, other);
+}
+
+math::vector Body::acceleration_from(const std::shared_ptr<Body>& other) {
+    auto spacecraft = std::dynamic_pointer_cast<Spacecraft>(other);
+    if(spacecraft) return this->acceleration_from(*spacecraft);
+
+    auto natural_body = std::dynamic_pointer_cast<NaturalBody>(other);
+    if(natural_body) return this->acceleration_from(*natural_body);
+
+    return this->acceleration_from(*other);
 }
 
 

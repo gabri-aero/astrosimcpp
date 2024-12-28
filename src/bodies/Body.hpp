@@ -13,6 +13,8 @@
 
 // Forward class
 class StateVector;
+class NaturalBody;
+class Spacecraft;
 
 /**
  * @class Body
@@ -54,6 +56,9 @@ public:
      * @param sv - {x, y, z, vx, vy, vz} (in SI units, i.e. m and m/s)
     */
     Body(std::string name, double mu, std::initializer_list<double> sv);
+    
+    // Destructor virtual for dynamic cast
+    virtual ~Body() = default;
 
     // Body functions
     /**
@@ -61,6 +66,9 @@ public:
      * @param other - body that is exerting an acceleration to the current body
     */
     math::vector acceleration_from(const Body& other);
+    math::vector acceleration_from(const std::shared_ptr<Body>& other);
+    math::vector acceleration_from(const NaturalBody& other);
+    math::vector acceleration_from(const Spacecraft& other);
 
     // Setters
     /**

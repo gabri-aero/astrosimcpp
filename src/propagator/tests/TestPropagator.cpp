@@ -82,7 +82,7 @@ TEST(PropagatorTest, Ephemeris) {
     ASSERT_TRUE(norm(rel_error) * 100 < 0.0001);
 }
 
-TEST(PropagatorTest, EarthSatellite) {
+TEST(PropagatorTest, EarthSatellites) {
     // Load SPICE kernels
     spice::load_default();
     // Create Earth body
@@ -92,13 +92,14 @@ TEST(PropagatorTest, EarthSatellite) {
     double a_geo = pow(earth.get_mu() / pow(n_geo, 2) , 1.0/3.0);
     double ecc = 0.2;
     Spacecraft satellite{"MY_SATELLITE", {a_geo, ecc, 0, deg2rad(30), 0, 0}, earth};
+    Spacecraft satellite2{"MY_SATELLITE_2", {a_geo, ecc, 0, deg2rad(30), 0, 0}, earth};
     // Set start and end epoch
     Epoch start{2024, 27, 3, 17, 38, 0, UTC};
     Epoch end = start.add_days(1);
     // Create propagator
     Propagator propagator{start, end, "EARTH", "J2000"};
     // Add bodies to propagation
-    propagator.add_bodies(earth, satellite);
+    propagator.add_bodies(earth, satellite, satellite2);
     // Setup integrator
     RK4 integrator{60};
     propagator.set_integrator(integrator);
