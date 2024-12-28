@@ -8,7 +8,7 @@ class Body;  // forward declaration
 
 class Atmosphere {
 public:
-    virtual double density() = 0;
+    virtual double density(double h) = 0;
     
     virtual double temperature() = 0;
     
@@ -37,7 +37,7 @@ public:
         this->rho_0 = rho_0;
         this->Hs = Hs;
     };
-    double density(double h) {
+    double density(double h) override {
         return rho_0 * exp(-h/Hs);
     };
     double temperature() override {
