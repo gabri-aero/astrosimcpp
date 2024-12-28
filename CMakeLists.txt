@@ -136,6 +136,7 @@ endif()
 download_kernel(de440.bsp "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440.bsp")
 download_kernel(gm_de440.tpc "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/gm_de440.tpc")
 download_kernel(pck00011.tpc "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc")
+download_kernel(naif0012.tls "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/lsk/naif0012.tls")
 
 add_definitions(-DSPICE_KERNELS_DIR="${KERNELS_DIR}")
 
