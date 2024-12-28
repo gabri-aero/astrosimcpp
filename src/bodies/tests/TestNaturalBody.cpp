@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <bodies/NaturalBody.hpp>
-#include <accelerations/Gravity.hpp>
+#include <accelerations/gravity/Gravity.hpp>
 #include <spice/Spice.hpp>
 
 TEST(TestBody, Utils) {

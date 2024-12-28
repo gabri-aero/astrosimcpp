@@ -2,13 +2,13 @@
 #define _NATURAL_BODY_HPP_
 
 #include <bodies/Body.hpp>
-#include <accelerations/Atmosphere.hpp>
+#include <accelerations/atmosphere/Atmosphere.hpp>
 #include <spice/Spice.hpp>
 
 class NaturalBody : public Body {
 protected:
     double luminosity = 0;
-    Atmosphere* atmosphere = nullptr;
+    Atmosphere* atmosphere = new Exponential(0, 0);
 
 public:
     // Retrieve Body constructors
@@ -16,6 +16,10 @@ public:
 
     NaturalBody(std::string name, Epoch epoch, std::string ref_body = "SSB", std::string frame = "ECLIPJ2000");
 
+    // Natural body getters
+    Atmosphere* get_atmosphere() const {
+        return atmosphere;
+    }
     // Natural body setters
     void set_gravity(Gravity& gravity_model);
     void set_atmosphere(Atmosphere& atmosphere);

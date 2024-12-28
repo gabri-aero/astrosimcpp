@@ -1,10 +1,11 @@
 #include <vector>
 #include <stdlib.h>
 #include <type_traits>
-#include <bodies/EphemerisBody.hpp>
 #include <numerical/BaseIntegrator.hpp>
 #include <time/Epoch.hpp>
 #include <map>
+#include <bodies/Body.hpp>
+#include <bodies/EphemerisBody.hpp>
 
 
 #ifndef _PROPAGATOR_HPP_

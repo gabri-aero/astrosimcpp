@@ -28,4 +28,30 @@ public:
     virtual math::vector aerodynamic_acceleration(const Body& i, const Body& j) = 0;
 };
 
+class Exponential: public Atmosphere {
+private:
+    double rho_0;
+    double Hs;
+public:
+    Exponential(double rho_0, double Hs) {
+        this->rho_0 = rho_0;
+        this->Hs = Hs;
+    };
+    double density(double h) {
+        return rho_0 * exp(-h/Hs);
+    };
+    double temperature() override {
+        return 0;
+    };
+    double pressure() override {
+        return 0;
+    };
+    double speed_of_sound() override {
+        return 0;
+    };
+    math::vector aerodynamic_acceleration(const Body& i, const Body& j) override {
+        return math::vector{0, 0, 0};
+    }
+};
+
 #endif // _ATMOSPHERE_HPP_

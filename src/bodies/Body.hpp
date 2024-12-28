@@ -6,7 +6,7 @@
 #include <memory>
 #include <initializer_list>
 #include <orbit/Trajectory.hpp>
-#include <accelerations/Gravity.hpp>
+#include <accelerations/gravity/Gravity.hpp>
 
 #include <math/Vector.hpp>
 #include <math/Matrix.hpp>

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <accelerations/SphericalHarmonics.hpp>
+#include <accelerations/gravity/SphericalHarmonics.hpp>
 #include <bodies/EphemerisBody.hpp>
 #include <bodies/Spacecraft.hpp>
 #include <spice/Spice.hpp>

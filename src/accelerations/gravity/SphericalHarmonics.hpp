@@ -1,7 +1,7 @@
 #ifndef _SPHERICAL_HARMONICS_HPP_
 #define _SPHERICAL_HARMONICS_HPP_
 
-#include <accelerations/Gravity.hpp>
+#include <accelerations/gravity/Gravity.hpp>
 #include <math/Legendre.hpp>
 
 class NaturalBody;

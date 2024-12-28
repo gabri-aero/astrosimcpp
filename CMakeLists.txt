@@ -31,8 +31,9 @@ add_definitions(-DDATA_DIR="${DATA_DIR}")
 if(BUILD_TESTING)
     include(FetchContent)
     FetchContent_Declare(
-    googletest
-    URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+        googletest
+        URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE  # Set this option to ensure proper handling of timestamps
     )
     # For Windows: Prevent overriding the parent project's compiler/linker settings
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
@@ -138,6 +139,8 @@ download_kernel(pck00011.tpc "https://naif.jpl.nasa.gov/pub/naif/generic_kernels
 
 add_definitions(-DSPICE_KERNELS_DIR="${KERNELS_DIR}")
 
+set(GRAVITY_DIR ${DATA_DIR}/gravity)
+
 # Add gravity potential default data
 function(download_gravity_file FILE WEB_PATH)
 set(FILE_PATH ${GRAVITY_DIR}/${FILE})
@@ -154,8 +157,6 @@ else()
     message(STATUS "${FILE} downloaded successfully")
 endif()
 endfunction()
-
-set(GRAVITY_DIR ${DATA_DIR}/gravity)
 
 # Download planetary gravity data from NASA PDS
 download_gravity_file(jgmess_160a_sha.tab "https://pds-geosciences.wustl.edu/messenger/mess-h-rss_mla-5-sdp-v1/messrs_1001/data/shadr/jgmess_160a_sha.tab")

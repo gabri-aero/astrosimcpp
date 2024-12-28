@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <accelerations/Gravity.hpp>
+#include <accelerations/gravity/Gravity.hpp>
 #include <math/Vector.hpp>
 #include <bodies/Body.hpp>
 

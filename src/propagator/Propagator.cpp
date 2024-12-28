@@ -1,5 +1,5 @@
 #include "Propagator.hpp"
-#include <accelerations/Gravity.hpp>
+#include <accelerations/gravity/Gravity.hpp>
 #include <orbit/Trajectory.hpp>
 #include <bodies/EphemerisBody.hpp>
 
