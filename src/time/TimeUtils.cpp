@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <array>
 
 
 double HMS_to_fraction(int h, int m, double s) {

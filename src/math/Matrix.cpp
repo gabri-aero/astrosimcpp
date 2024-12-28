@@ -29,6 +29,14 @@ math::matrix math::matrix::zeros(math::vector dim) {
     return zeros(rows, cols);
 }
 
+math::matrix math::matrix::eye(int N) {
+    auto A = zeros(N, N);
+    for(int i=0; i<N; i++) {
+        A[i][i] = 1;
+    }
+    return A;
+}
+
 math::matrix math::matrix::transpose() const {
     // Retrieve matrix dimension
     int rows = this->dim().at(0);

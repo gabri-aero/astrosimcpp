@@ -18,8 +18,12 @@ public:
      * @brief Retrieves T object given an input Epoch. It applies interpolation.
      * @param epoch
     */
-    T get(Epoch epoch) const { // TO DO: check that Epoch lies within TimeSeries range
+    T get(const Epoch& epoch) const { // TO DO: check that Epoch lies within TimeSeries range
         int i = 0;
+        double N = this->size();
+        if(epoch == this->at(N-1).first) {
+            return this->at(N-1).second;
+        }
         while(this->at(i).first <= epoch) {
             i++;
         }

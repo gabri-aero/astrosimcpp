@@ -1,23 +1,42 @@
 #include "Body.hpp"
-#include <accelerations/Gravity.hpp>
+#include "Spacecraft.hpp"
+#include "NaturalBody.hpp"
+
 
 // Body constructor
 
-Body::Body(std::string name, double mass, math::vector sv)
-: name{name}, mass{mass}, sv{sv} {
+Body::Body(std::string name, double mu, math::vector sv)
+: name{name}, mu{mu}, sv{sv}, gravity_model(new PointMass()), dcm(math::matrix::eye(3)) {
 };
 
-Body::Body(double mass, math::vector sv)
-: Body{"UNKNOWN", mass, sv} {
+Body::Body(double mu, math::vector sv)
+: Body{"UNKNOWN", mu, sv} {
 };
 
-Body::Body(double mass, std::initializer_list<double> init_sv)
-: Body(mass, math::vector(init_sv)) {
+Body::Body(double mu, std::initializer_list<double> init_sv)
+: Body(mu, math::vector(init_sv)) {
 };
 
-Body::Body(std::string name, double mass, std::initializer_list<double> init_sv)
-: Body(name, mass, math::vector(init_sv)) {
+Body::Body(std::string name, double mu, std::initializer_list<double> init_sv)
+: Body(name, mu, math::vector(init_sv)) {
 };
+
+// Body functions
+
+math::vector Body::acceleration_from(const Body &other) {
+    return other.gravity_model->gravity(*this, other);
+}
+
+math::vector Body::acceleration_from(const std::shared_ptr<Body>& other) {
+    auto spacecraft = std::dynamic_pointer_cast<Spacecraft>(other);
+    if(spacecraft) return this->acceleration_from(*spacecraft);
+
+    auto natural_body = std::dynamic_pointer_cast<NaturalBody>(other);
+    if(natural_body) return this->acceleration_from(*natural_body);
+
+    return this->acceleration_from(*other);
+}
+
 
 // Body setters
 void Body::set_name(std::string name) {
@@ -44,11 +63,11 @@ math::vector Body::get_sv() const{
 };
 
 double Body::get_mass() const {
-    return mass;
+    return mu/G;
 }
 
 double Body::get_mu() const {
-    return G*mass;
+    return mu;
 };
 
 std::string Body::get_name() const {
@@ -56,7 +75,7 @@ std::string Body::get_name() const {
 };
 
 bool Body::operator==(const Body& other) const {
-    return this->name == other.name && this->mass == other.mass;
+    return this->name == other.name && this->mu == other.mu;
 }
 
 bool Body::operator<(const Body& other) const {

@@ -6,11 +6,15 @@
 #include <memory>
 #include <initializer_list>
 #include <orbit/Trajectory.hpp>
+#include <accelerations/gravity/Gravity.hpp>
 
 #include <math/Vector.hpp>
+#include <math/Matrix.hpp>
 
 // Forward class
 class StateVector;
+class NaturalBody;
+class Spacecraft;
 
 /**
  * @class Body
@@ -20,35 +24,51 @@ class StateVector;
 class Body {
 protected:
     std::string name;
-    double mass;
+    double mu;
     math::vector sv;
+    math::matrix dcm;
+    Gravity* gravity_model;
 public:
+    Body() = default;
     /**
-     * @brief Constructor from mass and statevector
-     * @param mass - body mass in kg
+     * @brief Constructor from mu and statevector
+     * @param mu - body gravitational parameter in m^3/s^2
      * @param sv - [x, y, z, vx, vy, vz] (in SI units, i.e. m and m/s)
     */
-    Body(double mass, math::vector sv);
+    Body(double mu, math::vector sv);
     /**
      * @brief Constructor that allows setting the body name
      * @param name
-     * @param mass - body mass in kg
+     * @param mu - body gravitational parameter in m^3/s^2
      * @param sv - [x, y, z, vx, vy, vz] (in SI units, i.e. m and m/s)
     */
-    Body(std::string name, double mass, math::vector sv);
+    Body(std::string name, double mu, math::vector sv);
     /**
      * @brief Constructor that allows list initialization
-     * @param mass - body mass in kg
+     * @param mu - body gravitational parameter in m^3/s^2
      * @param sv - {x, y, z, vx, vy, vz} (in SI units, i.e. m and m/s)
     */
-    Body(double mass, std::initializer_list<double> sv={0, 0, 0, 0, 0, 0});
+    Body(double mu, std::initializer_list<double> sv={0, 0, 0, 0, 0, 0});
     /**
      * @brief Constructor that allows list initialization and setting the body name
      * @param name  
-     * @param mass - body mass in kg
+     * @param mu - body gravitational parameter in m^3/s^2
      * @param sv - {x, y, z, vx, vy, vz} (in SI units, i.e. m and m/s)
     */
-    Body(std::string name, double mass, std::initializer_list<double> sv);
+    Body(std::string name, double mu, std::initializer_list<double> sv);
+    
+    // Destructor virtual for dynamic cast
+    virtual ~Body() = default;
+
+    // Body functions
+    /**
+     * @brief Compute acceleration from other body
+     * @param other - body that is exerting an acceleration to the current body
+    */
+    math::vector acceleration_from(const Body& other);
+    math::vector acceleration_from(const std::shared_ptr<Body>& other);
+    math::vector acceleration_from(const NaturalBody& other);
+    math::vector acceleration_from(const Spacecraft& other);
 
     // Setters
     /**
@@ -100,6 +120,15 @@ public:
      * Name getter
     */
     std::string get_name() const;
+    /**
+     * Orientation getter for 'advanced' bodies
+     * 
+     * It provides a Direction Cosine Matrix (DCM)
+    */
+    math::matrix get_orientation() const {
+        return dcm;
+    };
+
 
     // Operators
     /**

@@ -29,7 +29,10 @@ public:
      * @param aop argument of periapsis [rad]
      * @param ta true anomaly [rad]
     */
-    Orbit(double a, double e, double raan, double i, double aop, double ta);
+    Orbit(double a, double e, double raan, double i, double aop, double ta); 
+    // TO DO: correct mistake with raan, inc input argument position
+
+    Orbit(math::vector oe);
 
     /**
      * @brief orbital elements vector getter
