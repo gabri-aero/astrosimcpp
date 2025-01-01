@@ -83,3 +83,10 @@ TEST(MathTest, Subvec) {
     math::vector subvector{4, 5, 6};
     ASSERT_EQ(v.subvec(1, 4), subvector);
 }
+
+TEST(MathTest, AllVecAssingment) {
+    math::Vector<int> vec{1, 2, 3, 4, 5};
+    math::Vector<int> expected{5, 5, 5, 5, 5};
+    vec = 5;
+    ASSERT_EQ(vec, expected);
+}
