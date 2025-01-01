@@ -5,15 +5,15 @@ project(astrosim
   DESCRIPTION "A library for astrodynamics simulations"
 )
 
+add_compile_options(-std=c++17)
+add_compile_options(-Wno-terminate)
+add_compile_options(-Wno-return-type)
+
 set(CPP_TARGET astrosim)
 add_library(astrosim SHARED)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-add_compile_options(-std=c++17)
-add_compile_options(-Wno-terminate)
-add_compile_options(-Wno-return-type)
 
 set(CMAKE_BUILD_TYPE Debug)
 
@@ -39,6 +39,7 @@ if(BUILD_TESTING)
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
     FetchContent_MakeAvailable(googletest)
 endif()
+
 
 # Find cURL
 find_package(CURL REQUIRED)
@@ -146,6 +147,13 @@ set(GRAVITY_DIR ${DATA_DIR}/gravity)
 function(download_gravity_file FILE WEB_PATH)
 set(FILE_PATH ${GRAVITY_DIR}/${FILE})
 
+if (IS_DIRECTORY ${GRAVITY_DIR})
+    message(STATUS "Directory ${GRAVITY_DIR} exists")
+else()
+    message(STATUS "Directory ${GRAVITY_DIR} does not exist. It will be created.")
+    file(MAKE_DIRECTORY ${GRAVITY_DIR})
+endif()
+
 if (EXISTS ${FILE_PATH})
     message(STATUS "Gravity data file ${FILE} already available")
 else()
@@ -165,10 +173,50 @@ download_gravity_file(jggrx_0420a_sha.tab "https://pds-geosciences.wustl.edu/gra
 download_gravity_file(jgmro_120f_sha.tab "https://pds-geosciences.wustl.edu/mro/mro-m-rss-5-sdp-v1/mrors_1xxx/data/shadr/jgmro_120f_sha.tab")
 download_gravity_file(shgj180u.a01 "https://pds-geosciences.wustl.edu/mgn/mgn-v-rss-5-gravity-l2-v1/mg_5201/gravity/shgj180u.a01")
 
+# Download some Earth gravity field models coefficients (GFC) from ICGEM
+download_gravity_file(EGM2008.gfc "https://icgem.gfz-potsdam.de/getmodel/gfc/c50128797a9cb62e936337c890e4425f03f0461d7329b09a8cc8561504465340/EGM2008.gfc")
+
+# Download IERS file
+function(download_iers_file FILE WEB_PATH)
+set(FILE_PATH ${IERS_DIR}/${FILE})
+
+if (IS_DIRECTORY ${IERS_DIR})
+    message(STATUS "Directory ${IERS_DIR} exists")
+else()
+    message(STATUS "Directory ${IERS_DIR} does not exist. It will be created.")
+    file(MAKE_DIRECTORY ${IERS_DIR})
+endif()
+
+if (EXISTS ${FILE_PATH})
+    message(STATUS "IERS data file ${FILE} already available")
+else()
+    message(STATUS "Downloading ${FILE}")
+    execute_process(
+        COMMAND wget -q ${WEB_PATH}
+        WORKING_DIRECTORY ${IERS_DIR}
+        RESULT_VARIABLE result
+    )
+    message(STATUS "${FILE} downloaded successfully")
+endif()
+endfunction()
+
+set(IERS_DIR ${DATA_DIR}/iers)
+
+download_iers_file(Leap_Second.dat "https://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat")
+download_iers_file(eopc04_14_IAU2000.62-now.txt "https://datacenter.iers.org/data/224/eopc04_14_IAU2000.62-now.txt")
+
+
+download_iers_file(tab5.2a.txt "https://iers-conventions.obspm.fr/content/chapter5/additional_info/tab5.2a.txt")
+download_iers_file(tab5.2b.txt "https://iers-conventions.obspm.fr/content/chapter5/additional_info/tab5.2b.txt")
+download_iers_file(tab5.2d.txt "https://iers-conventions.obspm.fr/content/chapter5/additional_info/tab5.2d.txt")
+
+download_iers_file(tab5.3a.txt "https://iers-conventions.obspm.fr/content/chapter5/additional_info/tab5.3a.txt")
+download_iers_file(tab5.3b.txt "https://iers-conventions.obspm.fr/content/chapter5/additional_info/tab5.3b.txt")
+
 add_definitions(-DGRAVITY_DIR="${GRAVITY_DIR}")
+add_definitions(-DIERS_DIR="${IERS_DIR}")
 
 set (CMAKE_CXX_FLAGS "-fopenmp")
-
 
 add_subdirectory(src)
 
