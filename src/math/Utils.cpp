@@ -19,9 +19,38 @@ double deg2rad(double deg) {
     return deg * M_PI / 180;
 }
 
+double deg2as(double deg) {
+    return deg * 3600; 
+}
+
+double as2deg(double as) {
+    return as / 3600;
+}
+
+double as2rad(double as) {
+    return deg2rad(as2deg(as));
+}
+
+double rad2as(double rad) {
+    return deg2as(rad2deg(rad));
+}
+
+double sind(double angle_deg) {
+    return sin(deg2rad(angle_deg));
+}
+
+double cosd(double angle_deg) {
+    return sin(deg2rad(angle_deg));
+}
+
 double wrapTo2Pi(double angle) {
     angle = fmod(angle, 2 * M_PI);
     return (angle < 0) ? angle + 2 * M_PI : angle;
+}
+
+double wrapTo360(double angle_deg) {
+    angle_deg = fmod(angle_deg, 360);
+    return (angle_deg < 0) ? angle_deg + 360 : angle_deg;
 }
 
 math::vector cart_to_sph(math::vector cart) {

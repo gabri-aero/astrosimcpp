@@ -1,9 +1,9 @@
+#ifndef _UTILS_HPP_
+#define _UTILS_HPP_
+
 #include <stdexcept>
 #include <cmath>
 #include <math/Vector.hpp>
-
-#ifndef _UTILS_HPP_
-#define _UTILS_HPP_
 
 /**
  * @brief Computation of factorial number n!
@@ -31,9 +31,48 @@ double rad2deg(double rad);
 double deg2rad(double deg);
 
 /**
- * @brief Wrap angle to [0, 2pi)
+ * @brief Conversion from arcseconds to degrees
+ * @param as angle in arcseconds to be converted
+*/
+double as2deg(double as);
+
+/**
+ * @brief Conversion from degrees to arcseconds
+ * @param deg angle in radians to be converted
+*/
+double deg2as(double rad);
+
+/**
+ * @brief Conversion from arcseconds to radians
+ * @param as angle in arcseconds to be converted
+*/
+double as2rad(double as);
+
+/**
+ * @brief Conversion from radians to arcseconds
+ * @param rad angle in radians to be converted
+*/
+double rad2as(double rad);
+
+/**
+ * @brief Wrap angle (rad) to [0, 2pi)
 */
 double wrapTo2Pi(double angle);
+
+/**
+ * @brief Wrap angle (deg) to [0, 360)
+*/
+double wrapTo360(double angle_deg);
+
+/**
+ * @brief Compute sine from degrees
+ */
+double sind(double angle_deg);
+
+/**
+ * @brief Compute cosine from degrees
+ */
+double cosd(double angle_deg);
 
 /**
  * @brief Conversion from cartesian coordinates to spherical
