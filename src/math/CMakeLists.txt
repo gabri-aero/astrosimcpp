@@ -1,6 +1,4 @@
 set(CPP_SOURCES
-    Vector.cpp
-    Matrix.cpp
     Utils.cpp)
 
 set(HPP_HEADERS
@@ -9,7 +7,8 @@ set(HPP_HEADERS
     Legendre.hpp 
     Utils.hpp 
     SphericalHarmonics.hpp
-    Rotation.hpp)
+    Rotation.hpp
+    Interpolation.hpp)
     
 target_sources(${CPP_TARGET} PRIVATE  ${CPP_SOURCES} ${HPP_HEADERS})
 
