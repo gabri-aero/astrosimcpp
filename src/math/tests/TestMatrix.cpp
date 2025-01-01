@@ -3,7 +3,7 @@
 
 TEST(MatrixTest, Dimension) {
     math::matrix A{{0, 1}, {2, 3}};
-    math::vector expected{2, 2};
+    std::pair<int,int> expected = {2,2};
     ASSERT_EQ(A.dim(), expected);
 }
 
@@ -56,4 +56,60 @@ TEST(MatrixTest, VectorProduct) {
 TEST(MatrixTest, Cout) {
     math::matrix A{{0, 1, -2, -1}, {3, 4, 5, 0}, {6, 7, 8, 9}};
     std::cout << A;
+}
+
+TEST(MatrixTest, LowerTriangular) {
+    math::LowerTriangular<double> L{1, 2, 3, 4, 5, 6};
+    math::Vector<double> v{7,8,9};
+    math::Vector<double> expected{7, 38, 122};
+    ASSERT_EQ(L*v, expected);
+
+    std::cout << L << std::endl;
+
+    math::LowerTriangular<double> zeros = math::LowerTriangular<double>::zeros(5);
+    std::cout << zeros << std::endl;
+
+    math::LowerTriangular<double> eye = math::LowerTriangular<double>::eye(5);
+    std::cout << eye << std::endl;
+}
+
+TEST(MatrixTest, UpperTriangular) {
+    math::UpperTriangular<double> U{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    math::Vector<double> v{4,3,2,1};
+    math::Vector<double> expected{20, 34, 25, 10};
+    ASSERT_EQ(U*v, expected);
+    
+    math::UpperTriangular<double> zeros = math::UpperTriangular<double>::zeros(5);
+    std::cout << zeros << std::endl;
+
+    math::UpperTriangular<double> eye = math::UpperTriangular<double>::eye(5);
+    std::cout << eye << std::endl;
+}
+
+TEST(MatrixTest, CroutFactorization) {
+    math::matrix A{
+        {2,-1,0,0},
+        {-1,2,-1,0},
+        {0,-1,2,-1},
+        {0,0,-1,2}
+    };
+    math::vector b{1,0,0,1};
+    math::vector x{1,1,1,1};
+    auto [L,U] = A.crout();
+    std::cout << L << std::endl;
+    std::cout << U << std::endl;
+    std::cout << A.crout(b) << std::endl;
+}
+
+TEST(MatrixTest, AllAssignment) {
+    math::matrix A{
+        {1, 2, 3},
+        {5, 6, 7}
+    };
+    math::matrix expected{
+        {4, 4, 4},
+        {4, 4, 4}
+    };
+    A = 4;
+    ASSERT_EQ(A, expected);
 }
