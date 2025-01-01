@@ -25,11 +25,11 @@ struct DateTime {
     friend std::ostream& operator<<(std::ostream& os, const DateTime& dt) {
         os << std::setfill('0');
         os << std::setw(4) << dt.year << '-'
-                  << std::setw(2) << dt.month << '-'
-                  << std::setw(2) << dt.day << ' '
-                  << std::setw(2) << dt.h << ':'
-                  << std::setw(2) << dt.m << ':'
-                  << std::setw(2) << dt.s;
+           << std::setw(2) << dt.month << '-'
+           << std::setw(2) << dt.day << ' '
+           << std::setw(2) << dt.h << ':'
+           << std::setw(2) << dt.m << ':'
+           << std::setw(2) << dt.s;
         return os;
     }
 };
@@ -45,6 +45,14 @@ struct YMD {
     int year;
     int month;
     int day;
+    // Overlaod operator<<
+    friend std::ostream& operator<<(std::ostream& os, const YMD& ymd) {
+        os << std::setfill('0');
+        os << std::setw(4) << ymd.year << '-'
+           << std::setw(2) << ymd.month << '-'
+           << std::setw(2) << ymd.day;
+        return os;
+    }
 };
 
 /**
@@ -58,6 +66,14 @@ struct HMS {
     int h;
     int m;
     double s;
+    // Overlaod operator<<
+    friend std::ostream& operator<<(std::ostream& os, const HMS& hms) {
+        os << std::setfill('0');
+        os << std::setw(2) << hms.h << ':'
+           << std::setw(2) << hms.m << ':'
+           << std::setw(2) << hms.s;
+        return os;
+    }
 };
 
 /**
