@@ -1,76 +1,63 @@
-#include <time/Epoch.hpp>
-#include <vector>
-
 #ifndef _TIME_SERIES_HPP_
 #define _TIME_SERIES_HPP_
 
-template <typename T>
-class TimeSeries : public std::vector<std::pair<Epoch, T>> {
+#include <time/Epoch.hpp>
+#include <math/Vector.hpp>
+#include <math/Interpolation.hpp>
+#include <memory>
+
+template <typename Tp>
+class TimeSeries : public math::Vector<std::pair<double, Tp>> {
+protected:
+    std::shared_ptr<BaseInterpolator<double, Tp>> interpolator; 
+    // TO DO: make interpolator point to *this to avoid having to call update_interpolator_data
+    double epoch2days(Epoch epoch) const {
+        return epoch.with_reference_epoch(J2000).with_timescale(TAI).get_days();
+    }
+    Epoch days2epoch(double days) const {
+        return Epoch{days, TAI, J2000};
+    }
 public:
-    using std::vector<std::pair<Epoch, T>>::vector;
-    /**
-     * @brief Function that pushes back Epoch, T pair element
-    */
-    void add(const Epoch& epoch, const T& value) {
-        this->push_back(std::make_pair(epoch, value));
+    TimeSeries() {
+        // Default interpolator = LinearInterpolator
+        auto linear_interpolator = std::make_shared<LinearInterpolator<double,Tp>>();
+        this->interpolator = linear_interpolator;
+    };
+    TimeSeries(const math::Vector<Epoch>& x, const math::Vector<Tp>& y) {
+        int N = x.size();
+        for(int i=0; i<N; i++) {
+            this->add(x.at(i), y.at(i));
+        }
+        TimeSeries();
+        this->update_interpolator_data();
     }
-    /**
-     * @brief Retrieves T object given an input Epoch. It applies interpolation.
-     * @param epoch
-    */
-    T get(const Epoch& epoch) const { // TO DO: check that Epoch lies within TimeSeries range
-        int i = 0;
-        double N = this->size();
-        if(epoch == this->at(N-1).first) {
-            return this->at(N-1).second;
-        }
-        while(this->at(i).first <= epoch) {
-            i++;
-        }
-        i--; // move one step back
-        if(this->at(i).first == epoch) {
-            return this->at(i).second;
-        } else {
-            double step = this->at(i+1).first - this->at(i).first;
-            double dt = epoch - this->at(i).first;
-            T dvalue = this->at(i+1).second - this->at(i).second;
-            T obj = this->at(i).second + dvalue * dt/step;
-            return obj;
-        }
+    void add(const Epoch& epoch, const Tp& y) {
+        this->push_back({epoch2days(epoch), y});
     }
-    /**
-     * @brief This function converts not equally spaced TimeSeries vector to a evenly distributed TimeSeries by means of interpolation
-     * @param dt time step
-    */
-    TimeSeries<T> interpolate(double dt) const {
-        Epoch epoch = this->at(0).first; // set epoch to start
-        Epoch end = this->back().first; // get end epoch
-        TimeSeries<T> time_series; // fixed step time series
-        while(epoch <= end) {
-            time_series.add(epoch, this->get(epoch));
-            epoch = epoch.add_secs(dt);
-        }
-        return time_series;
+    Tp get(Epoch epoch) const {
+        double t = epoch2days(epoch);
+        return interpolator->interpolate(t);
     }
-    /**
-     * @brief Getter for Epoch vector associated to the TimeSeries object
-    */
-    std::vector<Epoch> get_epochs() const {
-        std::vector<Epoch> epochs;
-        for(const std::pair<Epoch, T>& pair: *this) {
-            epochs.push_back(pair.first);
-        }
-        return epochs;
+    void set_interpolator(BaseInterpolator<double, Tp>& interpolator) {
+        this->interpolator = &interpolator;
+        this->update_interpolator_data();
     }
-    /**
-     * @brief Getter for the data associated to the TimeSeries object (without Epoch time stamps)
-    */
-    std::vector<T> get_data() const {
-        std::vector<T> data;
-        for(const std::pair<Epoch, T>& pair: *this) {
-            data.push_back(pair.second);
+    void update_interpolator_data() {
+        this->interpolator->set_data(*this);
+    }
+    TimeSeries<Tp> fixed_time_series(double dt) {
+        double start = this->at(0).first;
+        double size = this->size();
+        double end = this->at(size-1).first;
+        double t = 0;
+        TimeSeries<Tp> fixed_time_series;
+        Epoch epoch;
+        while(t<end) {
+            epoch = days2epoch(t);
+            fixed_time_series.add(epoch, this->get(epoch));
+            t += dt;
         }
-        return data;
+        return fixed_time_series;
     }
 };
 

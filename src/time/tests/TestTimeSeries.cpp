@@ -9,7 +9,7 @@ TEST(TimeSeriesTest, Test) {
     float value = 13.4;
     time_series.add(epoch, value);
     ASSERT_EQ(time_series.size(), 1);
-    ASSERT_EQ(time_series.at(0).first, epoch);
+    ASSERT_EQ(time_series.at(0).first, epoch.get_days());
     ASSERT_EQ(time_series.at(0).second, value);
 }
 
@@ -20,22 +20,8 @@ TEST(TimeSeriesTest, Interpolation) {
     double value2 = 15.7;
     time_series.add(epoch, value);
     time_series.add(epoch.add_days(1), value2);
+    time_series.update_interpolator_data();
     ASSERT_EQ(time_series.get(epoch.add_days(0.3)), 14.09);
-}
-
-TEST(TimeSeriesTest, PairGetters) {
-    Epoch epoch{0, TAI, J2000};
-    TimeSeries<double> time_series;
-    double value = 13.4;
-    double value2 = 15.7;
-    time_series.add(epoch, value);
-    time_series.add(epoch.add_days(1), value2);
-    auto epochs = time_series.get_epochs();
-    ASSERT_EQ(epochs.at(0), epoch);
-    ASSERT_EQ(epochs.at(1), epoch.add_days(1));
-    auto data = time_series.get_data();
-    ASSERT_EQ(data.at(0), value);
-    ASSERT_EQ(data.at(1), value2);
 }
 
 
@@ -48,7 +34,8 @@ TEST(TimeSeriesTest, Interpolation2) {
     time_series.add(epoch, value);
     time_series.add(epoch.add_days(1), value2);
     time_series.add(epoch.add_days(3), value3);
-    auto fixed_time_series = time_series.interpolate(0.1*86400);
+    time_series.update_interpolator_data();
+    TimeSeries<double> fixed_time_series = time_series.fixed_time_series(0.1);
     ASSERT_NEAR(fixed_time_series.at(8).second, 15.24, 1e-14);
     ASSERT_NEAR(fixed_time_series.at(12).second, 16.13, 1e-14);
 }
