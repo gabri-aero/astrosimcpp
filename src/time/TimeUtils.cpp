@@ -123,9 +123,9 @@ DateTime mjd_to_datetime(double mjd) {
 
 
 int get_leapsec(double mjd) {
-    std::string data_dir{DATA_DIR};
+    std::string iers_dir{IERS_DIR};
     // open Leap_Second.dat file
-    std::ifstream file(data_dir + "/Leap_Second.dat");
+    std::ifstream file(iers_dir + "/Leap_Second.dat");
     // define variables to be used
     std::string line;
     double mjd_;
