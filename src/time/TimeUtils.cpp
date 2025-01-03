@@ -31,7 +31,7 @@ YMD yearday_to_YMD(int yearday, int year) {
     int m, d;
     d = yearday;
     if(year%4==0) {
-        month_days[2] = 29;
+        month_days[1] = 29;
     }
     for(m=0; d>month_days[m]; m++) {
         d -= month_days[m];
@@ -43,7 +43,7 @@ YMD yearday_to_YMD(int yearday, int year) {
 int YMD_to_yearday(int y, int m, int d) {
     std::array<int, 12> month_days{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     if(y%4==0) {
-        month_days[2] = 29;
+        month_days[1] = 29;
     }
     int yearday = 0;
     for(int i=1; i<m; i++) {

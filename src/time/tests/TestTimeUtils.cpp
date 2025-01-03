@@ -14,7 +14,7 @@ TEST(TestTimeUtils, fraction_to_HMS) {
 
 TEST(TestTimeUtils, YMD_to_yearday) {
     // leap year case
-    YMD ymd = yearday_to_YMD(235, 2022);
+    YMD ymd = yearday_to_YMD(236, 2020);
     ASSERT_EQ(ymd.month, 8);
     ASSERT_EQ(ymd.day, 23);
     // not leap year case
@@ -25,7 +25,7 @@ TEST(TestTimeUtils, YMD_to_yearday) {
 
 TEST(TestTimeUtils, yearday_to_YMD) {
     // leap year case
-    ASSERT_EQ(YMD_to_yearday(2022, 8, 23), 235);
+    ASSERT_EQ(YMD_to_yearday(2020, 8, 23), 236);
     // not leap year case
     ASSERT_EQ(YMD_to_yearday(2023, 11, 9), 313);
 }
