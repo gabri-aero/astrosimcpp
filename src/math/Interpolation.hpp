@@ -132,12 +132,11 @@ public:
         } 
         alpha.push_back(zeros); // aplha_end=0
 
-        math::matrix A = math::matrix::eye(N);
+        auto A = math::BandMatrix<double>::eye(N, 1, 1);
         for(int i=1; i<N-1; i++) {
-            auto& row = A.at(i);
-            row.at(i-1) = h.at(i-1);
-            row.at(i+1) = h.at(i);
-            row.at(i) = 2*(h.at(i-1)+h.at(i));
+            A.at(i,i-1) = h.at(i-1);
+            A.at(i,i+1) = h.at(i);
+            A.at(i,i) = 2*(h.at(i-1)+h.at(i));
         }
         // Solve tridiagonal system using Crout factorization
         c = A.crout(alpha);

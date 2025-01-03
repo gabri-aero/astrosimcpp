@@ -113,3 +113,24 @@ TEST(MatrixTest, AllAssignment) {
     A = 4;
     ASSERT_EQ(A, expected);
 }
+
+TEST(MatrixTest, BandMatrixIndex) {
+    math::BandMatrix<double> A{
+        {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43},
+        8,4,2
+    };
+    std::cout << A << std::endl;
+}
+
+TEST(MatrixTest, BandMatrixCrout) {
+    math::BandMatrix<double> A{
+        {2,-1,-1,2,-1,-1,2,-1,-1,2},
+        4, 1, 1
+    };
+    math::vector b{1,0,0,1};
+    math::vector x{1,1,1,1};
+    auto [L,U] = A.crout();
+    std::cout << L << std::endl;
+    std::cout << U << std::endl;
+    std::cout << A.crout(b) << std::endl;
+}

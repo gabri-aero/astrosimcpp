@@ -491,6 +491,144 @@ std::ostream& operator<<(std::ostream& os, const UpperTriangular<Up>& U){
     return os;
 }
 
+template<typename Tp>
+class BandMatrix {
+    Tp* data;
+    int above=0; // Number of off-diagonals above main diagonal
+    int below=0; // Number of off-diagonals below mian diagonal
+    int size=0; // Data size
+    int N=0; // Matrix dimensions
+    Tp off_diagonal_value=0;
+    int triangular(int value) const {
+        return value*(value+1)/2;
+    }
+public:
+    BandMatrix(int dim, int above, int below) : N(dim), above(above), below(below) {
+        // Allocate data
+        size = N*N-triangular(N-below-1)-triangular(N-above-1);
+        data = new Tp[size];
+    };
+    BandMatrix(std::initializer_list<Tp> ilist, int dim, int above, int below) : BandMatrix(dim, above, below) {
+        int i = 0;
+        if(ilist.size() != this->size) throw std::out_of_range("Initializer list size does not match band matrix non-zero elements");
+        for (const Tp& value : ilist) {
+            data[i++] = value;
+        }
+    }
+    // Static
+    static BandMatrix zeros(int N, int above, int below) {
+        BandMatrix<Tp> A(N, above, below);
+        for(int i=0; i<A.size; i++) {
+            A.data[i] = 0;
+        }
+        return A;
+    }
+
+    static BandMatrix eye(int N, int above, int below) {
+        BandMatrix<Tp> A(N, above, below);
+        for(int i=0; i<A.size; i++) {
+            A.data[i] = 0;
+        }
+        for(int i=0; i<A.dim(); i++) {
+            A.at(i, i) = 1;
+        }
+        return A;
+    }
+    // Copy constructor for deep copy
+    BandMatrix(const BandMatrix<Tp>& other) {
+        N = other.N;
+        size = other.size;
+        above = other.above;
+        below = other.below;
+        // Allocate memory
+        data = new Tp[size];
+        // Copy other data into data
+        std::copy(other.data, other.data+size, data);
+    }
+
+    int dim() const {
+        return N;
+    }
+    Tp& at(int row, int col) {
+        if(col > row+above || col < row-below) throw std::out_of_range("Accessing element outside band matrix.");
+        // Compute global idx
+        int zeros_above = row >= N-above-1 ? triangular(N-above-1) : triangular(N-above-1) - triangular(N-row-1-above);
+        int zeros_below = row < below ? 0 : triangular(row-below);
+        int idx = N*row - zeros_above - zeros_below + col;
+        return data[idx];
+    }
+    const Tp& at(int row, int col) const {
+        if(col > row+above || col < row-below) return off_diagonal_value;
+        // Compute global idx
+        int zeros_above = row >= N-above-1 ? triangular(N-above-1) : triangular(N-above-1) - triangular(N-row-1-above);
+        int zeros_below = row < below ? 0 : triangular(row-below);
+        int idx = N*row - zeros_above - zeros_below + col;
+        return data[idx];
+    }
+    // Factorization algorithms
+    std::pair<BandMatrix<V<Tp,double>>, BandMatrix<V<Tp,double>>> crout() const {
+        int n = this->dim(); // TO DO: check that it is square
+        BandMatrix<V<Tp,double>> L(n, 0, this->below);
+        BandMatrix<V<Tp,double>> U(n, this->above, 0);
+        auto A = *this;
+
+        // Crout factorization algorithm
+        L.at(0,0) = A.at(0,0);
+        U.at(0,1) = A.at(0,1)/L.at(0,0);
+        U.at(0,0) = 1;
+        for(int i=1; i<n-1; i++) {
+            L.at(i,i-1) = A.at(i,i-1);
+            L.at(i,i) = A.at(i,i)-L.at(i,i-1)*U.at(i-1,i);
+            U.at(i,i+1) = A.at(i,i+1)/L.at(i,i);
+            U.at(i,i) = 1;
+        }
+        L.at(n-1,n-2) = A.at(n-1,n-2);
+        L.at(n-1,n-1) = A.at(n-1,n-1)-L.at(n-1,n-2)*U.at(n-2,n-1);
+        U.at(n-1,n-1) = 1;
+        return std::make_pair(L,U);
+    }
+    template<typename Up>
+    math::Vector<Up> crout(const math::Vector<Up>& b) const {
+        // Compute Crout factorization
+        auto [L, U] = this->crout();
+        int n = L.dim();
+        // Initialize z and x
+        auto z = math::Vector<Up>::zeros(n);
+        auto x = math::Vector<Up>::zeros(n);
+
+        // Solve system Lz=b
+        z[0] = b[0]/L.at(0,0);
+        for(int i=1; i<n; i++) {
+            z[i] = (b[i]-L.at(i,i-1)*z[i-1]) / L.at(i,i);
+        }
+        // Solve system Ux=z
+        x[n-1] = z[n-1];
+        for(int i=n-2; i>=0; i--) {
+            x[i]=z[i]-x[i+1]*U.at(i,i+1);
+        }
+        return x;
+    }
+    
+    template<typename Up>
+    friend std::ostream& operator<<(std::ostream& os, const BandMatrix<Up>& L);
+
+    ~BandMatrix() {
+        delete[] data;
+    }
+};
+
+template<typename Up>
+std::ostream& operator<<(std::ostream& os, const BandMatrix<Up>& matrix){
+    for(int row=0; row<matrix.dim(); row++) {
+        os << "[ ";
+        for(int col=0; col<matrix.dim(); col++) {
+            os << matrix.at(row, col) << " ";
+        }
+        os << "]" << '\n';
+    }
+    return os;
+}
+
 }
 
 #endif //_MATRIX_HPP_
