@@ -550,7 +550,7 @@ public:
         return N;
     }
     Tp& at(int row, int col) {
-        if(col > row+above || col < row-below) throw std::out_of_range("Accessing element outside band matrix.");
+        if(col > row+above || col < row-below) return off_diagonal_value;
         // Compute global idx
         int zeros_above = row >= N-above-1 ? triangular(N-above-1) : triangular(N-above-1) - triangular(N-row-1-above);
         int zeros_below = row < below ? 0 : triangular(row-below);

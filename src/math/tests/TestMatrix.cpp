@@ -62,28 +62,58 @@ TEST(MatrixTest, LowerTriangular) {
     math::LowerTriangular<double> L{1, 2, 3, 4, 5, 6};
     math::Vector<double> v{7,8,9};
     math::Vector<double> expected{7, 38, 122};
+    std::cout << L;
     ASSERT_EQ(L*v, expected);
-
-    std::cout << L << std::endl;
-
     math::LowerTriangular<double> zeros = math::LowerTriangular<double>::zeros(5);
     std::cout << zeros << std::endl;
-
+    for(int i=0; i<5; i++) {
+        for(int j=0; j<5; j++) {
+            ASSERT_EQ(zeros.at(i,j), 0);
+        }
+    }
+    math::matrix ones_expected{
+        {1,0,0,0,0},
+        {0,1,0,0,0},
+        {0,0,1,0,0},
+        {0,0,0,1,0},
+        {0,0,0,0,1}
+    };
     math::LowerTriangular<double> eye = math::LowerTriangular<double>::eye(5);
-    std::cout << eye << std::endl;
+    for(int i=0; i<5; i++) {
+        for(int j=0; j<5; j++) {
+            ASSERT_EQ(eye.at(i,j), ones_expected.at(i).at(j));
+        }
+    }
 }
 
 TEST(MatrixTest, UpperTriangular) {
     math::UpperTriangular<double> U{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     math::Vector<double> v{4,3,2,1};
     math::Vector<double> expected{20, 34, 25, 10};
+    std::cout << U;
     ASSERT_EQ(U*v, expected);
     
     math::UpperTriangular<double> zeros = math::UpperTriangular<double>::zeros(5);
     std::cout << zeros << std::endl;
-
+    for(int i=0; i<5; i++) {
+        for(int j=0; j<5; j++) {
+            ASSERT_EQ(zeros.at(i,j), 0);
+        }
+    }
+    
+    math::matrix ones_expected{
+        {1,0,0,0,0},
+        {0,1,0,0,0},
+        {0,0,1,0,0},
+        {0,0,0,1,0},
+        {0,0,0,0,1}
+    };
     math::UpperTriangular<double> eye = math::UpperTriangular<double>::eye(5);
-    std::cout << eye << std::endl;
+    for(int i=0; i<5; i++) {
+        for(int j=0; j<5; j++) {
+            ASSERT_EQ(eye.at(i,j), ones_expected.at(i).at(j));
+        }
+    }
 }
 
 TEST(MatrixTest, CroutFactorization) {
@@ -114,15 +144,32 @@ TEST(MatrixTest, AllAssignment) {
     ASSERT_EQ(A, expected);
 }
 
-TEST(MatrixTest, BandMatrixIndex) {
+TEST(BandMatrixTest, Cout) {
     math::BandMatrix<double> A{
         {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43},
         8,4,2
     };
-    std::cout << A << std::endl;
+    math::matrix expected{
+        {1,2,3,4,5,0,0,0},
+        {6,7,8,9,10,11,0,0},
+        {12,13,14,15,16,17,18,0},
+        {0,19,20,21,22,23,24,25},
+        {0,0,26,27,28,29,30,31},
+        {0,0,0,32,33,34,35,36},
+        {0,0,0,0,37,38,39,40},
+        {0,0,0,0,0,41,42,43}
+    };
+    
+    for(int i=0; i<8; i++) {
+        for(int j=0; j<8; j++) {
+            ASSERT_EQ(A.at(i,j), expected.at(i).at(j));
+        }
+    }
+    
+    std::cout << A;
 }
 
-TEST(MatrixTest, BandMatrixCrout) {
+TEST(BandMatrixTest, Crout) {
     math::BandMatrix<double> A{
         {2,-1,-1,2,-1,-1,2,-1,-1,2},
         4, 1, 1
@@ -130,7 +177,5 @@ TEST(MatrixTest, BandMatrixCrout) {
     math::vector b{1,0,0,1};
     math::vector x{1,1,1,1};
     auto [L,U] = A.crout();
-    std::cout << L << std::endl;
-    std::cout << U << std::endl;
-    std::cout << A.crout(b) << std::endl;
+    ASSERT_NEAR(norm(A.crout(b)-x), 0, 1e-12);
 }
