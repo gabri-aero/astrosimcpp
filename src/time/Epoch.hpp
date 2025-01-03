@@ -9,6 +9,7 @@ enum TimeScale {
     TAI,
     TT,
     UTC,
+    UT1,
     GPST  // note the difference with GPS
 };
 

@@ -1,5 +1,6 @@
 #include "Epoch.hpp"
 #include <time/TimeUtils.hpp>
+#include <frames/EOP.hpp>
 #include <stdexcept>
 
 const double TT_TAI = 32.184;  // TAI_TT = TAI - TT
@@ -100,6 +101,14 @@ Epoch Epoch::with_reference_epoch(const Epoch& reference) const {
 Epoch& Epoch::set_timescale(TimeScale new_timescale) {
     // Compute ΔT between timescales
     double dt = 0;
+    Epoch epoch_copy;
+    double dut1;
+    if(timescale == UT1 || new_timescale == UT1) {
+        // Retrieve dUT1 data
+        epoch_copy = *this;
+        epoch_copy.timescale = timescale == UT1 ? UTC : timescale; // avoid infinite loop
+        dut1 = eop_data.get(epoch_copy).dUT1;
+    }
     if (timescale == new_timescale) {
         return *this;
     } else {
@@ -115,6 +124,10 @@ Epoch& Epoch::set_timescale(TimeScale new_timescale) {
             case UTC:
                 mjd = ref_mjd + days;
                 dt += get_leapsec(mjd);
+                break;
+            case UT1:
+                mjd = ref_mjd + days;
+                dt += get_leapsec(mjd) - dut1;
                 break;
             case TAI: // nothing to do
                 break;
@@ -132,6 +145,9 @@ Epoch& Epoch::set_timescale(TimeScale new_timescale) {
                 mjd = ref_mjd + days;
                 dt += -get_leapsec(mjd);
                 break;
+            case UT1:
+                mjd = ref_mjd + days;
+                dt += -get_leapsec(mjd) + dut1;
             case TAI: // nothing to do
                 break;
         }
@@ -250,6 +266,9 @@ std::ostream& operator<<(std::ostream& os, const Epoch& epoch) {
             break;
         case UTC:
             os << "UTC";
+            break;
+        case UT1:
+            os << "UT1";
             break;
         case GPST:
             os << "GPST";
