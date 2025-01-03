@@ -9,7 +9,7 @@
 template <typename Tp>
 class TimeSeries : public math::Vector<std::pair<double, Tp>> {
 protected:
-    std::shared_ptr<BaseInterpolator<double, Tp>> interpolator; 
+    BaseInterpolator<double, Tp>* interpolator; 
     // TO DO: make interpolator point to *this to avoid having to call update_interpolator_data
     double epoch2days(Epoch epoch) const {
         return epoch.with_reference_epoch(J2000).with_timescale(TAI).get_days();
@@ -19,9 +19,8 @@ protected:
     }
 public:
     TimeSeries() {
-        // Default interpolator = LinearInterpolator
-        auto linear_interpolator = std::make_shared<LinearInterpolator<double,Tp>>();
-        this->interpolator = linear_interpolator;
+        // Default interpolator = LinearInterpolatorxs
+        this->interpolator = new LinearInterpolator<double,Tp>();
     };
     TimeSeries(const math::Vector<Epoch>& x, const math::Vector<Tp>& y) {
         int N = x.size();
