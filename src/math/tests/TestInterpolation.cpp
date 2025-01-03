@@ -46,3 +46,14 @@ TEST(InterpolationTest, CubicSplineVectorInterpolationTest) {
     std::cout << exp(2.5) << ' ' << 2.5*2.5 << std::endl;
 }
 
+TEST(InterpolationTest, FloorInterpolator) {
+    math::vector x{0,1,2,3};
+    math::vector y{0, 0.5, 2.5, 5.8};
+
+    FloorInterpolator interpolator(x,y);
+
+    std::cout << interpolator.interpolate(0.5) << std::endl;
+    std::cout << interpolator.interpolate(1.2) << std::endl;
+    std::cout << interpolator.interpolate(2.5) << std::endl;
+}
+

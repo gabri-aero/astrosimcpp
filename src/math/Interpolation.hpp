@@ -191,5 +191,30 @@ public:
 template <typename U, typename V>
 CubicSplineInterpolator(const math::Vector<U>&, const math::Vector<V>&) -> CubicSplineInterpolator<U, V>;
 
+template<typename U, typename V>
+class FloorInterpolator : public BaseInterpolator<U,V> {
+public:    
+    using BaseInterpolator<U,V>::BaseInterpolator;
+
+    V interpolate(const U& x) const final {
+        int i = 0;
+        double N = this->data.size();
+        if(x >= this->data.at(N-1).first) { // If out-of-bounds retrieve y[end] or y[0]
+            return this->data.at(N-1).second;
+        } else if(x <= this->data.at(0).first) {
+            return this->data.at(0).second;
+        }
+        while(this->data.at(i).first <= x) {
+            i++;
+        }
+        i--; // move one step back and return
+        return this->data.at(i).second;
+    }
+};
+
+// Deduction guide to enable class template argument deduction
+template<typename U, typename V>
+FloorInterpolator(const math::Vector<U>&, const math::Vector<V>&) -> FloorInterpolator<U, V>;
+
 
 #endif //_INTERPOLATION_HPP_
