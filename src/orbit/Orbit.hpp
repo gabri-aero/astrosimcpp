@@ -1,11 +1,12 @@
+#ifndef _ORBITAL_ELEMENTS_HPP
+#define _ORBITAL_ELEMENTS_HPP
+
 #include <math/Vector.hpp>
 #include <bodies/Body.hpp>
 #include <iostream>
 
-#ifndef _ORBITAL_ELEMENTS_HPP
-#define _ORBITAL_ELEMENTS_HPP
-
 class StateVector; // forward class
+class Body;
 
 enum OrbitType {
     ELLIPTICAL,
@@ -17,8 +18,7 @@ enum OrbitType {
  * @class Orbit
  * @brief State representation as keplerian orbital elements: a, e, i, raan, aop, ta.
 */
-class Orbit {
-    math::vector oe; // [a, e, i, raan, aop, ta]
+class Orbit : public math::vector { // [a, e, i, raan, aop, ta]
 public:
     /**
      * @brief Orbit constructor
@@ -35,12 +35,6 @@ public:
     Orbit(math::vector oe);
 
     /**
-     * @brief orbital elements vector getter
-     * @return [a, e, i, raan, aop, ta]
-    */
-    math::vector get_oe() const;
-
-    /**
      * @brief Gives type of orbit
      * @return ELLIPTICAL, PARABOLIC or HYPERBOLIC
     */
@@ -53,8 +47,6 @@ public:
     StateVector to_sv(const Body&);
 
     // Overload operators
-    
-    bool operator==(const Orbit& obj) const;
     friend std::ostream& operator<<(std::ostream& os, const Orbit& obj);
 };
 

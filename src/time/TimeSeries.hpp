@@ -19,7 +19,7 @@ protected:
     }
 public:
     TimeSeries() {
-        // Default interpolator = LinearInterpolatorxs
+        // Default interpolator = LinearInterpolators
         this->interpolator = new LinearInterpolator<double,Tp>();
     };
     TimeSeries(const math::Vector<Epoch>& x, const math::Vector<Tp>& y) {
@@ -33,6 +33,9 @@ public:
     void add(const Epoch& epoch, const Tp& y) {
         this->push_back({epoch2days(epoch), y});
     }
+    void add(const double& t, const Tp& y) {
+        this->push_back({t, y});
+    }
     Tp get(Epoch epoch) const {
         double t = epoch2days(epoch);
         return interpolator->interpolate(t);
@@ -44,16 +47,16 @@ public:
     void update_interpolator_data() {
         this->interpolator->set_data(*this);
     }
+    // Time dt in days
     TimeSeries<Tp> fixed_time_series(double dt) {
         double start = this->at(0).first;
         double size = this->size();
         double end = this->at(size-1).first;
-        double t = 0;
+        double t = start;
         TimeSeries<Tp> fixed_time_series;
         Epoch epoch;
         while(t<end) {
-            epoch = days2epoch(t);
-            fixed_time_series.add(epoch, this->get(epoch));
+            fixed_time_series.add(t, this->interpolator->interpolate(t));
             t += dt;
         }
         return fixed_time_series;

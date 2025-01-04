@@ -12,8 +12,8 @@ TEST(PropagatorTest, Dummy) {
     Body sun{"SUN", 1, {0, 0, 0, 0, 0, 0}};
     Body earth{"EARTH", 0.1, {1, 0, 0, 0, 1, 0}};
     // Define epochs
-    Epoch start(2024, 1, 1, 0, 0, 0);
-    Epoch end(2025, 1, 1, 0, 0, 0);
+    Epoch start(2024, 1, 1, 0, 0, 0, TAI, J2000);
+    Epoch end(2025, 1, 1, 0, 0, 0, TAI, J2000);
     // Create propagator
     Propagator ae(start, end);
     // Add bodies
@@ -28,11 +28,11 @@ TEST(PropagatorTest, Dummy) {
     auto earth_trajectory = ae.get_trajectory(earth);
 
     // Assert
-    ASSERT_EQ(earth_trajectory.at(100).first, start.add_secs(100*3600));
+    ASSERT_EQ(earth_trajectory.at(100).first, start.add_secs(100*3600).get_days());
     std::cout << earth_trajectory.at(100).second <<  std::endl;
     // Ensure fixed step interpolation behaves correctly for Trajectory
     Trajectory interpolated_trajectory;
-    interpolated_trajectory = earth_trajectory.interpolate(1800); // interpolated trajectory for every half an hour
+    interpolated_trajectory = earth_trajectory.fixed_time_series(0.5/24); // interpolated trajectory for every half an hour
 }
 
 

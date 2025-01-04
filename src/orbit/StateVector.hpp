@@ -1,8 +1,8 @@
-#include <math/Vector.hpp>
-#include <bodies/Body.hpp>
-
 #ifndef _STATE_VECTOR_HPP_
 #define _STATE_VECTOR_HPP_
+
+#include <math/Vector.hpp>
+#include <bodies/Body.hpp>
 
 // forward classes
 class Orbit; 

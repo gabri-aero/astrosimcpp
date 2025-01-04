@@ -1,7 +1,8 @@
 set(CPP_SOURCES 
     Orbit.cpp 
     StateVector.cpp
-    OrbitUtils.cpp)
+    OrbitUtils.cpp
+    Trajectory.cpp)
 
 set(HPP_HEADERS 
     Orbit.hpp 
