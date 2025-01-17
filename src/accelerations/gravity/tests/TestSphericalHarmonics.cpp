@@ -60,8 +60,8 @@ TEST(SHTest, GravityAnomalyTest) {
     SphericalHarmonics sh("jgmess_160a_sha.tab");
     NaturalBody mercury{sh.get_mu()};
     
-    int Nx = 360;
-    int Ny = 180;
+    int Nx = 180;
+    int Ny = 90;
     math::matrix dg_free_air = math::matrix::zeros(Nx, Ny);
     math::vector longitudes;
     for(double lon=360.0/(2*Nx); lon<360; lon+=360.0/Nx) {
@@ -85,5 +85,5 @@ TEST(SHTest, GravityAnomalyTest) {
     }
     auto toc = std::chrono::high_resolution_clock::now();
     auto time = std::chrono::duration_cast<std::chrono::milliseconds>( toc - tic ).count();
-    std::cout << time/1e3 << std::endl;
+    std::cout << "Gravity anomaly grid computation time: " << time/1e3 << std::endl;
 }

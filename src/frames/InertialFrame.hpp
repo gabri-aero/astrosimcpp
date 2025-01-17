@@ -25,9 +25,9 @@ public:
 };
 
 // Pre-defined inertial frames
-extern InertialFrame ICRF; // International Celestial Reference Frame
-extern InertialFrame GCRF; // Assumed that GCRF=ICRF
-extern InertialFrame EME2000; // EME2000 (also dynamic J2000) is deviated from GCRS by the frame bias matrix
+extern const InertialFrame ICRF; // International Celestial Reference Frame
+extern const InertialFrame GCRF; // Assumed that GCRF=ICRF
+extern const InertialFrame EME2000; // EME2000 (also dynamic J2000) is deviated from GCRS by the frame bias matrix
 
 /**
  * This class defines an inertial frame w.r.t. to the ICRF as determined by the Mean Equator of Date

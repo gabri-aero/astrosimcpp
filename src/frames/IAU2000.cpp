@@ -224,7 +224,7 @@ math::matrix BasePEF::get_dcm(const Epoch& epoch) const {
 }
 
 // Define Earth intermediate frames
-BaseITRF ITRF;
-BaseCIRF CIRF;
-BaseTIRF TIRF;
-BasePEF PEF;
+const BaseITRF ITRF;
+const BaseCIRF CIRF;
+const BaseTIRF TIRF;
+const BasePEF PEF;

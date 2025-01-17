@@ -6,7 +6,7 @@
 
 class Spacecraft : public Body {
 private:
-    double mass; // mass variable takes over mu
+    double mass = 0; // mass variable takes over mu
 
 public:
     Spacecraft(std::string name, math::vector sv);

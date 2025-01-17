@@ -27,6 +27,9 @@ endif()
 set(DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/data)
 add_definitions(-DDATA_DIR="${DATA_DIR}")
 
+# Include CTest
+include(CTest)
+
 # Google Test
 if(BUILD_TESTING)
     include(FetchContent)

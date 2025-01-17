@@ -31,25 +31,28 @@ public:
 math::matrix B();
 
 class BaseCIRF : public BaseITRF {
+public:
     using BaseITRF::BaseITRF;
     math::matrix get_dcm(const Epoch& epoch) const override final;
 };
 
 class BaseTIRF : public BaseITRF {
+public:
     using BaseITRF::BaseITRF;
     math::matrix get_dcm(const Epoch& epoch) const override final;
 };
 
 class BasePEF : public BaseITRF {
+public:
     using BaseITRF::BaseITRF;
     math::matrix get_dcm(const Epoch& epoch) const override final;
 };
 
 // Define Earth intermediate frames
-extern BaseITRF ITRF; // Internation Terrestrial Reference Frame
-extern BaseCIRF CIRF; // Celestial Intermediate Reference Frame
-extern BaseTIRF TIRF; // Terrestrial Intermediate Reference Frame
-extern BasePEF PEF; // Pseudo Earth Fixed Frame
+extern const BaseITRF ITRF; // Internation Terrestrial Reference Frame
+extern const BaseCIRF CIRF; // Celestial Intermediate Reference Frame
+extern const BaseTIRF TIRF; // Terrestrial Intermediate Reference Frame
+extern const BasePEF PEF; // Pseudo Earth Fixed Frame
 
 
 #endif // _IAU_2000_HPP_

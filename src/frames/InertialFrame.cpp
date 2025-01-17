@@ -18,9 +18,9 @@ math::matrix InertialFrame::get_dcm(const Epoch& epoch) const {
     return dcm;
 }
 
-InertialFrame ICRF;
-InertialFrame GCRF;
-InertialFrame EME2000;
+const InertialFrame ICRF;
+const InertialFrame GCRF;
+const InertialFrame EME2000;
 
 MOD::MOD(Epoch epoch) {
     double t = epoch.with_reference_epoch(J2000).get_days() / 36525;

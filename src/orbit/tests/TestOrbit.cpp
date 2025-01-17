@@ -9,7 +9,7 @@ void assert_near_sv(math::vector v1, math::vector v2) {
 }
 
 TEST(TestOrbit, GeneralTest) {
-    Body earth(5.9733e24, {0, 0, 0, 0, 0, 0});
+    Body earth(3.986004418e14, {0, 0, 0, 0, 0, 0});
 
     // First case
     Orbit oe1{
@@ -24,7 +24,6 @@ TEST(TestOrbit, GeneralTest) {
         -6045e3, -3490e3, 2500e3, 
         -3.457e3, 6.618e3, 2.533e3
     };
-
     assert_near_sv(sv1_expected, oe1.to_sv(earth));
 
     // Second case
