@@ -2,7 +2,7 @@
 #include <propagator/Propagator.hpp>
 #include <numerical/Euler.hpp>
 #include <numerical/RK4.hpp>
-#include <orbit/Trajectory.hpp>
+#include <states/Trajectory.hpp>
 #include <spice/Spice.hpp>
 #include <bodies/Spacecraft.hpp>
 #include <math/Utils.hpp>

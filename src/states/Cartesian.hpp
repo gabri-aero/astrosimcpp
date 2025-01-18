@@ -1,42 +1,42 @@
 #ifndef _STATE_VECTOR_HPP_
 #define _STATE_VECTOR_HPP_
 
-#include <math/Vector.hpp>
+#include <states/BaseState.hpp>
 #include <bodies/Body.hpp>
 
 // forward classes
-class Orbit; 
+class Keplerian; 
 class Body;
 
 /**
- * @class StateVector
+ * @class Cartesian
  * @brief It handles position and velocity
 */
-class StateVector : public math::vector {
+class Cartesian : public BaseState {
 public:
     /**
      * @brief Default constructor
     */
-   StateVector() = default;
+   Cartesian() = default;
     /**
      * @brief State vector constructor
     */
-    StateVector(double rx, double ry, double rz, double vx, double vy, double vz);
+    Cartesian(double rx, double ry, double rz, double vx, double vy, double vz);
     /**
      * @brief State vector constructor
      * @param rv [x, y, z, vx, vy, vz]
     */
-    StateVector(math::vector rv);
+    Cartesian(math::vector rv);
 
     /**
      * @brief Conversion to orbital elements
      * @param central body around which the orbit is going to be computed
     */
-    Orbit to_orbit(const Body& central);
+    Keplerian to_keplerian(const Body& central);
 
     // Overload operators
     
-    friend std::ostream& operator<<(std::ostream& os, const StateVector& obj);
+    friend std::ostream& operator<<(std::ostream& os, const Cartesian& obj);
 };
 
 #endif //_STATE_VECTOR_HPP_

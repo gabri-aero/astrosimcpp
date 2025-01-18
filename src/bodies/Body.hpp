@@ -5,14 +5,14 @@
 #include <stdlib.h>
 #include <memory>
 #include <initializer_list>
-#include <orbit/Trajectory.hpp>
+#include <states/Trajectory.hpp>
 #include <accelerations/gravity/Gravity.hpp>
 
 #include <math/Vector.hpp>
 #include <math/Matrix.hpp>
 
 // Forward class
-class StateVector;
+class Cartesian;
 class NaturalBody;
 class Spacecraft;
 

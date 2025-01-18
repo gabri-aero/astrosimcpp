@@ -1,13 +1,13 @@
 #include <string>
 #include <time/Epoch.hpp>
-#include <orbit/Orbit.hpp>
+#include <states/Keplerian.hpp>
 
 #ifndef _TLE_HPP_
 #define _TLE_HPP_
 
 /**
  * @class TLE
- * @brief Class to handle TLE information. For now, it only enables TLE retrieval from www.celestrak.org and Orbit construction at TLE epoch.
+ * @brief Class to handle TLE information. For now, it only enables TLE retrieval from www.celestrak.org and Keplerian construction at TLE epoch.
 */
 class TLE {
 private:
@@ -41,7 +41,7 @@ public:
      * @brief Transform the TLE data into orbital elements and construct an orbit
      * @param body Earth
     */
-    Orbit get_orbit(Body body=Body(5.972e24)) const;
+    Keplerian get_keplerian(Body body=Body(5.972e24)) const;
     /**
      * @brief Getter for Epoch associated to TLE
     */

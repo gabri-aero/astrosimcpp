@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include <orbit/Orbit.hpp>
-#include <orbit/StateVector.hpp> // very important to avoid error: invalid uso of incomplete type 'class StateVector'
+#include <states/Keplerian.hpp>
+#include <states/Cartesian.hpp> // very important to avoid error: invalid uso of incomplete type 'class Cartesian'
 #include <math/Utils.hpp>
 
 void assert_near_sv(math::vector v1, math::vector v2) {
@@ -8,11 +8,11 @@ void assert_near_sv(math::vector v1, math::vector v2) {
     ASSERT_NEAR(norm(v1.subvec(3,6)-v2.subvec(3,6)), 0, 1);
 }
 
-TEST(TestOrbit, GeneralTest) {
+TEST(TestKeplerian, GeneralTest) {
     Body earth(3.986004418e14, {0, 0, 0, 0, 0, 0});
 
     // First case
-    Orbit oe1{
+    Keplerian oe1{
         8.788e6,
         0.171212,
         deg2rad(255.279),
@@ -24,10 +24,10 @@ TEST(TestOrbit, GeneralTest) {
         -6045e3, -3490e3, 2500e3, 
         -3.457e3, 6.618e3, 2.533e3
     };
-    assert_near_sv(sv1_expected, oe1.to_sv(earth));
+    assert_near_sv(sv1_expected, oe1.to_cartesian(earth));
 
     // Second case
-    Orbit oe2{
+    Keplerian oe2{
         -16725e3,
         1.4,
         deg2rad(40),
@@ -40,13 +40,6 @@ TEST(TestOrbit, GeneralTest) {
         -10.386e3, -4.77192e3, 1.74388e3
     };
 
-    assert_near_sv(sv2_expected, oe2.to_sv(earth));
+    assert_near_sv(sv2_expected, oe2.to_cartesian(earth));
 
-}
-
-TEST(TestOrbit, Type) {
-    Orbit orbit{1e6, 0, 0, 0, 0, 0};
-    Orbit orbit2{-1e6, 0, 0, 0, 0, 0};
-    ASSERT_EQ(orbit.get_type(), OrbitType::ELLIPTICAL);
-    ASSERT_EQ(orbit2.get_type(), OrbitType::HYPERBOLIC);
 }

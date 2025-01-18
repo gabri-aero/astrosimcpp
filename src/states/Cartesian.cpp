@@ -1,16 +1,16 @@
-#include "StateVector.hpp"
-#include "Orbit.hpp"
+#include "Cartesian.hpp"
+#include "Keplerian.hpp"
 #include <bodies/Body.hpp>
 
-StateVector::StateVector(double rx, double ry, double rz, double vx, double vy, double vz) {
+Cartesian::Cartesian(double rx, double ry, double rz, double vx, double vy, double vz) {
     this->assign({rx, ry, rz, vx, vy, vz});
 }
 
-StateVector::StateVector(math::vector rv) {
+Cartesian::Cartesian(math::vector rv) {
     this->assign({rv.at(0), rv.at(1), rv.at(2), rv.at(3), rv.at(4), rv.at(5)});
 }
 
-Orbit StateVector::to_orbit(const Body& central) {
+Keplerian Cartesian::to_keplerian(const Body& central) {
     // Retrieve position and velocity
     math::vector r_vec = this->subvec(0,3);
     math::vector v_vec = this->subvec(3,6);
@@ -69,10 +69,10 @@ Orbit StateVector::to_orbit(const Body& central) {
         ta += 2 * M_PI;
     }
 
-    return Orbit{a, e, raan, i, aop, ta};
+    return Keplerian{a, e, raan, i, aop, ta};
 }
 
-std::ostream& operator<<(std::ostream& os, const StateVector& obj) {
+std::ostream& operator<<(std::ostream& os, const Cartesian& obj) {
     os << "r: " << obj.subvec(0, 3) << std::endl << "v: " << obj.subvec(3, 6) << std::endl;
     return os;
 }

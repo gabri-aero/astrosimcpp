@@ -4,7 +4,7 @@
 #include <cmath>
 #include<bodies/Body.hpp>
 #include<math/Utils.hpp>
-#include<orbit/OrbitUtils.hpp>
+#include<states/OrbitUtils.hpp>
 
 TLE::TLE(int norad_id) {
     // Create parser
@@ -51,7 +51,7 @@ TLE::TLE(int norad_id) {
     this->n_rev = std::stoi(lines[2].substr(63, 5));
 }
 
-Orbit TLE::get_orbit(Body body) const {
+Keplerian TLE::get_keplerian(Body body) const {
     // Retrieve orbital elements
     double n = this->n * 2*M_PI / 86400;
     double a = pow(body.get_mu() / pow(n, 2), 1/3.);
@@ -61,7 +61,7 @@ Orbit TLE::get_orbit(Body body) const {
     double aop = deg2rad(this->aop);
     double ta = M_to_ta(M, e);
 
-    return Orbit(a, e, raan, i, aop, ta);
+    return Keplerian(a, e, raan, i, aop, ta);
 }
 
 Epoch TLE::get_epoch() const {

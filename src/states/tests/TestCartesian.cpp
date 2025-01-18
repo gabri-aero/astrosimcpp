@@ -1,14 +1,14 @@
 #include <gtest/gtest.h>
-#include <orbit/StateVector.hpp>
+#include <states/Cartesian.hpp>
 #include <bodies/Body.hpp>
-#include <orbit/Orbit.hpp>
+#include <states/Keplerian.hpp>
 
-TEST(StateVectorTest, to_orbit) {
-    StateVector sv{6e6, 0, 8e6, 0, 7e3, 0};
-    StateVector sv2{-6045e3, -3490e3, 2500e3, -3.457e3, 6.618e3, 2.533e3};
+TEST(CartesianTest, to_keplerian) {
+    Cartesian sv{6e6, 0, 8e6, 0, 7e3, 0};
+    Cartesian sv2{-6045e3, -3490e3, 2500e3, -3.457e3, 6.618e3, 2.533e3};
     Body earth(3.986e14, {0, 0, 0, 0, 0, 0});
-    auto oe1 = sv.to_orbit(earth);
-    auto oe2 = sv2.to_orbit(earth);
+    auto oe1 = sv.to_keplerian(earth);
+    auto oe2 = sv2.to_keplerian(earth);
 
     // Assert first case
     ASSERT_NEAR(12975.347e3, oe1.at(0), 1);  
@@ -27,9 +27,9 @@ TEST(StateVectorTest, to_orbit) {
     ASSERT_NEAR(28.4456 * M_PI/180, oe2.at(5), 1e-4);
 }
 
-TEST(TestStateVector, Operators) {
-    StateVector sv = {1, 0, 0, -1, 0, 0};
-    StateVector sv2 = {2, 1, 0 , 0, -1, 0};
-    StateVector sv3 = sv + sv2;
+TEST(TestCartesian, Operators) {
+    Cartesian sv = {1, 0, 0, -1, 0, 0};
+    Cartesian sv2 = {2, 1, 0 , 0, -1, 0};
+    Cartesian sv3 = sv + sv2;
     ASSERT_EQ(sv3.at(0), 3);
 }

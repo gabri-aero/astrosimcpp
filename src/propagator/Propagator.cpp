@@ -1,6 +1,6 @@
 #include "Propagator.hpp"
 #include <accelerations/gravity/Gravity.hpp>
-#include <orbit/Trajectory.hpp>
+#include <states/Trajectory.hpp>
 #include <bodies/EphemerisBody.hpp>
 
 Propagator::Propagator(Epoch start, Epoch end, std::string origin, std::string frame) 
@@ -94,7 +94,7 @@ void Propagator::run()  {
         Trajectory trajectory;
         for(int i=0; i<data.size(); i++) {
             states = data[i].second;
-            trajectory.add(epochs.at(i), StateVector(states.subvec(6*j, 6*(j+1))));
+            trajectory.add(epochs.at(i), Cartesian(states.subvec(6*j, 6*(j+1))));
         }
         trajectory.update_interpolator_data();
         trajectory_map[*propagation_bodies.at(j)] = trajectory;
@@ -105,7 +105,7 @@ void Propagator::run()  {
         Trajectory trajectory;
         for(int i=0; i<epochs.size(); i++) {
             ephemeris_bodies.at(j)->set_sv(epochs.at(i));
-            trajectory.add(epochs.at(i), StateVector(ephemeris_bodies.at(j)->get_sv()));
+            trajectory.add(epochs.at(i), Cartesian(ephemeris_bodies.at(j)->get_sv()));
         }
         trajectory.update_interpolator_data();
         trajectory_map[*ephemeris_bodies.at(j)] = trajectory;

@@ -4,7 +4,7 @@
 #include <SpiceUsr.h>
 #include <math/Matrix.hpp>
 #include <time/Epoch.hpp>
-#include <orbit/StateVector.hpp>
+#include <states/Cartesian.hpp>
 
 namespace spice {
 
@@ -18,7 +18,7 @@ double get_mu(std::string body);
 
 double epoch_to_et(Epoch epoch);
 
-StateVector get_state(std::string body, std::string ref_body, Epoch epoch, std::string frame = "ECLIPJ2000");
+Cartesian get_state(std::string body, std::string ref_body, Epoch epoch, std::string frame = "ECLIPJ2000");
 
 /**
  * Provides rotation matrix from input frame to body-fixed frame

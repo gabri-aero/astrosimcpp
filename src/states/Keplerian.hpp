@@ -1,27 +1,21 @@
 #ifndef _ORBITAL_ELEMENTS_HPP
 #define _ORBITAL_ELEMENTS_HPP
 
-#include <math/Vector.hpp>
+#include <states/BaseState.hpp>
 #include <bodies/Body.hpp>
 #include <iostream>
 
-class StateVector; // forward class
+class Cartesian; // forward class
 class Body;
 
-enum OrbitType {
-    ELLIPTICAL,
-    PARABOLIC,
-    HYPERBOLIC
-};
-
 /**
- * @class Orbit
+ * @class Keplerian
  * @brief State representation as keplerian orbital elements: a, e, i, raan, aop, ta.
 */
-class Orbit : public math::vector { // [a, e, i, raan, aop, ta]
+class Keplerian : public BaseState { // [a, e, i, raan, aop, ta]
 public:
     /**
-     * @brief Orbit constructor
+     * @brief Keplerian constructor
      * @param a semi-major axis [m]
      * @param e eccentricity
      * @param i inclination [rad]
@@ -29,25 +23,19 @@ public:
      * @param aop argument of periapsis [rad]
      * @param ta true anomaly [rad]
     */
-    Orbit(double a, double e, double raan, double i, double aop, double ta); 
+    Keplerian(double a, double e, double raan, double i, double aop, double ta); 
     // TO DO: correct mistake with raan, inc input argument position
 
-    Orbit(math::vector oe);
+    Keplerian(math::vector kep);
 
     /**
-     * @brief Gives type of orbit
-     * @return ELLIPTICAL, PARABOLIC or HYPERBOLIC
-    */
-    OrbitType get_type() const;
-
-    /**
-     * @brief Conversion into state vector
+     * @brief Conversion into Cartesian state vector
      * @return [x, y, z, vx, vy, vz]
     */
-    StateVector to_sv(const Body&);
+    Cartesian to_cartesian(const Body&);
 
     // Overload operators
-    friend std::ostream& operator<<(std::ostream& os, const Orbit& obj);
+    friend std::ostream& operator<<(std::ostream& os, const Keplerian& obj);
 };
 
 #endif // _ORBITAL_ELEMENTS_HPP

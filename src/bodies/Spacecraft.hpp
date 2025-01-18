@@ -2,7 +2,7 @@
 #define _SPACECRAFT_HPP_
 
 #include <bodies/Body.hpp>
-#include <orbit/Orbit.hpp>
+#include <states/Keplerian.hpp>
 
 class Spacecraft : public Body {
 private:
@@ -10,7 +10,7 @@ private:
 
 public:
     Spacecraft(std::string name, math::vector sv);
-    Spacecraft(std::string name, Orbit oe,  Body central_body);
+    Spacecraft(std::string name, Keplerian oe,  Body central_body);
     Spacecraft(std::string name, std::initializer_list<double> sv);
     Spacecraft(std::string name, std::initializer_list<double> oe,  Body central_body);
 

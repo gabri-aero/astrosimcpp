@@ -1,12 +1,13 @@
 set(CPP_SOURCES 
-    Orbit.cpp 
-    StateVector.cpp
+    Keplerian.cpp 
+    Cartesian.cpp
     OrbitUtils.cpp
     Trajectory.cpp)
 
 set(HPP_HEADERS 
-    Orbit.hpp 
-    StateVector.hpp
+    BaseState.hpp
+    Keplerian.hpp 
+    Cartesian.hpp
     OrbitUtils.hpp
     Trajectory.hpp)
 

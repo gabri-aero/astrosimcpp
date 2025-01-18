@@ -5,8 +5,8 @@ Spacecraft::Spacecraft(std::string name, math::vector sv)
 : Body{name, 0, sv} {
 }
 
-Spacecraft::Spacecraft(std::string name, Orbit oe,  Body central_body) {
-    auto sv = oe.to_sv(central_body);
+Spacecraft::Spacecraft(std::string name, Keplerian oe,  Body central_body) {
+    auto sv = oe.to_cartesian(central_body);
     *this = Spacecraft(name, sv);
 }
 

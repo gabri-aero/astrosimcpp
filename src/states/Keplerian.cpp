@@ -1,32 +1,19 @@
-#include "Orbit.hpp"
-#include "StateVector.hpp"
+#include "Keplerian.hpp"
+#include "Cartesian.hpp"
 
 #include <iomanip>
 #include <math/Utils.hpp>
 #include <math/Rotation.hpp>
 
-Orbit::Orbit(double a, double e, double raan, double i, double aop, double ta) 
-    : math::vector{a, e, raan, i, aop, ta} {
-
+Keplerian::Keplerian(double a, double e, double raan, double i, double aop, double ta) {
+    this->assign({a, e, raan, i, aop, ta});
 }
 
-Orbit::Orbit(math::vector oe)
-    : math::vector{oe} {
-
+Keplerian::Keplerian(math::vector kep) {
+    this->assign({kep.at(0), kep.at(1), kep.at(2), kep.at(3), kep.at(4), kep.at(5)});
 }
 
-OrbitType Orbit::get_type() const {
-    double a = this->at(0);
-    if(a < 0) {
-        return OrbitType::HYPERBOLIC;
-    } else if (a > 0) {
-        return OrbitType::ELLIPTICAL;
-    } else {
-        return OrbitType::PARABOLIC; // numerically not likely to happen...
-    }
-}
-
-StateVector Orbit::to_sv(const Body& body) {
+Cartesian Keplerian::to_cartesian(const Body& body) {
     // Retrieve orbital elements
     double a = this->at(0);
     double e = this->at(1);
@@ -35,7 +22,7 @@ StateVector Orbit::to_sv(const Body& body) {
     double aop = this->at(4);
     double ta = this->at(5);
 
-    // Orbital plane
+    // Keplerianal plane
     double r = a*(1-pow(e,2)) / (1+e*cos(ta));  // scalar r and v
     double v = sqrt(body.get_mu()*(2/r - 1/a));
     math::vector ur{cos(ta), sin(ta), 0}; // polar coordinates unary vectors
@@ -51,7 +38,7 @@ StateVector Orbit::to_sv(const Body& body) {
     auto v_vec = L*v_orb;
 
     // Arrange cartesian state vector
-    return StateVector{
+    return Cartesian{
         r_vec.at(0),
         r_vec.at(1),
         r_vec.at(2),
@@ -61,7 +48,7 @@ StateVector Orbit::to_sv(const Body& body) {
     };
 }
 
-std::ostream& operator<<(std::ostream& os, const Orbit& obj) {
+std::ostream& operator<<(std::ostream& os, const Keplerian& obj) {
     os << "a : " << std::fixed << std::setprecision(3) << obj[0] * 1e-3 << " km" << std::endl;
     os << "e : " << std::fixed << std::setprecision(6) << obj[1] << std::endl;
     os << "RAAN : " << std::fixed << std::setprecision(3) << rad2deg(obj[2]) << " deg" << std::endl;

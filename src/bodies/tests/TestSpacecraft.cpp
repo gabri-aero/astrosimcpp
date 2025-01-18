@@ -4,14 +4,14 @@
 #include<gtest/gtest.h>
 
 TEST(SpacecraftTest, Constructors) {
-    // StateVector based Constructors
+    // Cartesian based Constructors
     Spacecraft sc1{"DUMMY_SC", math::vector{1, 2, 3, 4, 5, 6}};
     Spacecraft sc2{"DUMMY_SC2", {1, 2, 3, 4, 5, 6}};
 
-    // Orbital elements based constructors
+    // Keplerian elements based constructors
     spice::load_default();
     NaturalBody earth{"EARTH", Epoch(0), "EARTH"};
-    Orbit oe{42e6, 0.1, 0, deg2rad(30), 0, 0};
+    Keplerian oe{42e6, 0.1, 0, deg2rad(30), 0, 0};
 
     Spacecraft sc3{"DUMMY_SC3", oe, earth};
     Spacecraft sc4{"DUMMY_SC4", {42e6, 0.1, 0, deg2rad(30), 0, 0}, earth};
@@ -21,7 +21,7 @@ TEST(SpacecraftTest, Constructors) {
     ASSERT_EQ(sv1, sc1.get_sv());
     ASSERT_EQ(sv1, sc2.get_sv());
 
-    auto sv2 = oe.to_sv(earth);
+    auto sv2 = oe.to_cartesian(earth);
     ASSERT_EQ(sv2, sc3.get_sv());
     ASSERT_EQ(sv2, sc4.get_sv());
 

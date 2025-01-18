@@ -31,7 +31,7 @@ double spice::epoch_to_et(Epoch epoch) {
     return epoch.set_reference_epoch(RefEpoch::J2000).get_secs();
 }
 
-StateVector spice::get_state(std::string body, std::string ref_body, Epoch epoch, std::string frame) {
+Cartesian spice::get_state(std::string body, std::string ref_body, Epoch epoch, std::string frame) {
 
     SpiceDouble et = epoch_to_et(epoch);
     SpiceDouble state[6];
@@ -39,7 +39,7 @@ StateVector spice::get_state(std::string body, std::string ref_body, Epoch epoch
 
     spkezr_c(body.c_str(), et, frame.c_str(), "NONE", ref_body.c_str(), state, &lt);
 
-    return StateVector{
+    return Cartesian{
         state[0] * 1e3,
         state[1] * 1e3,
         state[2] * 1e3,

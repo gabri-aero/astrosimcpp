@@ -1,5 +1,5 @@
 #include<gtest/gtest.h>
-#include<orbit/OrbitUtils.hpp>
+#include<states/OrbitUtils.hpp>
 #include<math.h>
 
 TEST(TestOrbitUtils, KeplerSolver) {
