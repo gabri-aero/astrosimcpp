@@ -1,7 +1,6 @@
 #ifndef _ORBITAL_ELEMENTS_HPP
 #define _ORBITAL_ELEMENTS_HPP
 
-#include <states/BaseState.hpp>
 #include <bodies/Body.hpp>
 #include <iostream>
 
@@ -12,7 +11,7 @@ class Body;
  * @class Keplerian
  * @brief State representation as keplerian orbital elements: a, e, i, raan, aop, ta.
 */
-class Keplerian : public BaseState { // [a, e, i, raan, aop, ta]
+class Keplerian : public math::vector { // [a, e, i, raan, aop, ta]
 public:
     /**
      * @brief Keplerian constructor

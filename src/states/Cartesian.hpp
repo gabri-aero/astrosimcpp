@@ -1,7 +1,6 @@
 #ifndef _STATE_VECTOR_HPP_
 #define _STATE_VECTOR_HPP_
 
-#include <states/BaseState.hpp>
 #include <bodies/Body.hpp>
 
 // forward classes
@@ -12,7 +11,7 @@ class Body;
  * @class Cartesian
  * @brief It handles position and velocity
 */
-class Cartesian : public BaseState {
+class Cartesian : public math::vector {
 public:
     /**
      * @brief Default constructor
